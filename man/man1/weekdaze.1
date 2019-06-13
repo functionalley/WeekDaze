@@ -213,13 +213,9 @@ E.g. where three \fIstudent-bodies\fR, \fIS1\fR, \fIS2\fR, \fIS3\fR, are enrolle
 .br
 The undesirable consequence is that teacher \fIT1\fR must synchronise progress through the \fIcourse\fR, between these \fIstudent-class\fRes.
 .TS
-l	l	cb	s	s
-l	l	c	s	s
 lb	lb	l	l	l
 ^	lb	^	^	^
 l	l	l	l	l	.
-		Time
-		============
 Teacher	Student	t1	t2	t3
 	body
 =======	=======	==	==	==
@@ -242,13 +238,9 @@ Whilst these four \fIstudent-bodies\fR could be merged into two \fIstudent-class
 under these circumstances no undesirable \fIstudent-body combinations\fR can arise, but should their \fIavailability\fR dictate that they must form four singleton \fIstudent-class\fRes,
 different pairs of singleton \fIstudent-class\fRes may be synchronised @ various \fItime\fRs throughout the week.
 .TS
-l	l	cb	s	s	s
-l	l	c	s	s	s
 lb	lb	l	l	l	l
 ^	lb	^	^	^	^
 l	l	l	l	l	l	.
-		Time
-		======================
 Teacher	Student	t1	t2	t3	t4
 	class
 =======	=======	==	==	==	==
@@ -520,18 +512,13 @@ Using the command-line option \fB--verbosity=Deafening\fR, the output on \fIstde
 .TS
 lb	lb
 l	l
-lb	l
-.
+lb	l	.
 Report	Explanation
-=====	===========
+======	===========
 The weighted mean over all heterogeneous timetable-criteria, of the deterministic timetable resulting from each raster-scan; & the (minimum, maximum)	The application has performed a raster-scan over the timetable, booking \fIlesson\fRs selected to optimise the value of \fIlesson-criteria\fR. This is repeated using a variety of different rasters, reporting for each the resulting weighted mean over all \fItimetable-criteria\fR. Finally the raster-patterns which were worst & best are reported.
-
 The weighted timetable-criteria of the best deterministic timetable	The individual \fItimetable-criteria\fR used to compose the weighted mean, in the best raster-scan, are reported in the configured order.
-
 The ((mean, standard deviation), (minimum, maximum)) over the best deterministic timetable, of each weighted lesson-criterion	The values of \fIlesson-criteria\fR, by which \fIlesson\fRs were selected during the best raster-scan are reported. Their standard deviation, & minimum & maximum value, over the best timetable, identifies their influence on the selection of \fIlesson\fRs, & where perhaps individual weights may be fine-tuned. This is the end of the initial deterministic phase, from which random evolution now begins.
-
 The (relative improvement in the weighted mean over all heterogeneous timetable-criteria, the number of generations through which the timetable evolved, the final fecundity, & the weighted timetable-criteria for the selected candidate), for each evolution-strategy/timetable-constructor	Here we report four statistics for each evolution/reconstruction strategy; a quantification of the improvement according to the weighted mean over all the \fItimetable-criteria\fR, resulting from this strategy; the number of generations of evolution, since strategies are terminated when improvements cease; the final \fIfecundity\fR of the breeding-program, since this is reduced by a feedback-loop, when the population-diversity ratio of the candidate-population drops beneath a threshold; the individual weighted \fItimetable-criteria\fR, in configuration-order, from which the mean is composed.
-
 The final weighted timetable-criteria, & the improvement, from the best deterministic timetable	The final value of each weighted \fItimetable-criterion\fR is reported, along with the absolute amount by which it was changed during evolution. The order in which they're reported matches the configured "\fBtimetableCriteriaWeights\fR".
 .TE
 .sp 1
