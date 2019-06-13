@@ -56,6 +56,10 @@ Extra-source-files:
     weekdaze.spec
     weekdaze.svg
 
+source-repository head
+    type:	git
+    location:	https://github.com/functionalley/WeekDaze
+
 -- Enable using: 'runhaskell Setup configure -f HDBC-mysql --verbose'.
 flag HDBC-mysql
     Description:	Link with the package "HDBC-mysql" & consequently the native MySQL-interface (which will require a development package for 'mysqlclient'), which the application can use to connect to a MySQL data-server.
