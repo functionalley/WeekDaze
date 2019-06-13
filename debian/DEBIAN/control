@@ -1,0 +1,12 @@
+Package:	weekdaze
+Version:	0.0.0.1-1
+Section:	utils
+Priority:	optional
+Architecture:	amd64
+Depends:	libc6
+Installed-size:	17138
+Maintainer:	Dr. Alistair Ward <weekdaze@functionalley.com>
+Provides:
+Homepage:	https://functionalley.com/WeekDaze/weekdaze.html
+Description:	Attempts to find a timetable satisfying the configured requirements.
+

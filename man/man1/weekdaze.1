@@ -1,0 +1,788 @@
+.TH weekdaze 1
+.SH NAME
+\fBweekdaze\fR - Attempts to find a timetable satisfying the types of criteria typically required by a school.
+.SH SYNOPSIS
+\fBweekdaze\fR [\fIOPTIONS\fR]
+.SH DESCRIPTION
+.PP \" Top-level view.
+A command-line application, which attempts to automatically compose a suitable timetable, from the requirements defined in either a local configuration-file or database.
+.br
+N.B.: The configuration is described separately in section-5 of the manual pages for this product,
+but occasional references to specific configuration-fields from this document, are for distinction, both double-quoted & emboldened.
+.IP \(bu
+The requirements for just one arbitrary week are configured, on the assumption that those for other weeks are similar.
+.IP \(bu
+The process is non-interactive; if the final result is inappropriate, then the request must be re-configured to express the missing requirement, & re-started.
+.TS
+lb	l	.
+Pros	Whereas an interactive solution may take several weeks of iterative manual adjustments, before the timetable for a moderately sized school, is acceptable, this solution permits sufficiently precise configuration that it can be left alone to complete the job.
+	The configuration encapsulates the description of the whole problem, rather than being defined by free-format notes which must be digested by another user before any attempt is made to alter it. A solution which involves manual intervention may use the user's unwritten understanding of the problem, making hand-over difficult.
+
+Cons	One can't realistically implement a configuration-grammar which is sufficiently general to account for all future requirements; one can merely aim to address the important requirements of the majority of users.
+	Deviation from a regular weekly routine, for example around bank-holidays or examinations, can't currently be configured.
+	A minor change to the requirements may result in a radically different solution.
+	These objections have been addressed by permitting one to define not just the precise configuration, but also the initial state of the solution, using a timetable exported in XML from a previous run. This permits either manual adjustment of the solution or minor changes to the configuration, while retaining an expectation of a similar solution. This is described pictorially in the packaged file \fBimages/weekdazeIO.pdf\fR.
+.TE
+.PP \" Output
+The resulting timetable is rendered in XHTML, as a set of two-dimensional slices through a conceptually three-dimensional Cartesian graph.
+Each slice is bounded by axes ranging over the \fIday\fRs of the week,
+& the constant, but configurable, number of \fItime-slot\fRs into which the \fIday\fR has been sub-divided, & identifies any \fIlesson\fRs booked.
+The third axis (which defines each slice) identifies a \fIresource\fR (either the \fIstudent\fRs, the \fIteacher\fRs, or the \fIlocation\fRs in which classes are held);
+depending on the intended audience for the timetable.
+A timetable can be inverted to change this axis so that it can be more readily be interpreted by another type of observer, whilst still presenting the same set of \fIbooking\fRs.
+.br
+The timetable can also be rendered as XML, organised in a form suitable for viewing by any of these types of observer,
+to facilitate either transport of the solution-data to another system,
+or fed-back into this application as the initial state from which to evolve further.
+.PP \" Solution-quality.
+Since the solution is progressively evolved, the quality depends on the time available.
+Regrettably, the application can't in general, prove in advance, that all the configured criteria can be satisfied;
+thought it may be able to prove that some of them can't.
+Consequently, it can't guarantee that a completely satisfactory solution for a specific problem can ever be found, however much time is devoted to it;
+though it will return the best solution found.
+In this respect, it is incumbent on the user to understand the ramifications of their choice of constraints, & to provide sufficient \fIresource\fRs to permit a solution.
+.SS Terminology \" Defines the terms used in this specific context.
+In the context of this application, the following terminology is employed.
+The terms have been coined as the need has arisen, & don't necessarily correspond to the jargon used by other solutions in this problem-domain.
+.br
+You may prefer to skip ahead & refer back to this dictionary as required.
+To prompt one to the existence of some special meaning (since these terms express nuances beyond their meaning outside the context of this application),
+such terms have been distinguished by underscoring.
+.TP
+.B Availability
+The whole \fIday\fRs when a \fIresource\fR is available to be booked.
+.br
+Fractions of \fIday\fRs can't be directly expressed,
+though if the \fIresource\fR is human, any unavailable portion of a \fIday\fR can be reserved artificially,
+using the \fImeeting\fRs of a single-member \fIgroup\fR (which has no purpose & doesn't require a \fIlocation\fR).
+.TP
+.B Booking
+A rendezvous defined in the timetable, for a specific \fIlesson\fR @ a specific \fItime\fR.
+.br
+Similar to a \fImeeting\fR, but refers to a \fIlesson\fR, rather than a \fIgroup\fR.
+Though the booking-times of a \fIlesson\fR can be specified in the configuration, typically it is allocated @ run-time by weekdaze, which inserts it between the fixed meeting-times of \fIgroup\fRs.
+.TP
+.B Campus
+Defines a set of proximate \fIlocation\fRs, between which intraday migration is trivial.
+.br
+If the time required to migrate between \fIlocations\fR is significant,
+then one may partition them into \fIcampus\fRes to allow the application to minimise the number of such journeys.
+.TP
+.B Course
+A set of \fIlesson\fRs in a common \fIsubject\fR, offered by a single \fIteacher\fR.
+.br
+Though a \fIsubject\fR would typically require many weeks of tuition, only one week is configured, on the assumption that others have similar scheduling-requirements.
+.br
+A course springs into existence, when it is offered as part of a \fIteacher\fR's \fIservice\fR,
+rather than existing as an independent part of the configuration to which \fIteacher\fRs & \fIstudent-bodies\fR refer.
+.TP
+.B Day
+The working portion (rather than the full 24 hours), of a day of the week.
+.br
+The \fIday\fR forms one of two temporal axes, from the three Cartesian coordinates used to describe the single-week timetable.
+.TP
+.B Depletion-strategy
+A method used by the application to liberate space in the timetable, by selectively un-booking \fIlesson\fRs.
+.br
+The \fIlesson\fRs are selected; in order to reduce some undesirable trait;
+to re-cast any established \fIroutine\fR;
+or arbitrarily, merely to permit exploration of an alternative region in the solution-space.
+.TP
+.B Evolution-strategy
+One of many methods used by the application, in an attempt to evolve the timetable.
+Each is composed from a \fIdepletion-strategy\fR & a reconstruction-strategy.
+.TP
+.B Facility
+An attribute of a \fIlocation\fR, which can in some way support a \fIcourse\fR.
+.TP
+.B Fecundity
+The size of the population of candidate-timetables, that the application breeds in any one generation of the evolution of a solution.
+.TP
+.B Fitness-function
+Used either to quantify the:
+.br
+suitability of each member of a set of alternative \fIlesson\fRs to book in the \fItimetable\fR @ a specific time, using a weighted-mean of \fIlesson-criteria\fR;
+.br
+value of each member of a set of alternative \fItimetable\fRs, using a weighted-mean of a set of \fItimetable-criteria\fR.
+.TP
+.B Group
+A set of one or more people (\fIteacher\fRs or \fIstudent-bodies\fR) with a common interest or duty.
+.br
+This is a more flexible structure than the single \fIteacher\fR & \fIstudent-class\fR used to define a \fIlesson\fR.
+.TP
+.B Knowledge-requirements
+The set of one of more \fIsubject\fRs required by a \fIstudent-body\fR.
+It is partitioned into those personally considered (other \fIstudent-bodies\fR may categorise them differently) to be either \fIcore\fR or \fIoptional\fR.
+.TP
+.B Lesson
+An arrangement between a single \fIteacher\fR & a \fIstudent-class\fR, to teach a \fIcourse\fR for one \fIperiod\fR @ a specific \fIlocation\fR & \fItime-slot\fR.
+.br
+A \fIlesson\fR as depicted in the results, always specifies the course's \fIsubject\fR,
+but only two of the three types of \fIresource\fR,
+the third being implied by the coordinate @ which it is booked on the \fIobserver-id\fR axis of the \fItimetable\fR.
+.TP
+.B Lesson-criteria
+The metrics used by the application when constructing a solution, to quantify & therefore to facilitate selection,
+of the best \fIlesson\fR from those which are permissible @ specific coordinates.
+.br
+The value of each criterion is typically neither dependent on what has already been booked elsewhere, nor does it change as further \fIbooking\fRs are made.
+.br
+Each criterion has an associated configurable weight, which allows one to change its significance relative to other \fIlesson-criteria\fR.
+.br
+cf. \fItimetable-criteria\fR which are used to quantify & therefore select the best from a population of candidate-timetables.
+.TP
+.B Level
+The level @ which a \fItopic\fR is taught, or the personal academic capability or year of a \fIstudent\fR.
+.br
+Continuity of the \fIteacher\fR-\fIstudent\fR relationship, for the tuition of a specific \fIcourse\fR, may need to be guaranteed in the years leading up to examination.
+This can be implemented simply by requiring that those \fIteacher\fRs offering such a \fIcourse\fR,
+specify a \fIlevel\fR which includes a unique code.
+\fIStudent-bodies\fR requesting this \fIsubject\fR can then specify the unique \fIlevel\fR corresponding to their \fIteacher\fR from the previous year.
+.TP
+.B Location
+A generalisation of a class-room, to encompass any space available to support either a \fIbooking\fR or a \fImeeting\fR.
+.br
+It is described by its \fIavailability\fR, \fIcapacity\fR, & the \fIfacilities\fR it offers to support \fIcourse\fRs.
+.TP
+.B Meeting
+A rendezvous defined in the timetable, between \fIgroup\fR-members @ a specific \fItime\fR.
+.br
+Similar to a \fIbooking\fR, but refers to a \fIgroup\fR, rather than a \fIlesson\fR.
+.br
+The meeting-times of a \fBgroup\fR are configured, & are therefore reserved by the application, forcing \fIlesson\fRs to float around them.
+.TP
+.B Observer
+The target audience for a timetable, which may be any type of \fIresource\fR.
+.br
+The same timetable-data may be re-organised into a form suitable for any of three types of observer,
+by enumerating unique \fIresource\fR-identifiers along one axis of the timetable (the remaining two axes are always the \fIday\fR & the \fItimeslot-id\fR),
+thus permitting all observers of that type to rapidly access their personal timetable for the week.
+.br
+N.B. since a \fIlocation\fR is clearly incapable of observing anything,
+one may more correctly consider the timetable indexed by \fIlocation-id\fR, to be ideally organised for observation by maintenance-staff.
+.TP
+.B Period
+Similar to a \fItime-slot\fR, but refers more to a duration than to a position on the time-axis.
+.TP
+.B Population-diversity Ratio
+The ratio of distinct members to all the members, in a population of candidate-timetables.
+.TP
+.B Resource
+Either a \fIlocation\fR, a \fIstudent-body\fR or a \fIteacher\fR.
+.br
+Since each \fIlesson\fR requires one of each type of \fIresource\fR, the most basic function of \fBweekdaze\fR is to avoid scheduling-conflicts between them;
+no individual can be booked @ more than one \fIlocation\fR @ any time, & no \fIlocation\fR can host more than either one class or one \fImeeting\fR @ a time.
+.br
+cf. \fIObserver\fR.
+.TP
+.B Routine
+The relationship established between \fIresource\fRs, when teaching the \fIlesson\fRs of a \fIcourse\fR.
+.br
+It is considered desirable that such \fIroutine\fRs are preserved, so that for any one \fIsubject\fR,
+a \fIstudent-body\fR isn't taught either @ more than one \fIlocation\fR or by more than one \fIteacher\fR.
+.TP
+.B Service
+The set of \fIcourse\fRs offered by a \fIteacher\fR.
+.br
+N.B.: a \fIteacher\fR who offers no service directly to \fIstudent\fRs, may still exist in the timetable @ the \fImeeting\fRs they attend.
+.TP
+.B Stream
+This is the personal academic capability or year of a \fIstudent-body\fR.
+.br
+The requirement for a \fIstudent-body\fR to have a \fIstream\fR isn't obvious, since it can be inferred from the \fIlevel\fR of the \fItopic\fRs in their \fIknowledge-requirements\fR,
+but it can be used to prevent the various \fIstudent-bodies\fR studying a \fIsubject\fR from being merged into a single \fIstudent-class\fR (should that be undesirable).
+.TP
+.B Student
+An individual, whose requirements are described by the \fIstudent-body\fR of which they're a member.
+.TP
+.B Student-body
+A set of \fIstudent\fRs with identical requirements (\fIavailability\fR, \fIstream\fR, \fIknowledge-requirements\fR, \fIgroup\fR-membership).
+.br
+These sets are typically manually configured, but additional or larger sets, may optionally be automatically discovered by the application;
+it can also relax the requirement that the students belong to the same \fIgroup\fRs, if the \fIgroup\fRs for which memberships differ, never actually meet.
+.TP
+.B Student-body Combinations
+This refers to an undesirable trait in a timetable, where the set of \fIstudent-bodies\fR,
+who're temporarily merged into a \fIstudent-class\fR for the tuition of a \fIcourse\fR,
+changes throughout the \fIlesson\fRs booked in a week.
+.br
+E.g. where three \fIstudent-bodies\fR, \fIS1\fR, \fIS2\fR, \fIS3\fR, are enrolled on \fIcourse\fR \fIC1\fR, taught by \fIteacher\fR \fIT1\fR, which requires two \fIlesson\fRs per week;
+\fIS1\fR may be merged with \fIS2\fR to form a \fIstudent-class\fR @ time \fIt1\fR,
+\fIS2\fR merged with \fIS3\fR @ time \fIt2\fR,
+& \fIS3\fR with \fIS1\fR @ time \fIt3\fR.
+.br
+The undesirable consequence is that teacher \fIT1\fR must synchronise progress through the \fIcourse\fR, between these \fIstudent-class\fRes.
+.TS
+l	l	cb	s	s
+l	l	c	s	s
+lb	lb	l	l	l
+^	lb	^	^	^
+l	l	l	l	l	.
+		Time
+		============
+Teacher	Student	t1	t2	t3
+	body
+=======	=======	==	==	==
+	S1	C1		C1
+T1	S2	C1	C1
+	S3		C1	C1
+.TE
+.TP
+.B Student-class
+A set of \fIstudent-bodies\fR, which are temporarily merged during the tuition of a single \fIcourse\fR.
+.TP
+.B Student-class Combinations
+This refers to an undesirable trait in a timetable, in which \fIlesson\fRs for a set of \fIsynchronised courses\fR have been booked.
+Though the \fIcourse\fRs which share a "\fBsynchronisationId\fR", may have been booked without any undesirable \fIstudent-body combinations\fR,
+each \fIlesson\fR may be synchronised with different \fIstudent-class\fRes in the other \fIcourse\fRs of the set.
+.br
+E.g. take two \fIsynchronised courses\fR, \fIC1\fR taught by \fIteacher\fR \fIT1\fR, & \fIC2\fR taught by \fIteacher\fR \fIT2\fR, each of which requires two \fIlesson\fRs per week.
+\fIStudent-bodies\fR \fIS1\fR & \fIS2\fR are enrolled on \fIC1\fR, while \fIstudent-bodies\fR \fIS3\fR & \fIS4\fR are enrolled on \fIC2\fR.
+Whilst these four \fIstudent-bodies\fR could be merged into two \fIstudent-class\fRes \fI{S1, S2}\fR & \fI{S3, S4}\fR
+under these circumstances no undesirable \fIstudent-body combinations\fR can arise, but should their \fIavailability\fR dictate that they must form four singleton \fIstudent-class\fRes,
+different pairs of singleton \fIstudent-class\fRes may be synchronised @ various \fItime\fRs throughout the week.
+.TS
+l	l	cb	s	s	s
+l	l	c	s	s	s
+lb	lb	l	l	l	l
+^	lb	^	^	^	^
+l	l	l	l	l	l	.
+		Time
+		======================
+Teacher	Student	t1	t2	t3	t4
+	class
+=======	=======	==	==	==	==
+T1	S1		C1	C1
+	S2	C1			C1
+T2	S3	C2		C2
+	S4		C2		C2
+.TE
+.sp 1
+The consequence of this only becomes apparent, when any one of these \fIstudent-bodies\fR decides to migrate to the other \fIcourse\fR in this set of \fIsynchronised courses\fR;
+which, as required, is possible without shuffling the timetable, but results in a \fIstudent-body combination\fR.
+.br
+E.g. Should \fIS1\fR decide to migrate from \fIC1\fR to \fIC2\fR, a \fIstudent-class\fR is then formed between \fIS1\fR & \fIS4\fR @ \fIt2\fR, but between \fIS1\fR & \fIS3\fR @ \fIt3\fR.
+.TP
+.B Subject
+A combination of a \fItopic\fR & the \fIlevel\fR @ which it is taught.
+.br
+It is a component of both a \fIstudent\fR's \fIknowledge-requirements\fR & \fIteacher\fR's \fIservice\fR,
+& can only be required by the former, when offered by the latter.
+.TP
+.B Synchronised courses
+A set of \fIcourse\fRs, whose respective \fIlesson\fRs must be synchronised.
+The member-\fIcourse\fRs:
+.br
+may have different \fIsubject\fRs,
+.br
+must define the same "\fBrequiredLessonsPerWeek\fR",
+.br
+can in aggregate only define either one \fIideal timeslot-id\fR, or specify precise booking-times the union of which is limited in size by "\fBrequiredLessonsPerWeek\fR",
+.br
+must be offered by \fIteacher\fRs whose \fIavailabilities\fR intersect.
+.br
+Since the structure of the timetable is largely independent of precisely which of these member-\fIcourse\fRs is selected by a \fIstudent\fR,
+migration of a \fIstudent\fR between them (should their initial choice prove hasty), is relatively easy.
+The use-cases fall into two categories:
+.TS
+lb	lb	lb
+l	l	l
+lb	l	l	.
+Use-case	Synchronised Courses	Purpose
+========	====================	=======
+Iso-\fIlevel\fR	Different \fItopic\fRs @ the same \fIlevel\fR	Permits \fIstudent\fRs to select only one of the \fItopic\fRs offered, but to migrate easily.
+Iso-\fItopic\fR	Different \fIlevel\fRs of the same \fItopic\fR	Permits \fIstudent\fRs to migrate between ability-streams.
+.TE
+.sp 1
+Whilst the flexibility exists to synchronise the scheduling of \fIcourse\fRs whose \fItopic\fRs & \fIlevel\fR differ, this concept is hard to justify.
+.TP
+.B Teacher
+A description of an individual's \fIavailability\fR, the proportion of their \fIworking-week\fR devoted to teaching,
+the \fIservice\fR they offer to \fIstudent\fRs, & the \fIgroup\fRs of which they're members.
+.TP
+.B Time-slot
+The partitions into which each \fIday\fR is similarly divided, each one of which is available for the booking of a \fIlesson\fR or \fImeeting\fR.
+.br
+Similar to a \fIperiod\fR, but refers more to a position on the time-axis than to a duration.
+.TP
+.B Timetable
+Conceptually a cuboid, whose three Cartesian axes are indexed by; \fIday\fR, \fItimeslot-id\fR, & \fIobserver-id\fR.
+The \fIobserver-id\fR axis can be any \fIresource\fR-type, depending on the target-audience; there's no change to the data, they're merely re-indexed.
+.TP
+.B Timetable-criteria
+The metrics used by the application, to quantify the degree to which a timetable meets the specified problem-parameters.
+These allow it to select amongst alternative solutions, while searching for the optimum.
+.br
+Though the semantics of each criterion are hard-coded, each has an associated configurable weight, which allows one to change its significance relative to other \fItimetable-criteria\fR.
+.br
+cf. \fIlesson-criteria\fR which are used to quantify & therefore select the best amongst alternative \fIlesson\fRs.
+.TP
+.B Topic
+The component of a \fIsubject\fR which is independent of the \fIlevel\fR @ which it is taught.
+.SS Implementation
+Though this explanation descends into esoteric details, & you could skip ahead to the next major section (\fBOPTIONS\fR),
+some understanding of the wheels & levers behind the curtain is required to fine-tune the \fBexecutionOptions\fR, when attempting to improve an unsatisfactory solution.
+.br
+The problem is tackled using several algorithms sequentially, some of which can be turned-off if they prove to be consistently ineffective for the type of problem posed.
+.TP
+.B Initial Deterministic Timetable
+Starting with an empty timetable, whose x-axis identifies each \fIday\fR, whose y-axis identifies each \fItimeslot-id\fR, & whose z-axis identifies a type of \fIresource\fR,
+the solution starts with the booking of the meetings of \fIgroup\fRs (since the configuration currently requires these to occur @ predefined times).
+A solution compatible with the remaining problem-parameters is then constructed progressively, by raster-scanning over the three dimensions of the timetable.
+On visiting unbooked coordinates, when a "\fBstudentBody\fR" is \fIavailable\fR to be taught,
+the best \fIlesson\fR, according to a fitness-function (implemented as the weighted mean of a set of \fIlesson-criteria\fR), is booked.
+The aim of this procedure, is to begin the subsequent random evolution of the timetable from a reasonable starting-point in the solution-space.
+.br
+Though the weights of the \fIlesson-criteria\fR & \fItimetable-criteria\fR are configurable, the criteria themselves are hard-coded.
+.br
+This process is deterministic; for a given raster-scan & problem-parameters, it will always produce the same result.
+.br \" Raster-scan.
+The pattern of the raster-scan dictates the order in which \fItime-slot\fRs are visited & potentially booked with a \fIlesson\fR.
+Because the three axes of the timetable represent different concepts,
+the order in which they're visited, results in solutions with different characteristics.
+Less obviously, the "\fBsense\fR" in which an axis is traversed, also makes a difference;
+because if the problem-parameters break symmetry, the resulting timetable isn't merely a mirror-image,
+with bookings reflected around either the middle day of the week or the middle \fItime-slot\fR of the day.
+One may specify the specific order & "\fBsense\fR" in which the axes of the timetable should be traversed,
+but since it can be difficult to guess in advance, which of these will result in the best timetable,
+normally one merely requests the default behaviour, which is that all permutations of raster-scan be evaluated,
+& the best, according to a fitness-function (implemented as the weighted mean of a set of \fItimetable-criteria\fR), be selected.
+.br
+The application can also read an initial solution from the file-system, typically after exporting it from a previous run of the application.
+.P \" Evolution.
+Having created an initial solution, an attempt is made to progressively evolve it, using a variety of \fIevolution-strategies\fR,
+each of which involves depleting the timetable, by selectively un-booking \fIlesson\fRs,
+& then reconstructing it in various ways to form a population of candidates in which there might be a superior solution.
+Each of these strategies represents a \fIunary variation-operator\fR, rather than the \fIbinary variation-operators\fR (AKA \fIrecombination\fR) typically used in \fIgenetic algorithms\fR;
+no attempt is made to combine the desirable characteristics of two solutions whose fitness has been measured by a \fIfitness-function\fR to be high, to produce better offspring,
+but merely to take a single solution whose fitness has been measured by a \fIfitness-function\fR to be high, & to mutate it in isolation.
+Each variation operation is equivalent to a step across the solution-space, & by using steps of different magnitude,
+it is hoped that relatively inaccessible regions within the solution-space can be reached, in order to ensure that given sufficient time this algorithm can reach the optimal solution.
+.br \" Depletion-strategies.
+Various \fIdepletion-strategies\fR are used; most target some undesirable trait, whilst the remainder attempt to improve some desirable metric.
+Since some \fIdepletion-strategies\fR don't in isolation liberate sufficient space in the timetable for any beneficial mutation to occur, they can be arbitrarily combined;
+though this feature is hard-coded rather than configurable.
+Each depletion-strategy may identify many alternative sets of \fIlesson\fRs to unbook, resulting in a population of candidate-timetables,
+the size of which is limited by its \fIfecundity\fR (configured independently for each \fIevolution-strategy\fR).
+By zeroing this \fIfecundity\fR, individual \fIevolution-strategies\fR can be disabled.
+.br \" Reconstruction.
+Each depleted timetable is then reconstructed by visiting all undefined \fItime-slot\fRs in a random order,
+booking \fIlesson\fRs selected by either the same deterministic algorithm used to form the initial solution, or randomly from those which are viable.
+.br \" Generations.
+After constructing the population of candidates in any one generation,
+the fittest \fIn\fR, according to the weighted mean of the \fItimetable-criteria\fR, are selected; some of which may be less fit than their parent.
+Each of these children is then used as the parent of a new generation of candidates, from which the fittest \fI(n - 1)\fR are selected,
+resulting in a spreading tree-structure each successive node of which produces fewer branches.
+When \fIn\fR decreases to zero, this family-tree withers, & all the last-generation offspring are compared with the original parent to determine whether progress has been made,
+& consequently whether to re-seed the process using the best child, or whether to terminate the process.
+.br
+The various \fIdepletion-strategies\fR are described below.
+.TP \" Depletion-strategies.
+.B Synchronised Course Mutation
+This \fIevolution-strategy\fR tackles only \fIsynchronised courses\fR,
+by un-booking all the \fIlesson\fRs for \fIcourse\fRs sharing a "\fBsynchronisationId\fR", in turn.
+.br
+Because a typical \fIstudent\fR's timetable is almost fully booked,
+there are relatively few times remaining which are free to accept a \fIbooking\fR,
+& even fewer which can accept the synchronised \fIbooking\fRs required for the members of a set of \fIsynchronised courses\fR.
+Consequently, the only solution typically accessible from this initial state, is the original, & the probability of a beneficial change to the timetable, is therefore low.
+To improve the probability, a variety of coincidentally synchronised groups of \fIlesson\fRs from non-synchronised \fIcourse\fRs, selected to ensure that all may easily be relocated,
+are un-booked first, to provide alternative coordinates @ which to book the awkward synchronised \fIlesson\fRs of \fIsynchronised courses\fR.
+.TP
+.B Synchronised Course by Day Mutation
+This \fIevolution-strategy\fR tackles only \fIsynchronised courses\fR, by selecting each \fIsynchronised course\fR in turn, & then each \fIday\fR in turn, & un-booking all the corresponding \fIlesson\fRs.
+.br
+As for \fBSynchronised Course Mutation\fR, alternative coordinates for the required \fIlesson\fRs are created,
+to improve the probability of finding a superior solution.
+.TP
+.B Excess Runlength Mutation
+This \fIevolution-strategy\fR focuses on the reduction in one particular undesirable trait in a timetable; excessively long unbroken sessions of identical \fIlesson\fRs (& therefore with identical \fIsubject\fRs).
+It finds all instances whose duration exceeds the corresponding \fIcourse\fR's value for "\fBminimumConsecutiveLessons\fR".
+Then for each session in turn;
+reduces its length by un-booking either of the terminal \fIlesson\fRs;
+along with an arbitrary \fIbooking\fR, on any other \fIday\fR, & @ a \fItime\fR to which the original \fIlesson\fR might be relocated.
+.br
+CAVEAT: because "\fBtimetableCriteriaWeights\fR/\fBminimiseRatioOfConsecutiveEqualLessons\fR" is typically lighter than other criterion-weights,
+the timetable may be improved by this \fIevolution-strategy\fR, whilst paradoxically increasing the number of long unbroken sessions of identical \fIlesson\fRs.
+One could correct this anomaly by increasing the relative weight of this criterion,
+but that would merely result in a degradation of the solution in some arguably more important respect;
+the final solution is a compromise.
+.TP
+.B Homogeneous Student-view Lesson Mutation
+The \fIbooking\fRs in the timetable, are divided into groups composed from homogeneous \fIlesson\fRs;
+actually, whether two \fIlesson\fRs are considered to be identical, depends on the perspective from which they're viewed,
+but in this context, it's from the \fIstudent-body\fR's perspective
+(i.e. the same \fIteacher\fR, teaching the same \fIsubject\fR, @ the same \fIlocation\fR, but to any \fIstudent-class\fR).
+Each set of \fIlesson\fRs is un-booked & the timetable reconstructed, before proceeding to the next set.
+.br
+Since each set of identical \fIlesson\fRs must be taught by the same \fIteacher\fR in the same \fIlocation\fR,
+un-booking all of them, breaks any \fIroutine\fR, allowing the timetable to be reconstructed with an alternative \fIroutine\fR,
+& facilitating the transfer of workload between \fIteacher\fRs whose \fIservice\fRs intersect.
+.TP
+.B Incomplete Course Mutation
+This \fIevolution-strategy\fR focuses on the reduction in one particular undesirable trait in a timetable; incompletely booked \fIcourse\fRs.
+Each \fIcourse\fR offered by a \fIteacher\fR requires a precisely defined number of \fIlesson\fRs per week.
+Each \fIstudent\fR defines the \fIcourse\fRs they want to study.
+If the timetable for any one \fIstudent\fR doesn't schedule the required number of \fIlesson\fRs,
+then arguably they may as well not attend any of the \fIlesson\fRs for that \fIcourse\fR.
+.br
+This \fIevolution-strategy\fR mutates the timetable, by un-booking all the \fIlesson\fRs,
+for each such incompletely booked \fIcourse\fR in turn, & for each \fIstudent-body\fR in turn.
+It un-books them even if;
+they're booked @ \fItime\fRs specifically requested for the \fIcourse\fR of which they're a part, to permit alternative \fIlocation\fRs to be used, or for the \fIstudent\fR to associate with a different \fIteacher\fR offering a compatible \fIcourse\fR;
+the corresponding \fIcourse\fR defines a non-trivial "\fBminimumConsecutiveLessons\fR", because given that all \fIlesson\fRs for the \fIcourse\fR are un-booked, no inconsistent state remains.
+.TP
+.B Random Lesson Mutation
+Over a specified number of random trials,
+a number of randomly selected \fIlesson\fRs are un-booked from the timetable & the timetable reconstructed.
+.br
+\fILesson\fRs which have been booked @ \fItime\fRs specifically requested for the \fIcourse\fR of which they're a part,
+are excluded from the random selection, because the probability of a beneficial change to the timetable is too low to justify the effort.
+.TP
+.B Singleton Student-class Mutation
+This \fIevolution-strategy\fR focuses on promotion of one particular desirable trait in a timetable; the temporary merger of \fIstudent-bodies\fR into \fIstudent-class\fRes.
+\fILesson\fRs whose \fIstudent-class\fRes have been composed from a single specific \fIstudent-body\fR,
+are un-booked from the timetable, which is then reconstructed before proceeding to un-book singleton \fIstudent-class\fRes for another specific \fIstudent-body\fR.
+.br
+\fILesson\fRs;
+whose \fIcourse\fR is \fIsynchronised\fR;
+or whose \fIcourse\fR defines a non-trivial "\fBminimumConsecutiveLessons\fR";
+or which have been booked @ \fItime\fRs specifically requested for the \fIcourse\fR of which they're a part,
+are excluded from the selection, because the probability of a beneficial change to the timetable is too low to justify the effort.
+The former are addressed separately by \fBSynchronised Course Mutation\fR.
+.TP
+.B Split Session Mutation
+This \fIevolution-strategy\fR focuses on the reduction in one particular undesirable trait in a timetable;
+split sessions of identical \fIlesson\fRs (& therefore with identical \fIsubject\fRs).
+It finds all \fIlesson\fRs which have been booked more than once in any \fIday\fR, but with some non-zero time-span between, then un-books one contiguous session.
+.br
+The probability of a beneficial change to sessions which either include a \fIbooking\fR @ a \fItime\fR requested by "\fBtimeslotRequest/specifically\fR",
+or whose \fIlesson\fRs are for a \fIcourse\fR which is \fIsynchronised\fR, is too low to justify the effort; consequently they're excluded.
+.br
+Split sessions are typically only introduced by the "\fBrandomConstructor\fR" (see section-5 of the manual pages for this product),
+though they can also be introduced manually via the command-line option \fB--inputStudentViewTimetable\fR.
+.TP
+.B Student-body Combination Mutation
+This \fIevolution-strategy\fR focuses on the reduction in one particular undesirable trait in a timetable;
+those which contain \fIlesson\fRs for any one \fIcourse\fR, attended by a \fIstudent-class\fR, which @ various booking-\fItime\fRs has been composed from different combinations of \fIstudent-bodies\fR.
+So, if \fIstudent-bodies\fR \fBA\fR & \fBB\fR both require the same \fIsubject\fR,
+one would probably prefer to consistently teach \fB{A, B}\fR (or failing that, to teach singleton \fIstudent-classes\fR, composed from each \fIstudent-body\fR in isolation),
+rather than various different combinations of \fIstudent-body\fR; \fB{A}\fR, \fB{B}\fR, \fB{A, B}\fR.
+.br
+Proliferation of \fIstudent-body combination\fRs, amongst the \fIlesson\fRs booked for a \fIcourse\fR,
+can be discouraged by applying a relatively large weighting to "\fBlessonCriteriaWeights\fR/\fBminimiseStudentBodyCombinations\fR" & "\fBtimetableCriteriaWeights\fR/\fBminimiseMeanStudentBodyCombinationsPerLesson\fR" (see section-5 of the manual pages for this product),
+but unless all instances of a specific \fIstudent-body combination\fR for a \fIcourse\fR, are un-booked simultaneously,
+a better weighted mean of the \fItimetable-criteria\fR is unlikely to result,
+& therefore the resulting timetable probably won't be selected as the basis of the next generation.
+.br
+This \fIevolution-strategy\fR mutates the timetable, by finding instances where different \fIstudent-class\fRes have been booked for any one \fIlesson\fR,
+then for each \fIstudent-class\fR in turn, un-books all the corresponding \fIlesson\fRs.
+.TP
+.B Student-view Timetable-for-day Mutation
+For each \fIstudent-body\fR in turn, then for combinations of the specified number of \fIday\fR, remove all bookings.
+If the number of \fIday\fRs is unspecified, then combinations of any number of days will be tried.
+.br
+This creates the contiguous space required to book \fIcourse\fRs which specify a non-trivial "\fBminimumConsecutiveLessons\fR",
+& when the specified number of \fIday\fRs exceeds one, the ability to relocate them to another \fIday\fR.
+\fILesson\fRs whose \fIcourse\fR either is \fIsynchronised\fR or specifically requests any times on the current \fIday\fR,
+are excluded because the probability of a beneficial change to the timetable is too low to justify the effort.
+.TP
+.B Student-view Timetable-for-week Mutation
+Similar to "\fBRandom Lesson Mutation\fR", except that each \fIstudent-body\fR is mutated independently.
+.TP
+.B Synchronous Lesson Mutation
+The \fIbooking\fRs in the timetable, are divided into synchronous groups of otherwise arbitrary \fIlesson\fRs.
+Each set of \fIlesson\fRs is un-booked & the timetable reconstructed, before proceeding to the next set.
+This is a rather arbitrary procedure, neither specifically addressing an undesirable trait, nor attempting to promote some desirable metric,
+but it is useful when deployed in combination with \fIdepletion-strategies\fR which do address specific problems, which in isolation typically don't liberate sufficient free space to be effective.
+.br
+\fILesson\fRs which have been booked @ \fItime\fRs specifically requested for the \fIcourse\fR of which they're a part,
+and \fIlesson\fRs forming a consecutive sequence whose minimum length has been configured,
+are excluded from each group, because the probability of a beneficial change to the timetable is too low to justify the effort.
+.SS Solution-quality
+The time-complexity of the problem is known to be exponential, which is bad news if you're hoping to find an optimal solution.
+The problem's complexity is dependent on the number of \fIlocation\fRs, \fIstudent-bodies\fR, \fIteacher\fRs, & \fItimeslot\fRs-per-day,
+but because these quantities are related (e.g. one can't indefinitely increase the number of \fIstudent\fRs without increasing both \fIteacher\fR-hours & the total capacity of the \fIlocation\fRs in which they're taught), it's difficult to quantify the time-complexity more precisely.
+.br
+Regardless, it's clear that as these quantities increase, it takes longer to assess the viability of a timetable, & consequently to arrive at an acceptable solution.
+If the solution takes an unacceptably long time, then perhaps one may reduce it by partitioning the \fIday\fR into fewer longer \fItime-slot\fRs,
+or by coercing the \fIstudent\fRs into a more rigid curriculum requiring fewer larger \fIstudent-bodies\fR.
+.PP
+The quality of the final solution returned within a given time, depends on the ease with which the evolutionary algorithm can move through the solution-space.
+It may become grid-locked by;
+\fIcourse\fRs which demand a large "\fBminimumConsecutiveLessons\fR", or which reference a "\fBsynchronisationId\fR", or which have a "\fBtimeslotRequest\fR" (each of which are described in section-5 of the manual pages for this product);
+\fIteacher\fRs who are fully booked;
+or \fIlocation\fRs which are fully utilised.
+So if the final timetable isn't an acceptable compromise, then removing unnecessary constraints on \fIcourse\fRs,
+or providing more \fIresource\fRs should improve the result.
+.SS Diagnostics
+Using the command-line option \fB--verbosity=Deafening\fR, the output on \fIstderr\fR, contains the following information:
+.TS
+lb	lb
+l	l
+lb	l
+.
+Report	Explanation
+=====	===========
+The weighted mean over all heterogeneous timetable-criteria, of the deterministic timetable resulting from each raster-scan; & the (minimum, maximum)	The application has performed a raster-scan over the timetable, booking \fIlesson\fRs selected to optimise the value of \fIlesson-criteria\fR. This is repeated using a variety of different rasters, reporting for each the resulting weighted mean over all \fItimetable-criteria\fR. Finally the raster-patterns which were worst & best are reported.
+
+The weighted timetable-criteria of the best deterministic timetable	The individual \fItimetable-criteria\fR used to compose the weighted mean, in the best raster-scan, are reported in the configured order.
+
+The ((mean, standard deviation), (minimum, maximum)) over the best deterministic timetable, of each weighted lesson-criterion	The values of \fIlesson-criteria\fR, by which \fIlesson\fRs were selected during the best raster-scan are reported. Their standard deviation, & minimum & maximum value, over the best timetable, identifies their influence on the selection of \fIlesson\fRs, & where perhaps individual weights may be fine-tuned. This is the end of the initial deterministic phase, from which random evolution now begins.
+
+The (relative improvement in the weighted mean over all heterogeneous timetable-criteria, the number of generations through which the timetable evolved, the final fecundity, & the weighted timetable-criteria for the selected candidate), for each evolution-strategy/timetable-constructor	Here we report four statistics for each evolution/reconstruction strategy; a quantification of the improvement according to the weighted mean over all the \fItimetable-criteria\fR, resulting from this strategy; the number of generations of evolution, since strategies are terminated when improvements cease; the final \fIfecundity\fR of the breeding-program, since this is reduced by a feedback-loop, when the population-diversity ratio of the candidate-population drops beneath a threshold; the individual weighted \fItimetable-criteria\fR, in configuration-order, from which the mean is composed.
+
+The final weighted timetable-criteria, & the improvement, from the best deterministic timetable	The final value of each weighted \fItimetable-criterion\fR is reported, along with the absolute amount by which it was changed during evolution. The order in which they're reported matches the configured "\fBtimetableCriteriaWeights\fR".
+.TE
+.sp 1
+Faced with an unacceptable solution, first determine precisely what aspect of the resulting timetable is unacceptable.
+If this aspect is associated with one of the \fItimetable-criteria\fR, determine whether during the evolutionary process, the value of less important criteria, benefit to the detriment of the criterion of interest.
+If so, then one can re-configure the weight of criteria, to compensate.
+The sensitivity of the solution, to the various criterion-weights, is different, & also problem-specific,
+so start with a small change, perhaps \fB1%\fR, & check whether the result improves.
+.SS Trouble-shooting
+.TP
+\fBfatal error: file read error: "file not found" when accessing ".../dtd/weekdaze.dtd"\fR
+The XML configuration-file has referenced a DTD which doesn't exist; amend its \fBDOCTYPE\fR-declaration to correctly reference the packaged file "\fBdtd/weekdaze.dtd\fR".
+.SH OPTIONS
+.PP
+Many of these options have default values defined by similarly named fields in the configuration-file; see section-5 of the manual pages for this product.
+.SS Input
+The configuration can be read either from an XML-file, or from a SQL-database.
+One can connect either to a \fBMySQL\fR-server either using its native interface defined by \fBlibmysqlclient\fR, or to a generic SQL-server using \fBODBC\fR;
+the choice may be configured during the build-process.
+When connecting to a data-server using \fBODBC\fR, those connection-parameters specified in a \fB.odbc.ini\fR file (Server, Port, User, Password, Database), won't be available from the command-line.
+.TP
+\fB-i\fR \fIFile-path\fR, \fB--inputConfigFilePath=\fR\fIFile-path\fR
+Read the configuration from the specified XML-file, as an alternative to [\fB--dataServerHost\fR, \fB--dataServerPort\fR, ...].
+.TP
+\fB--dataServerHost=\fR\fIHost-name\fR [\fB"127.0.0.1"\fR].
+Define the host on which to look for the data-server holding the configuration, as an alternative to \fB--inputConfigFilePath\fR.
+.br
+CAVEAT: this option is unavailable from the command-line when connecting via \fBODBC\fR.
+.TP
+\fB--dataServerPort=\fR\fIInt\fR [\fB3306\fR]
+Define the port on which to attempt connection to the referenced data-server.
+.br
+CAVEAT: this option is unavailable from the command-line when connecting via \fBODBC\fR.
+.TP
+\fB--dataServerUserId=\fR\fIString\fR
+Define the user-id with which to log-onto the referenced data-server;
+cf. \fB--databaseUserId\fR.
+.br
+CAVEAT: this option is unavailable from the command-line when connecting via \fBODBC\fR.
+.TP
+\fB--dataServerPassword=\fR\fIString\fR
+Define the password required for authentication with the referenced data-server; cf. \fB--databasePassword\fR.
+.br
+CAVEAT: this option is unavailable from the command-line when connecting via \fBODBC\fR.
+.TP
+\fB--databaseName=\fR\fIString\fR [\fBweekdaze\fR]
+Define the database on the referenced data-server.
+.br
+CAVEAT: this option is unavailable from the command-line when connecting via \fBODBC\fR.
+.TP
+\fB--databaseUserId=\fR\fIString\fR
+Identify a specific user's configuration amongst all those in the referenced database; typically one's email-address, since this is naturally unique;
+cf. \fB--dataServerUserId\fR.
+.TP
+\fB--databasePassword=\fR\fIString\fR
+Define the password for the user's configuration in the referenced database; cf. \fB--dataServerPassword\fR.
+.TP
+\fB--databaseProjectName=\fR\fIString\fR
+Define the project, amongst those owned by the referenced database user-id, in the referenced database, from which to read the configuration.
+.SS Execution
+Each option overrides a similarly named configuration-field in "\fBexecutionOptions\fR", where they're more completely described.
+.TP
+\fB--fecundityDecayRatio=\fR\fIFloat\fR
+.TP
+\fB--inputStudentViewTimetable=\fR\fIFile-path\fR
+.TP
+\fB--minimumPopulationDiversityRatio=\fR\fIFloat\fR
+.TP
+\fB--nInitialScouts=\fR\fIInt\fR
+.TP
+\fB--optimiseLessonCriteriaWeights='(\fR\fIInt\fR, \fIFloat\fR, \fIFloat\fR\fB)'\fR [\fB(0\fR, \fB1\fR, \fB0.5)\fR]
+.TP
+\fB--permitTemporaryStudentBodyMerger\fR[\fB=\fR(\fBFalse\fR|\fBTrue\fR)]
+.TP
+\fB-r\fR[\fIInt\fR], \fB--randomSeed\fR[\fB=\fR\fIInt\fR]
+This option takes an optional integral argument with which to seed the single pseudo-random number-generator used for all random operations.
+.br
+In the absence of the whole field, the random-number generator will be seeded unpredictably from the operating-system.
+In the absence of the integer-argument, \fB0\fR will be inferred.
+.TP
+\fB--reduceStudentBodyRegister\fR[\fB=\fR(\fBFalse\fR|\fBTrue\fR)]
+.TP
+\fB--removeRedundantCourses\fR[\fB=\fR(\fBFalse\fR|\fBTrue\fR)]
+.SS Generic Program-information \" Request ancillary information.
+.PP
+These options govern the output of ancillary information.
+The application will terminate after performing the requested action.
+.TP
+\fB-?\fR, \fB--help\fR
+Print this help-text.
+.TP
+.B --printInputOptionsXMLDTD
+Generate a rough Document Type Definition, defining the XML-format of the input-options configuration-file.
+.br
+CAVEAT: the resulting DTD must be manually amended to identify "\fBIMPLIED\fR", "\fBID\fR", & "\fBIDREF\fR" attributes.
+.br
+See the packaged instance \fBdtd/weekdaze.dtd\fR.
+.TP
+\fB--printTimetableXMLDTD=\fR(\fBLocationView\fR|\fBStudentView\fR|\fBTeacherView\fR)
+Generate a rough Document Type Definition, defining the XML-format of a timetable viewed from the specified perspective.
+.br
+See the packaged instances; \fBdtd/locationViewTimetable.dtd\fR, \fBdtd/studentViewTimetable.dtd\fR & \fBdtd/teacherViewTimetable.dtd\fR.
+.TP
+\fB-v\fR, \fB--version\fR
+Print version-information.
+.SS Output \" Defines how to format the results.
+These options govern the presentation of the solution.
+.br
+Most override a similarly named configuration-field in "\fBoutputOptions\fR" & in these cases no description is provided here;
+see section-5 of the manual pages for this product.
+.TP
+\fB--displayRuntimeLog\fR[\fB=\fR(\fBFalse\fR|\fBTrue\fR)]
+This option takes an optional boolean argument which specifies whether the run-time log is rendered in all "\fBfileFormat\fR"s of type "\fBXHTML\fR" (see section-5 of the manual pages for this product).
+.br
+The default value, in the absence of this option, is \fBFalse\fR,
+but in the absence of only the boolean argument, \fBTrue\fR will be inferred.
+.TP
+\fB--nDecimalDigits=\fR\fIInt\fR
+.TP
+\fB--outputConfigFilePath=\fR\fIFile-path\fR
+.TP
+\fB--outputStudentViewTimetable=\fR\fIFile-path\fR
+Append a file-path to those defined in "\fBfileFormat\fR" (see section-5 of the manual pages for this product),
+to receive the resulting timetable, as seen from the perspective of \fIstudent-bodies\fR & formatted as XML; this can subsequently be referenced using \fB--inputStudentViewTimetable\fR.
+.TP
+\fB--verbosity=\fR(\fBSilent\fR|\fBNormal\fR|\fBVerbose\fR|\fBDeafening\fR)
+.SH EXIT-STATUS
+\fB0\fR on success, & non-\fB0\fR if an error occurs.
+.SH EXAMPLES
+.nf
+.B weekdaze --randomSeed --inputConfigFilePath='xml/example_08.xml' --outputStudentViewTimetable='/tmp/studentViewTimetable_08.xml' +RTS -N -RTS >/tmp/timetable_08.xhtml;
+.fi
+.IP \(bu
+Note that the random-seed's default value of \fB0\fR has been accepted.
+.IP \(bu
+One of the packaged examples has been referenced (using a relative path which you may need to adjust).
+.IP \(bu
+An XML-version of the solution has been requested, in case it might need to be fed-back as the initial state for a subsequent run.
+.IP \(bu
+The run-time system has been instructed to use an appropriate number of CPU-cores to exploit the parallelism in the implementation.
+.IP \(bu
+The result is returned on standard-output, which has been redirected to a file.
+.PP
+.nf
+\fBcd\fR 'sql/MySQL/' \fB&& cat\fR 'weekdazeCreate.sql' 'weekdazeTriggers.sql' | \fBmysql --host=\fR\fIhost\fR \fB--database=\fR'weekdaze' \fB--user=\fR'root' \fB--password;\fR
+.fi
+.IP \(bu
+The *nix-specific command to define the structure of a \fBMySQL\fR-database in which to store configuration.
+.IP \(bu
+A \fBMySQL\fR data-server must be running on \fIhost\fR (typically \fBlocalhost\fR).
+.IP \(bu
+A database arbitrarily called "\fBweekdaze\fR" was referenced, & this must exist (though potentially empty) on the data-server.
+.IP \(bu
+The database-password is interactively read from standard-input; assuming one has been defined.
+.PP
+.nf
+.B weekdaze --databaseUserId='example@bogus.tld' --databaseProjectName='example_01' | less;
+.fi
+.IP \(bu
+The executable was in this instance built with the \fBCabal\fR-flag "\fB-fHDBC-mysql\fR" to connect to the data-server using the native \fBMySQL\fR-interface,
+so data-server connection-parameters had to be specified on the command-line, rather than via a \fB.ODBC.ini\fR file.
+.br
+I could also have explicitly specified \fB--dataServerHost\fR='127.0.0.1' \fB--dataServerPort\fR='3306' \fB--dataServerUserId=\fR'root' \fB--databaseName=\fR'weekdaze',
+but these are the defaults (though a less privileged database-user would be preferrable).
+.br
+The database-password is interactively read from standard-input.
+.IP \(bu
+Run the specified example from the database.
+Since the database's schema has been designed for multi-user use as may be required when running from a web-server,
+each example in the database belongs to a user (identified by there email-address to guarantee uniqueness); the corresponding email-address is specified.
+.br
+Each user in the database own many projects (i.e. example timetable-problems); a specific example is referenced.
+.IP \(bu
+The result on standard-output is paged.
+.SH FILES
+.TS
+lb	lb
+l	l
+lb	l	.
+File-name	Contents
+=========	========
+css/weekdaze.css	The default Cascading Style-sheet, used when rendering the \fBXHTML\fR-output, which defines; colours, fonts, images, & the spacing used within tables.
+dtd/studentViewTimetable.dtd	The formal description of the XML-format for any initial timetable as seen from the perspective of \fIstudent-bodies\fR.
+dtd/weekdaze.dtd	The formal description of the XML-format for the input configuration-file.
+images/weekdazeControlFlow.pdf	A picture of the application's control-flow.
+images/weekdazeIO.pdf	A picture of the application's I/O.
+man/man5/weekdaze.5	Section-5 of the manual pages for this product, describing the configuration-file format.
+sql/MySQL/*.sql	SQL-scripts used to define the database-structure, optionally including the example timetable-problems.
+.TE
+.SH AUTHOR
+Written by Dr. Alistair Ward.
+.SH BUGS
+.SS "REPORTING BUGS"
+.nf
+Report bugs to "\fBweekdaze@functionalley.com\fR".
+.fi
+.SS Further Development
+.IP \(bu
+The ability to describe the \fIavailability\fR of \fIresource\fRs, is limited to whole \fIday\fRs rather than individual \fItime-slot\fRs.
+This inhibits precise configuration of \fIteacher\fRs who're contracted to be available for only part of some of the \fIday\fRs in their working-week,
+& prevents configuration of \fIlocation\fRs which are available for only part of some \fIday\fRs (perhaps because it's booked by something outside the domain of the current problem).
+.IP \(bu
+The \fIcourse\fRs taken by a \fIstudent\fR, are configured as either "\fIcore\fR" or "\fIoptional\fR" in the context of that \fIstudent\fR's education,
+& don't reflect on their inherent worth.
+This classification merely permits the application to attempt to limit any failures to meet a \fIstudent\fR's knowledge-requirements,
+to those \fIcourse\fRs personally designated \fIoptional\fR.
+\fICourse\fR-selection is assumed to be overseen by some external authority, to ensure that each \fIstudent\fR studies an appropriate set.
+.br
+One could alternatively qualify a \fIcourse\fR, with the credit a \fIstudent\fR would earn from studying it,
+& require that the set of \fIcourse\fRs studied, should meet a minimum credit-threshold,
+which would remove the requirement to oversee \fIcourse\fR-selection to ensure sufficient academic rigour.
+.IP \(bu
+There's currently no mechanism for exporting the results in a CSV-format suitable for import into a Management Information System, as may be used by a school to record other data.
+Since the precise CSV-format is unknown, this requirement should probably be met by some external translator between the XML provided & the required CSV.
+.IP \(bu
+The splitting of a double-\fIlesson\fR over morning break, lunchtime, or a free \fIperiod\fR,
+may for some \fIcourse\fRs be preferable to splitting it with a \fIlesson\fR in a different \fIsubject\fR,
+but this distinction isn't currently addressed by the available criteria.
+.IP \(bu
+The application has neither any concept of the time-duration between \fItime-slot\fRs within any \fIday\fR,
+nor of the geographic coordinates of any \fIlocation\fR, so it is unable to assess the feasibility of the journey between \fIlocation\fRs.
+.IP \(bu
+This application currently only caters for timetables spanning one week (the requirements for all other weeks, are assumed to be identical),
+but timetables spanning multiple weeks,
+are required either to facilitate scheduling of \fIcourse\fRs whose "\fBminimumConsecutiveLessons\fR" exceeds their "\fBrequiredLessonsPerWeek\fR".
+The disadvantage in such multi-week timetables, is the difficulty in faultlessly following such a routine,
+particularly if the \fIstudent\fRs are young & the timetables for each of the constituent weeks are utterly different,
+so the most likely requirement is for a fortnightly timetable, where the alternative weeks varying only slightly.
+.IP \(bu
+Desirable \fItime-slot\fRs should be evenly allocated amongst similarly specified \fIcourse\fRs,
+to avoid those \fIstudent\fRs on one of the \fIcourse\fRs gaining an unfair advantage over those on the other \fIcourse\fR.
+.IP \(bu
+The timetable for examination-level \fIstudent\fRs is more critical than those for other \fIstudent\fRs, & should be prioritised.
+.IP \(bu
+\fITeacher\fRs who offer a broad \fIservice\fR, may need to allocate their total teaching-time by department.
+.SH COPYRIGHT
+Copyright \(co 2013-2015 Dr. Alistair Ward
+.PP
+This program is free software: you can redistribute it &/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+.PP
+You should have received a copy of the GNU General Public License along with this program. If not, see <\fBhttps://www.gnu.org/licenses/\fR>.
+.SH "SEE ALSO"
+.IP \(bu
+Home-page: <\fBhttps://functionalley.com/WeekDaze/weekdaze.html\fR>.
+.IP \(bu
+Source-documentation is generated by \fBHaddock\fR, & is available in the distribution.
+.IP \(bu
+<\fBhttps://www.haskell.org/haddock/\fR>.
+.IP \(bu
+\fBman/man5/weekdaze.5\fR.
+.IP \(bu
+<\fBhttps://www.haskell.org/cabal/\fR>.

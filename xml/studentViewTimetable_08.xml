@@ -1,0 +1,2454 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE timetable SYSTEM "../dtd/studentViewTimetable.dtd">	<!-- CAVEAT: amend after relocating this file ! -->
+<timetable>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_01">
+        <student studentId="Student_01.0"/>
+        <student studentId="Student_01.1"/>
+        <student studentId="Student_01.2"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_17"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_02">
+        <student studentId="Student_02.0"/>
+        <student studentId="Student_02.1"/>
+        <student studentId="Student_02.2"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_03"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_03">
+        <student studentId="Student_03.0"/>
+        <student studentId="Student_03.1"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_03"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_04">
+        <student studentId="Student_04.0"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_03"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_05">
+        <student studentId="Student_05.0"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="2"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_17"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_06">
+        <student studentId="Student_06.0"/>
+        <student studentId="Student_06.1"/>
+        <student studentId="Student_06.2"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_03"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_07">
+        <student studentId="Student_07.0"/>
+        <student studentId="Student_07.1"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_03"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_1" teacherId="Teacher_08"/>
+              <subject topic="French" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_1" teacherId="Teacher_06"/>
+              <subject topic="Biology" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_08">
+        <student studentId="Student_08.0"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_1" teacherId="Teacher_14"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_09">
+        <student studentId="Student_09.0"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="2"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="GamesField" teacherId="Teacher_15"/>
+              <subject topic="Games" level=""/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_2" teacherId="Teacher_11"/>
+              <subject topic="Physics" level="3.A"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_4" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_17"/>
+              <subject topic="Religious Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_2" teacherId="Teacher_16"/>
+              <subject topic="Music" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_10">
+        <student studentId="Student_10.0"/>
+        <student studentId="Student_10.1"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="2"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_10"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_04"/>
+              <subject topic="Geography" level="4"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="ChemistryLab_1" teacherId="Teacher_09"/>
+              <subject topic="Chemistry" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+  <observerIdToTimetableAssociation>
+    <observerId>
+      <studentBody mnemonic="Body_11">
+        <student studentId="Student_11.0"/>
+      </studentBody>
+    </observerId>
+    <timetableForWeek>
+      <dayToTimetableAssociation>
+        <day value="Sunday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Monday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="MusicRoom_1" teacherId="Teacher_02"/>
+              <subject topic="Music" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Gym" teacherId="Teacher_15"/>
+              <subject topic="Physical Education" level="1"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Tuesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Wednesday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Thursday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_2" teacherId="Teacher_07"/>
+              <subject topic="Maths" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="6">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Kitchen_2" teacherId="Teacher_05"/>
+              <subject topic="Domestic Science" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Friday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1">
+            <lesson>
+              <studentViewLessonResourceIds locationId="PhysicsLab_1" teacherId="Teacher_12"/>
+              <subject topic="Physics" level="3.B"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="2">
+            <lesson>
+              <studentViewLessonResourceIds locationId="Classroom_3" teacherId="Teacher_18"/>
+              <subject topic="History" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="3">
+            <lesson>
+              <studentViewLessonResourceIds locationId="BiologyLab_2" teacherId="Teacher_13"/>
+              <subject topic="Biology" level="3"/>
+            </lesson>
+          </booking>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+      <dayToTimetableAssociation>
+        <day value="Saturday"/>
+        <timetableForDay>
+          <booking timeslotId="0"/>
+          <booking timeslotId="1"/>
+          <booking timeslotId="2"/>
+          <booking timeslotId="3"/>
+          <booking timeslotId="4"/>
+          <booking timeslotId="5"/>
+          <booking timeslotId="6"/>
+          <booking timeslotId="7"/>
+        </timetableForDay>
+      </dayToTimetableAssociation>
+    </timetableForWeek>
+  </observerIdToTimetableAssociation>
+</timetable>
+

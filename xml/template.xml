@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE options SYSTEM "../dtd/weekdaze.dtd">	<!-- CAVEAT: amend after relocating this file ! -->
+<!--
+	Copyright (C) 2013-2015 Dr. Alistair Ward
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<options>
+	<configVersion>
+		<versionElement integer="1"/>
+		<versionElement integer="0"/>
+	</configVersion>
+	<executionOptions>
+		<evolutionStrategies>
+			<synchronisedCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</synchronisedCourseMutation>
+			<synchronisedCourseByDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="512" randomConstructorFecundity="1024"/>
+			</synchronisedCourseByDayMutation>
+			<excessRunlengthMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="512" randomConstructorFecundity="1024"/>
+			</excessRunlengthMutation>
+			<homogeneousStudentViewLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</homogeneousStudentViewLessonMutation>
+			<incompleteCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</incompleteCourseMutation>
+			<randomLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="2048"/>
+			</randomLessonMutation>
+			<singletonStudentClassMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</singletonStudentClassMutation>
+			<splitSessionMutation>
+				<timetableBreederFecundity randomConstructorFecundity="1024"/>
+			</splitSessionMutation>
+			<studentBodyCombinationMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</studentBodyCombinationMutation>
+			<studentViewTimetableForDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</studentViewTimetableForDayMutation>
+			<studentViewTimetableForWeekMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="512" randomConstructorFecundity="1024"/>
+			</studentViewTimetableForWeekMutation>
+			<synchronousLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="1024" randomConstructorFecundity="1024"/>
+			</synchronousLessonMutation>
+		</evolutionStrategies>
+		<optimiseLessonCriteriaWeights/>
+		<lessonCriteriaWeights areResourcesReused="8.2e-3" greatestMinimumConsecutiveLessons="9.44e-2" greatestRemainingCourseLessons="1.58e-2" greatestSynchronisedCourseSetSize="0.2023" isCoreKnowledgeRequirement="9e-3" isSpecialistInTopic="6.8e-3" matchCourseClassSizeToLocationCapacity="1.25e-2" maximiseRelativeFacilityUtilisation="9.9e-3" minimiseBookingAtAnotherCoursesSpecifiedTime="1" minimiseBookingOfLocationByOtherTeachers="1.18e-2" minimiseDeviationFromTimeslotRequest="2.78e-2" minimiseInterCampusMigrationsOfStudents="0.5" minimiseInterCampusMigrationsOfTeachers="0.5" minimiseStudentBodyCombinations="3.16e-2" minimiseTeachersLocusOperandi="1.23e-2" minimiseWasteOfScarceFacilities="0.1237"/>
+		<timetableCriteriaWeights maximiseComplianceWithFreePeriodPreferences="3.125e-2" maximiseMeanRatioOfStudentClassSizeToLocationCapacity="6.25e-2" maximiseMeanStudentClassSize="0.5" maximiseSynchronisationOfSynchronisedCourses="0.5" maximiseWeightedMeanStudentBodyUtilisationRatio="0.5" minimiseAverageAbsoluteDeviationFromIdealTimeslotRequest="0.125" minimiseDispersionOfStudentFreePeriodsPerDay="3.125e-2" minimiseDispersionOfTeacherFreePeriodsPerDay="3.125e-2" minimiseDispersionOfTeacherWorkload="3.125e-2" minimiseMeanInterCampusMigrationsOfStudents="0.5" minimiseMeanInterCampusMigrationsOfTeachers="0.5" minimiseMeanLocationChangesOfTeachers="6.25e-2" minimiseMeanLocusOperandiOfTeachers="6.25e-2" minimiseMeanRatioOfIncompletelyBookedCoreKnowledge="0.5" minimiseMeanRatioOfIncompletelyBookedOptionalKnowledge="0.25" minimiseMeanStudentBodyCombinationsPerLesson="0.75" minimiseRatioOfConsecutiveEqualLessons="0.125" minimiseRatioOfSeparatedEqualLessonsWithinAnyDay="0.25"/>
+	</executionOptions>
+	<outputOptions>
+		<fileFormats>
+			<fileFormat filePath="-">
+				<xhtml>
+					<style displayRuntimeInformation="True" displaySupplementaryInformation="True">
+						<displayViews>
+							<perspective view="StudentView"/>
+							<perspective view="TeacherView"/>
+							<perspective view="LocationView"/>
+						</displayViews>
+						<mergeDuplicateTimeslots>
+							<timeAxes byDay="True" byTimeslotId="True"/>
+						</mergeDuplicateTimeslots>
+						<displayAxisLabels>
+							<timeAxes byDay="True" byTimeslotId="True"/>
+						</displayAxisLabels>
+						<weekend>
+							<day value="Saturday"/>
+							<day value="Sunday"/>
+						</weekend>
+					</style>
+				</xhtml>
+			</fileFormat>
+<!--
+			<fileFormat filePath="/tmp/studentViewTimetable.xml">
+				<xml/>
+			</fileFormat>
+-->
+		</fileFormats>
+	</outputOptions>
+	<problemParameters>
+		<problemValidationSwitches checkIfStudentBodiesExceedTeachers="False" checkIfStudentBodySizeExceedsLocationCapacity="False"/>
+		<groupCatalogue>
+<!-- Define groups here -->
+		</groupCatalogue>
+		<locationCatalogue>
+<!-- Define locations here -->
+		</locationCatalogue>
+		<studentBodyRegister>
+<!-- Define student-bodies here -->
+		</studentBodyRegister>
+		<teacherRegister>
+<!-- Define teachers here -->
+		</teacherRegister>
+		<timeslotIdBounds>
+			<min timeslotId="0"/>
+<!--			<max timeslotId=""/>	-->
+		</timeslotIdBounds>
+	</problemParameters>
+</options>
+

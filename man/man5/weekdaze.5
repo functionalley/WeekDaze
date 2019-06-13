@@ -1,0 +1,799 @@
+.TH weekdaze 5
+.SH DESCRIPTION
+Both the description & the jargon employed are described in section-1 of the manual pages; "\fBman/man1/weekdaze.1\fR".
+To prompt one to the existence of some special meaning, jargon has been distinguished by underscoring.
+.SH CONFIGURATION
+.PP
+The packaged example configuration-files are largely self-describing,
+but their structure is more rigorously defined by "\fBdtd/weekdaze.dtd\fR" (which is used in the application by a validating parser).
+Whilst this DTD may define the permissible structure, it says nothing about the semantics, which is the domain of this document.
+The corollary is that this document may not detail trivial XML-tags required for purely syntactic purposes,
+& so it is intended to be read with both the DTD & one of the packaged examples, open for reference.
+.br
+This application can for greater relational integrity & slightly fewer features, can also read its configuration from a SQL-database.
+The database-schema for which is defined in "\fBsql/*.sql\fR" & has been structured so that this application can be run from a website,
+in that it caters for many isolated users, each with many independent timetable-problems.
+.br
+In the following description, default configuration-values, are where relevant defined in brackets following their identifiers.
+.br
+Some of the configuration can also be over-ridden by command-line options; see \fIsection-1\fR of the man-pages.
+.SS Overview
+The top level of the file is divided into:
+.TP 19
+.B configVersion
+An XML-element containing the ordered list of integers defining the version of the configuration-structure.
+.TP
+.B executionOptions
+Defines the details of the solution-algorithm.
+This part of the configuration is independent of the specific timetable-problem, & consequently typically persists between problems.
+.TP
+.B outputOptions
+Defines the presentation of the solution.
+This part of the configuration is independent of the problem, & consequently typically persists between problems.
+.TP
+.B problemParameters
+Defines the problem, & is therefore highly volatile.
+.SS executionOptions
+This is an XML-element containing the following XML-tags.
+.TP
+.B randomSeed
+This optional XML-attribute takes an integer with which to seed the unique pseudo-random number-generator used for all the application's random operations.
+In its absence, the pseudo-random number-generator will be seeded from the operating-system, an unpredictable sequence will result,
+& the application may produce different solutions to the same problem, each time it is run.
+The evolutionary lineage resulting from each choice of seed may differ,
+but since there are conceptually infinite possible seeds & a finite number of solutions to the configured problem, some must ultimately converge.
+Changing the seed can sometimes produce a radically different & potentially superior solution.
+This feature is required for performance-testing where repeatability is required,
+but may also be useful if one wants to generate a similar timetable after a small change to either the configuration or the initial state (see "\fBinputStudentViewTimetable\fR").
+.br
+Even with the same seed, the pseudo-random sequence depends on the platform on which the application was compiled.
+.TP
+.B traversalOrder
+During the "\fBInitial Deterministic Timetable\fR" (see section-1 of the man-pages),
+the three-dimensional structure of the timetable is constructed using a raster-scan,
+which visits each coordinate, sequentially booking \fIlesson\fRs.
+This raster-scan can be constructed using any of the 48 permutations of \fBaxis\fR-order & \fBsense\fR of travel along each.
+Because the axes represent different concepts, their order within the raster, alters the character of the solution.
+The sense of travel along each axis also alters the solution,
+though unless any of the criteria defined in "\fBproblemParameters\fR" break symmetry, it will merely be a mirror-image.
+.br
+This optional XML-element permits specification of the raster-scan.
+The required order of the three axes is specified as a triple, the first XML-element of which defines the "\fBaxis\fR" (& optionally the "\fBsense\fR") along which change is slowest,
+& the last of which represents the axis (& optionally the sense) along which change is most rapid.
+If the sense of travel along any axis is unspecified then both will be tried.
+.br
+Since it can be difficult to guess in advance which permutation will result in the best solution (though the 2 permutations matching "(\fB+ObserverId\fR,\fB+TimeslotId\fR,\fBDay\fR)" seem to perform slightly above average),
+the default is to evaluate them all & select the best according to the weighted mean over the \fItimetable-criteria\fR.
+The additional time required, is typically small (especially where there's hardware to support parallel execution)
+compared to that required by the subsequent improvement of the solution using various \fIevolution-strategies\fR.
+.TP
+.B inputStudentViewTimetable
+As an alternative to defining the "\fBtraversalOrder\fR", one can specify the path to a file from which the initial timetable can be read;
+typically created by a previous call to this application (see '\fBxml view="StudentView"\fR', or the command-line option "\fB--outputStudentViewTimetable\fR").
+This allows one to adjust the configuration to account for small changes,
+or to manually amend the solution in an attempt to compensate for some feature which the configuration doesn't address,
+whilst retaining some hope that the final solution will be similar to the original.
+It also gives the user enough rope to hang themselves (i.e. destabilise the application),
+& though some checks are performed on the validity of the imported \fIstudent-view timetable\fR,
+there are probably ways that haven't been envisaged,
+& even those that have, can be individually deactivated via the switches in "\fBtimetableValidationSwitches\fR".
+.br
+Whilst tightening a constraint in "\fBproblemParameters\fR",
+will typically require corresponding changes to the imported \fIstudent-view timetable\fR, until it complies with this new requirement,
+relaxing a constraint is relatively safe; e.g.:
+.TS
+lb	lb	lb
+l	l	l
+li	l	l	.
+Resource	Attribute	Safe Change
+========	=========	===========
+group	"\fBmeetingTimes\fR"	Reduce
+location	"\fBcapacity\fR"	Increase
+location	"\fBfacilities\fR"	Increase
+teacher	"\fBservice\fR"	Expand
+teacher	\fIcourse\fR/"\fBsynchronisationId\fR"	Remove
+teacher	\fIcourse\fR/"\fBmaximumClassSize\fR"	Increase or remove
+teacher	\fIcourse\fR/"\fBminimumConsecutiveLessons\fR"	Reduce
+teacher	\fIcourse\fR/"\fBrequiredFacilities\fR"	Reduce
+teacher	\fIcourse\fR/"\fBtimeslotRequest\fR"/"\fBideally\fR"	Any
+teacher	"\fBfreePeriodPreference\fR"	Any
+teacher	"\fBgroupMembership\fR"	Reduce
+teacher	"\fBspecialtyTopic\fR"	Any
+teacher	"\fBmaximumTeachingRatio\fR"	Increase
+student-body	"\fBfreePeriodPreference\fR"	Any
+student-body	"\fBgroupMembership\fR"	Reduce
+student-body	"\fBknowledgeRequirements\fR"	Migrate a \fIsubject\fR between "\fBcore\fR" & "\fBoptional\fR" sections
+student-body	"\fBstudentId\fR"s	Reduce
+student-body	"\fBteachingRatio\fR"	Increase, with compensatory increase in "\fBknowledgeRequirements\fR"
+	"\fBavailability\fR"	Increase
+.TE
+.TP
+.B evolutionStrategies
+The mutation of each candidate timetable involves partial depletion followed by reconstruction.
+The reconstruction phase can (for any \fIevolution-strategy\fR) be performed by the application using either of two constructors;
+.TS
+l	l	.
+\fIdeterministicConstructor\fR	which uses the \fIlesson-criteria\fR in an attempt to select the best \fIlesson\fR to place in each \fItime-slot\fR.
+\fIrandomConstructor\fR	which merely selects a \fIlesson\fR randomly, from those which are viable.
+.TE
+.sp 1
+The former is far more effective, but the optimum timetable might only be reached by means of some sub-optimal \fIlesson\fR-selections,
+which can only be taken by the "\fIrandomConstructor\fR".
+.br
+One can define the \fIfecundity\fR (i.e. how large a population of candidate solutions to breed) depending on which constructor is used,
+for each of the \fIdepletion-strategies\fR (defined in section-1 of the man-pages).
+.sp 1
+.nf
+.B synchronisedCourseByDayMutation
+.B synchronisedCourseMutation
+.B excessRunlengthMutation
+.B homogeneousStudentViewLessonMutation
+.B incompleteCourseMutation
+.B randomLessonMutation
+.B singletonStudentClassMutation
+.B splitSessionMutation
+.B studentBodyCombinationMutation
+.B studentViewTimetableForDayMutation
+.B studentViewTimetableForWeekMutation
+.B synchronousLessonMutation
+.fi
+.sp 1
+CAVEAT: the default \fIfecundity\fR of \fB0\fR, deactivates the corresponding \fIevolution-strategy\fR.
+.sp 1
+N.B.: some of these \fIdepletion-strategies\fR will be irrelevant in the context of a given problem; e.g. "\fBsynchronisedCourseMutation\fR" where no \fIsynchronised courses\fR have been defined;
+but under these circumstances, the irrelevant \fIdepletion-strategy\fR takes a negligible time,
+so there's little to be gained from manually zeroing the \fIfecundity\fR of each of the corresponding constructors.
+.sp 1
+\fBrandomLessonMutationNTrials\fR [\fB256\fR]
+.br
+The number of random trials to use in "\fBrandomLessonMutation\fR".
+.sp 1
+\fBrandomLessonMutationNTimeslots\fR [\fB3\fR]
+.br
+The number of \fIlesson\fRs to un-book in each random trial during "\fBrandomLessonMutation\fR".
+.sp 1
+\fBstudentViewTimetableForDayMutationNDays\fR [\fIall\fR]
+.br
+The number of \fIday\fRs to un-book in "\fBstudentViewTimetableForDayMutation\fR".
+If unspecified, then all valid values will be tried.
+.sp 1
+\fBstudentViewTimetableForWeekMutationNTrials\fR [\fB16\fR]
+.br
+The number of random trials to use in "\fBstudentViewTimetableForWeekMutation\fR".
+.sp 1
+\fBstudentViewTimetableForWeekMutationNTimeslots\fR [\fB4\fR]
+.br
+The number of \fIlesson\fRs to un-book in each random trial during "\fBstudentViewTimetableForWeekMutation\fR".
+.sp 1
+\fBfecundityDecayRatio\fR [\fB0.5\fR]
+.br
+The factor (in the closed unit-interval \fB[0,1]\fR) by which the \fIfecundity\fR of the breeding-program for future generations, is multiplied (& therefore exponentially reduced),
+when the \fIpopulation-diversity ratio\fR falls beneath "\fBminimumPopulationDiversityRatio\fR".
+.sp 1
+Each generation of the evolution of the timetable, involves breeding a population of candidate solutions (of size \fIfecundity\fR),
+then sparking multiple threads, to evaluate the fitness of each.
+This scales well on a multi-core machine, but if too many candidates are generated, inefficiency begins to creep in (even if CPU-cores are available to support them);
+either because more superior solutions are found, than are selected as parents for a subsequent generation;
+or because some mutations are identical, resulting in duplication of effort.
+Consequently, the initial \fIfecundity\fR is reduced by a feedback-loop, which monitors the \fIpopulation-diversity ratio\fR of the candidates,
+& should it be observed to fall beneath a critical threshold,
+the \fIfecundity\fR of the breeding-program for future generations, is decreased by the specified factor.
+.sp 1
+\fBminimumPopulationDiversityRatio\fR [\fB0.5\fR]
+.br
+The \fIpopulation-diversity ratio\fR (in the closed unit-interval \fB[0,1]\fR), beneath which a reduction in the \fIfecundity\fR of the breeding-program for future generations,
+by a factor of "\fBfecundityDecayRatio\fR", is triggered.
+.sp 1
+\fBnInitialScouts\fR [\fB1\fR]
+.br
+Each generation of the evolution of the timetable, involves breeding a population of candidate solutions,
+from which the best (even when less fit than their parent) few are selected.
+Each selected scout is used independently to seed the breeding of a sub-generation of candidates from which one fewer scouts are then selected.
+The resulting family-tree, sprouts fewer branches with each successive generation, & so eventually withers.
+The best from all the scouts (nodes) in this family-tree, is then compared with the fitness of the original parent;
+& is either found to be fitter, & consequently used to re-start this process (i.e. this paragraph),
+or is found to be less fit, & the evolutionary process is terminated.
+.TS
+lb	lb	lb	lb	lb
+lb	lb	lb
+lb	lb
+l	l	l	l	l
+r	r	r	r	l	.
+nInitialScouts	Inferior	Breeding-	Total Scouts	Behaviour
+	Generations	sessions
+	Tolerated
+==============	===========	===============	=================	=========
+0	0	?	?	A variable number of scouts is used. Each candidate comparing equal best, & better than their parent, is selected. This results in monotonically increasing fitness (equivalent to a hill-climbing algorithm), & might result in a very wide search, but is typically effective.
+1	0	1	1	Only the best child is selected from the single breeding-session & compared with the parent; no inferior candidates can propagate to subsequent generations. This results in monotonically increasing fitness (equivalent to a hill-climbing algorithm), & has the disadvantage that it can become trapped in a local maximum solution; actually such traps can still be escaped if the \fIvariation operation\fRs (i.e. mutations) permit large enough steps across the solution-space.
+2	1	3	4	The best two scouts are selected from the breeding-session in the first generation; & from each independently bred second generation, the single best scout is selected. This differs conceptually in that one generation of inferior children is tolerated; though to be successful, @ least one of the four scouts (two children & two grandchildren), must be fitter than the original parent.
+3	2	10	15	The best three scouts are selected from the breeding-session in the first generation; & from each independently bred second generation, the best two scouts are selected; & from each independently bred third generation, the single best scout is selected. Two inferior generations are tolerated; though to be successful, @ least one of the fifteen scouts (three children, six grandchildren & six great-grandchildren), must be fitter than the original parent.
+n	n-1	X(n)=1+n*X(n-1)	Y(n)=n*[1+Y(n-1)]	Execution-time is approximately proportional to (X(n) / n), which is approximately (n - 1)\fB!\fR. Though the best scout is never worse than that found from fewer initial scouts, the improvement doesn't typically justify the additional effort; except that it makes the evolutionary process less prone to premature termination than when using a smaller number of scouts, where there's a greater chance that none are better than their parent. Such levels result in a wider search of the solution-space, & may be employed in desperation when tackling timetable-problems which have resisted one's initial solution-attempt; one can see an example of this in section-1 of the manual pages for this product.
+.TE
+.TP
+.B lessonCriteriaWeights
+When constructing a timetable the solution-algorithm determines the set of all possible \fIlesson\fRs, which may be booked @ a specific \fItime-slot\fR,
+then selects the best according to the weighted mean of various criteria.
+One can vary each fractional weight within the closed unit-interval \fB[0,1]\fR, which @ the lower bound disables the associated criterion.
+.br
+These criteria are merely an ad-hoc heuristic, used to construct a viable timetable;
+after construction, timetables may be compared for fitness using "\fBtimetableCriteriaWeights\fR".
+.br
+This optional XML-element contains the fractional weights (each defaulting to \fB0\fR) applied to the respective values of these criteria.
+.br
+CAVEAT: this is rather esoteric & it is probably best merely to copy the criteria-weights, from the most appropriate of the packaged examples.
+One can use "\fBoptimiseLessonCriteriaWeights\fR", to improve the specified weights, but this typically takes more time than it saves.
+.TS
+lb
+l
+lb	l	.
+Criterion-weight
+================
+areResourcesReused	A \fIlesson\fR is preferred, if the required \fIresource\fRs (\fIlocation\fRs & \fIteacher\fRs) are shared with other \fIstudent-bodies\fR, by temporarily merging them into a single larger \fIstudent-class\fR.
+greatestMinimumConsecutiveLessons	A \fIlesson\fR is preferred, if the \fIcourse\fR's "\fBminimumConsecutiveLessons\fR" is larger, since this makes it harder to book later, into the smaller spaces remaining.
+greatestRemainingCourseLessons	A \fIcourse\fR is preferred, if it has greater un-booked \fIlesson\fRs, since a \fIcourse\fR requiring only one \fIlesson\fR can be booked on any \fIday\fR.
+greatestSynchronisedCourseSetSize	A \fIcourse\fR is preferred, if it is a member of a larger set of \fIsynchronised courses\fR; it seems prudent to book the most constrained \fIcourse\fR's \fIlesson\fRs, early.
+isCoreKnowledgeRequirement	A \fIsubject\fR is preferred, if it is categorised by the \fIstudent\fR, as a "\fBcore\fR" \fIknowledge-requirement\fR.
+isSpecialistInTopic	A \fIteacher\fR is preferred, if their "\fBspecialtyTopic\fR" matches the proposed "\fBtopic\fR".
+matchCourseClassSizeToLocationCapacity	A \fIlocation\fR is preferred, the closer its "\fBcapacity\fR" matches the \fIcourse\fR's optional "\fBmaximumClassSize\fR"; provided it's sufficient.
+maximiseRelativeFacilityUtilisation	A \fIlocation\fR is preferred, the more its "\fIfacilities\fR" are used; cf. "\fBminimiseWasteOfScarceFacilities\fR", which tries to make a distinction based on the type of the wasted \fIfacility\fR.
+maximiseStudentClassSizeOverCourseClassSize	A \fIcourse\fR is preferred, the more its "\fBmaximumClassSize\fR" is filled by the proposed \fIstudent-class\fR.
+maximiseStudentClassSizeOverLocationCapacity	A \fIlocation\fR is preferred, the more its "\fBcapacity\fR" is filled by the proposed \fIstudent-class\fR.
+minimiseBookingAtAnotherCoursesSpecifiedTime	A booking-\fItime\fR is preferred, if there's minimal probability that \fIcourse\fRs for the \fIstudent-body\fR's other \fIknowledge-requirements\fR, will require that \fItime\fR according to "\fBtimeslotRequest\fR/\fBspecifically\fR"; the probability becomes a certainty for those \fIknowledge-requirement\fRs which can only be satisfied by one \fIcourse\fR.
+minimiseBookingOfLocationByOtherTeachers	A \fIlocation\fR is preferred, when booked by the fewest other \fIteacher\fRs.
+minimiseDeviationFromTimeslotRequest	A \fIcourse\fR is preferred, if it is booked closer to any "\fBtimeslotRequest\fR".
+minimiseInterCampusMigrationsOfStudents	A \fIcourse\fR is preferred, if inter-\fBcampus\fR migrations of \fIstudent\fRs are minimised.
+minimiseInterCampusMigrationsOfTeachers	A \fIcourse\fR is preferred, if inter-\fBcampus\fR migrations of \fIteacher\fRs are minimised.
+minimiseStudentBodyCombinations	A \fIlesson\fR is preferred, when the number of \fIstudent-body combination\fRs is minimised.
+minimiseTeachersLocusOperandi	A \fIlocation\fR is preferred, if the size of \fIteacher\fR's locus-operandi is minimised; based merely on the number of distinct \fIlocation\fRs booked, rather than the distance between them.
+minimiseWasteOfScarceFacilities	A \fIlesson\fR is preferred, if the \fIlocation\fR's unused "\fIfacilities\fR", are commonly available elsewhere; cf. "\fBmaximiseRelativeFacilityUtilisation\fR", which treats all \fIfacilities\fR equally.
+.TE
+.TP
+.B optimiseLessonCriteriaWeights
+This XML-element governs the repeated random mutation of the specified \fIlesson-criteria\fR weights,
+to maximise the weighted mean over the values of heterogeneous \fItimetable-criteria\fR, when evaluating the \fIinitial deterministic timetable\fR.
+.br
+No change is made to \fIlesson-criteria\fR weights which were originally set to zero.
+If "\fBtraversalOrder\fR" has been specified, then the optimisation will be performed on the specified subset of rasters.
+The resulting weights could be copied to other similar problems, where they may be reasonable initial values.
+.br
+This optional procedure can only work when it is possible to improve the resulting solution by changing the \fIlesson-criteria\fR weights;
+if the solution-space is too small to allow the weights of \fIlesson-criteria\fR to drive the solution to a better place, then this process will merely take a long time.
+It's also necessary that the weights of \fItimetable-criteria\fR are well chosen, otherwise the weights of \fIlesson-criteria\fR will evolve towards the wrong target.
+The basis for this optimisation-process is rather flimsy.
+.TS
+lb	lb	lb
+l	l	l
+lb	l	l	.
+Attribute	Default	Explanation
+=========	=======	===========
+nTrials	0	The number of random trials to use when attempting to improve the specified \fIlesson-criteria weights\fR.
+changeMagnitude	1	This positive number governs the size of the random change applied independently to each \fIlesson-criterion weight\fR. The chosen value permits an increase or decrease by a factor of up to \fB1 + x\fR in the weight of a \fIlesson-criterion\fR.
+reductionFactor	0.9	The factor in the closed unit-interval, by which "\fBchangeMagnitude\fR" is multiplied after each success.
+useMeanOverRasterScans	False	Whether to accept a proposed set of \fIlesson-criteria weights\fR on the basis of the mean (as opposed to the maximum) over the specified raster-scans, of the weighted mean over all heterogeneous timetable-criteria. Use of the mean over the raster-scans reduces the chance that weighted mean over heterogeneous \fItimetable-criteria\fR for the initial deterministic timetable was a freak result, & as such an inappropriate set of \fIlesson-criteria weights\fR with which to attempt to evolve the solution. Use of the maximum over the raster-scans will result in a good initial deterministic timetable, but it may not perform well during the subsequent evolution.
+.TE
+.TP
+\fBpermitTemporaryStudentBodyMerger\fR [\fBTrue\fR]
+The configured \fIstudent-bodies\fR may be small, & can therefore be automatically merged into larger \fIstudent-class\fRes,
+to more efficiently use the \fIservice\fRs offered by the available \fIteacher\fRs.
+Such transient mergers persist only for the tuition of a specific \fIcourse\fR,
+& those \fIstudent-bodies\fR may be merged differently or not @ all, during the tuition of another \fIcourse\fR.
+.br
+Certain incompatible \fIlesson-criteria\fR weights are zeroed depending on the value of this option;
+.br
+if "\fBTrue\fR", then the size of the \fIstudent-class\fR may grow, so "\fBmaximiseStudentClassSizeOverCourseClassSize\fR" & "\fBmaximiseStudentClassSizeOverLocationCapacity\fR" are invalid;
+.br
+if "\fBFalse\fR", then "\fBminimiseStudentBodyCombinations\fR" & "\fBareResourcesReused\fR" are irrelevant.
+.br \" Student-body Combinations
+When the constraints imposed by "\fBproblemParameters\fR" are tight, it may be necessary for the \fIlesson\fRs of a single \fIcourse\fR,
+to be composed from different combinations of \fIstudent-bodies\fR; e.g. \fIstudent-body\fR \fBA\fR may combine with \fIstudent-body\fR \fBB\fR,
+to form a \fIstudent-class\fR to study a specific \fIsubject\fR on one \fIday\fR, but may also combine with \fIstudent-body\fR \fBC\fR to form a different class,
+to study the same \fIsubject\fR on another \fIday\fR.
+Whilst clearly undesirable, this scenario may be better than one \fIstudent-body\fR not learning that \fIsubject\fR due to lack of \fIresource\fRs.
+See the \fIlesson-criterion\fR "\fBminimiseStudentBodyCombinations\fR".
+.br
+This boolean switch allows such temporary mergers to occur.
+.TP
+\fBreduceStudentBodyRegister\fR [\fBTrue\fR]
+The efficiency of the application is partially dependent on the number of \fIstudent-bodies\fR.
+When the similarity in the requirements of the member-\fIstudent\fRs is driven by some common external process (e.g. a rigid curriculum involving limited \fIsubject\fR-choice),
+one would typically model that by manually partitioning them into \fIstudent-bodies\fR during configuration.
+If after configuration, the requirements of some \fIstudent-bodies\fR are coincidentally identical,
+then this boolean switch enables their automatic discovery, & merges them to increase the efficiency of the application.
+.br
+These \fIstudent-bodies\fR, once composed, persist for the duration of this problem, & will be booked into the timetable as an atomic unit.
+If as a result, the class-size becomes infeasibly large, then this option can be set to "\fBFalse\fR", preserving the original configuration.
+.br
+If "\fBverbosity\fR" is greater than minimum, then any such automatic mergers will be logged to \fIstandard error\fR.
+.TP
+\fBremoveRedundantCourses\fR [\fBTrue\fR]
+By automatically removing \fIcourse\fRs from any "\fBteacherProfile\fR", which aren't required by any \fIstudent\fR, one can
+improve the accuracy of the measurement of certain criteria used to evolve the timetable & expose certain anomalies regarding \fIsynchronised courses\fR.
+.br
+If "\fBverbosity\fR" is greater than minimum, then any such \fIcourse\fRs will be logged to \fIstandard error\fR.
+.TP
+\fBremovePointlessGroups\fR [\fBTrue\fR]
+Whether to remove \fIgroup\fRs from the "\fBgroupCatalogue\fR", for which zero \fImeeting\fRs have been scheduled.
+.br
+If "\fBverbosity\fR" is greater than minimum, then any such \fIgroup-id\fR will be logged to \fIstandard error\fR.
+.TP
+\fBremoveUnsubscribedGroups\fR [\fBTrue\fR]
+Whether to remove \fIgroup\fRs from the "\fBgroupCatalogue\fR", to which neither \fIstudent-bodies\fR nor \fIteacher\fRs have subscribed.
+.br
+If "\fBverbosity\fR" is greater than minimum, then any such \fIgroup-id\fRs will be logged to \fIstandard error\fR.
+.TP
+.B timetableCriteriaWeights
+The various "\fBevolutionStrategies\fR", are from any current timetable used to breed a population of alternative candidate solutions,
+from which the best according to a weighted mean over various criteria, can be selected.
+One can vary each fractional weight within the closed unit-interval \fB[0,1]\fR, which @ the lower bound disables the associated criterion.
+.br
+This optional XML-element contains the fractional weights (each defaulting to \fB0\fR) applied to the respective values of these criteria.
+.TS
+lb
+l
+lb	l	.
+Criterion-weight
+================
+maximiseComplianceWithFreePeriodPreferences	A timetable is preferred, when it complies with any "\fBfreePeriodPreference\fR" of \fIstudent-bodies\fR & \fIteacher\fRs.
+maximiseMeanRatioOfStudentClassSizeToLocationCapacity	A timetable is preferred, when the mean over all \fIbooking\fRs, of the ratio of the size of the \fIstudent-class\fR to the \fIlocation\fR's "\fBcapacity\fR", is greatest.
+maximiseMeanStudentClassSize	A timetable is preferred, when the mean size of \fIstudent-class\fRes, is greatest.
+maximiseSynchronisationOfSynchronisedCourses	A timetable is preferred, when the \fIlesson\fRs of \fIsynchronised courses\fR are consistently synchronised.
+maximiseWeightedMeanStudentBodyUtilisationRatio	A timetable is preferred, when the mean over all \fIstudent-bodies\fR, of the time currently booked to the total time in their working-week, is maximised. It doesn't distinguish between "\fBcore\fR" & "\fBoptional\fR" \fIknowledge-requirements\fR like "\fBminimiseMeanRatioOfIncompletelyBookedCoreKnowledge\fR" & "\fBminimiseMeanRatioOfIncompletelyBookedOptionalKnowledge\fR", but it does value partially booked \fIcourse\fRs.
+minimiseAverageAbsoluteDeviationFromIdealTimeslotRequest	A timetable is preferred more, the closer \fIlesson\fRs are booked to any \fIideal timeslot-request\fR for their \fIcourse\fR.
+minimiseDispersionOfStudentFreePeriodsPerDay	A timetable is preferred, when each \fIstudent-body\fR's free \fIperiod\fRs are spread evenly across their working-week.
+minimiseDispersionOfTeacherFreePeriodsPerDay	A timetable is preferred, when each \fIteacher\fR's free \fIperiod\fRs are spread evenly across their working-week.
+minimiseDispersionOfTeacherWorkload	A timetable is preferred, when the relative workload between all \fIteacher\fRs, is similar.
+minimiseMeanInterCampusMigrationsOfStudents	A timetable is preferred, when the average over all \fIstudent\fRs, of the number of inter-\fBcampus\fR migrations in a week, is minimised.
+minimiseMeanInterCampusMigrationsOfTeachers	A timetable is preferred, when the average over all \fIteacher\fRs, of the number of inter-\fBcampus\fR migrations in a week, is minimised.
+minimiseMeanLocationChangesOfTeachers	A timetable is preferred, when the average over all \fIteacher\fRs, of the number of changes in their \fIlocation\fR during the week, is minimised; cf. "\fBminimiseMeanLocusOperandiOfTeachers\fR", which merely counts the number of distinct \fIlocation\fRs used.
+minimiseMeanLocusOperandiOfTeachers	A timetable is preferred, when the average over all \fIteacher\fRs, of the size of their locus-operandi, is minimised; based merely on the number of \fIlocation\fRs, rather than the distance or the number of changes, between them.
+minimiseMeanRatioOfIncompletelyBookedCoreKnowledge	A timetable is preferred, when the average over all \fIstudent-bodies\fR, of the ratio of incompletely booked "\fBcore\fR" \fIknowledge-requirements\fR, to all requirements, is minimised. All incomplete \fIcourse\fRs are valued equally, regardless of the extent; cf. "\fBmaximiseWeightedMeanStudentBodyUtilisationRatio\fR".
+minimiseMeanRatioOfIncompletelyBookedOptionalKnowledge	A timetable is preferred, when the average over all \fIstudent-bodies\fR, of the ratio of incompletely booked "\fBoptional\fR" \fIknowledge-requirements\fR, to all requirements, is minimised. All incomplete \fIcourse\fRs are valued equally, regardless of the extent; cf. "\fBmaximiseWeightedMeanStudentBodyUtilisationRatio\fR".
+minimiseMeanStudentBodyCombinationsPerLesson	A timetable is preferred, when the average number of combinations of \fIstudent-body\fR per \fIlesson\fR-definition, is minimised; ideally a \fIstudent-body\fR always studies a \fIsubject\fR, in a class composed from the same other \fIstudent-bodies\fR.
+minimiseRatioOfConsecutiveEqualLessons	A timetable is preferred, when blocks of consecutive identical \fIlesson\fRs are booked, whose length least exceeds the \fIcourse\fR's "\fBminimumConsecutiveLessons\fR".
+minimiseRatioOfSeparatedEqualLessonsWithinAnyDay	A timetable is preferred, when the \fIlesson\fRs of any \fIcourse\fR, are on any \fIday\fR, booked in one contiguous session.
+.TE
+.sp 1c
+.br
+The evolution-algorithm uses the weighted mean of these criteria, to select from candidate timetables, in a search for the optimum.
+This raises the question of whether it's valid to compare the observed value of criteria which represent utterly different concepts;
+how can a criterion which has the dimensions of time, meaningfully be included in a weighted mean with another criterion which has dimensions of length ?
+To make these criteria comparable, they're all represented as dimensionless quantities, mapped into the closed unit-interval \fB[0,1]\fR;
+e.g. by dividing by their maximum theoretical value.
+This should reduce the question of what weight to apply to each, to the simple question of their relative significance to the user, in the context of the current problem;
+the most important could be set to \fB1\fR, & the others proportionately less.
+.br
+Regrettably this seldom results in the desired outcome, because within a typical population of candidate solutions,
+the observed value of some criteria may range across the entire unit-interval, while the observed value of others may be constrained to a minuscule portion.
+Consequently, within the domain of this population of candidates, relatively large gains are possible for some criteria,
+typically @ the expense of others, irrespective of the user-defined significance of the corresponding concepts.
+The same parasitic effect may also result between criteria, even when the values typically found in the candidate population, range across spans of similar length,
+but do so in different profiles, creating zones of sensitivity to the underlying concept they measure.
+Whilst one may compensate for the former effect, by adjusting the weight applied to specific criteria,
+that regrettably decouples the weight, from the user-defined significance of the concept being measured;
+compensating for the latter effect would require a more complex mechanism that a single weight, & so far this hasn't been addressed.
+Some criteria may result in contrary views on the fitness of a timetable;
+e.g. "\fBminimiseRatioOfConsecutiveEqualLessons\fR" downgrades a timetable when the number of consecutive equal \fIlesson\fRs exceeds the \fIcourse\fR's "\fBminimumConsecutiveLessons\fR",
+whereas "\fBminimiseMeanLocationChangesOfTeachers\fR" prefers the lack of a change to a \fIteacher\fR's \fIlocation\fR & "\fBminimiseMeanInterCampusMigrationOfStudents\fR" prefers the lack of any requirement to migrate to another \fBcampus\fR.
+.br
+Consequently, it is probably best to start by merely copying the criteria-weights, from the most appropriate of the packaged examples.
+If some aspect of the resulting timetable isn't acceptable, set "\fBverbosity\fR" to "\fBDeafening\fR",
+to discover which criteria benefited from the evolution, & ask whether you can afford to sacrifice some of the concepts they measure.
+.TP
+\fBzeroInappropriateOptions\fR [\fBTrue\fR]
+If this boolean flag is \fBTrue\fR, then the weights of various \fIlesson-criteria\fR & \fItimetable-criteria\fR, & the \fIfecundities\fR of various \fIevolution-strategies\fR,
+which are either unsuitable for or inappropriate to, the specified problem-parameters, will automatically be zeroed.
+.SS outputOptions
+This is an XML-element containing the following XML-tags.
+.TP
+.B fileFormats
+An XML-element, containing a repeatable XML-element "\fBfileFormat\fR",
+each of which is qualified by an XML-attribute named "\fBfilePath\fR" (a value of "\fB-\fR" will be interpreted as \fIstandard output\fR), & contains an XML-element named either;
+"\fBXHTML\fR", which contains an optional XML-element "\fBstyle\fR";
+or "\fBxml\fR", which contains an optional XML-attribute "\fBview\fR".
+.br
+Mmm, it might be easier to comprehend if you look @ the DTD & one of the examples.
+.br
+"\fBstyle\fR" in turn contains the following XML-tags, which relate purely to the XHTML-output (rather than to any xml-output).
+.TS
+l	l	.
+\fBdisplayViews\fR [\fB[LocationView,StudentView,TeacherView]\fR]	An XML-element containing a list of XML-elements each called "\fBperspective\fR", each of which contains a single XML-attribute "\fBview\fR" (see below), which defines whether to display the timetable from that perspective. The three-dimensional matrix which defines a timetable, is inverted so that the axis which identifies the various \fIstudent-bodies\fR, is replaced by either one defining \fIlocation-id\fRs or one defining \fIteacher-id\fRs. The remaining two axes, representing the \fIday\fR of the week & the \fItime-slot\fR within each \fIday\fR, are displayed in all views. The same data are contained in each view, it's merely re-indexed.
+\fBcssURL\fR	References the cascading style-sheet defining the required style. It can either be a fully qualified URL or a path into the local file-system. This XML-attribute is optional; in its absence, the packaged CSS-file will be referenced, which though adequate to render the packaged examples, will need to be tailored to appropriately depict (via a dedicated background colour or image) new \fBtopic\fRs as they're added to the curriculum.
+\fBmergeDuplicateTimeslots\fR	Contains an XML-element called "\fBtimeAxes\fR", which defines boolean XML-attributes tagged by "\fBbyDay\fR" & "\fBbyTimeslotId\fR", defining whether adjacent identical \fItime-slot\fRs are merged. This reduces repetition, draws attention to duplicate \fIlesson\fRs, & uses the limited space efficiently. This XML-element is optional; the default is "\fBTrue\fR" for both XML-attributes.
+\fBdisplayAxisLabels\fR	Contains an XML-element called "\fBtimeAxes\fR", which defines boolean XML-attributes tagged by "\fBbyDay\fR" & "\fBbyTimeslotId\fR", defining whether to label the axes of the output timetable. This XML-element is optional; the default is "\fBTrue\fR" for both XML-attributes.
+\fBdisplayRuntimeLog\fR [\fBFalse\fR]	This boolean XML-attribute defines whether to display the runtime-log.
+\fBdisplaySupplementaryInformation\fR [\fBTrue\fR]	This boolean XML-attribute defines whether additionally to display statistics, & summarise deviations between the solution & the configured requirements.
+\fBweekend\fR [\fB["Saturday", "Sunday"]\fR]	An XML-element containing those \fIday\fRs which constitute the weekend, & which are rendered differently.
+\fBgenerateLessonColourFrom\fR	An optional XML-attribute, which specifies a data-source (one of "\fBLesson\fR", "\fBSubject\fR", "\fBTopic\fR", "\fBLevel\fR" or "\fBResourceIds\fR"), from which to automatically generate an HTML-colour for the \fIlesson\fR when ultimately displayed. In the absence of any specification, the colour may be defined by the CSS-file specified via "\fBcssURL\fR".
+\fBminimumContrastRatio\fR [\fB1/16\fR]	An optional XML-attribute, which defines the minimum acceptable contrast-ratio between the foreground lesson-colour generated according to "\fBgenerateLessonColourFrom\fR" and the complementary background-colour.
+.TE
+.sp 1
+"\fBview\fR" has a value of; "\fBLocationView\fR", "\fBStudentView\fR", or "\fBTeacherView\fR"; depending on which view of the resulting timetable to export.
+The precise format of the XML, is formally described by the corresponding packaged file; "\fBdtd/locationViewTimetable.dtd\fR", "\fBdtd/studentViewTimetable.dtd\fR", or "\fBdtd/teacherViewTimetable.dtd\fR".
+.TP
+.B outputConfigFilePath
+An optional path to a file, into which the unprocessed configuration, still formatted as XML, should be written (overwriting any existing contents);
+this can be useful to confirm that the specified input configuration has been interpreted correctly.
+An accidentally miss-spelled XML-tag can only slip through the application's validation, if the \fBDOCTYPE\fR-declaration (which references "\fBdtd/weekdaze.dtd\fR") is removed from the top of the configuration-file.
+.br
+CAVEAT: the configuration written, deliberately doesn't include any command-line options (even though they may override the configuration);
+a feature which is exploited to avoid writing the argument of the command-line option "\fB--outputConfigFilePath\fR",
+which would otherwise create a self-overwriting configuration-file.
+.TP
+\fBnDecimalDigits\fR [\fB3\fR]
+Defines the integral precision to which auxiliary floating-point data (see "\fBverbosity\fR") are logged;
+it has no effect on the precision of the calculations performed by the application.
+.TP
+\fBstudentBodyMnemonicSeparator\fR [\fB" / "\fR]
+Defines a string to be used as a separator when automatically joining the "\fBmnemonic\fR"s of \fIstudent-bodies\fR with identical "\fBstudentProfile\fR"s; this is only relevant when "\fBreduceStudentBodyRegister\fR" is "\fBTrue\fR".
+The specified string must conform to the XML-standard for \fIcharacter-data\fR; i.e. it can't contain either '\fB&\fR' or '\fB<\fR'.
+.TP
+\fBverbosity\fR [\fBNormal\fR]
+A string which defines the quantity of ancillary information which is logged to \fIstandard error\fR.
+.TS
+lb	lb
+l	l
+lb	l	.
+Level	Output
+=====	======
+Silent	The lack of output might leave the user wondering whether anything is actually happening; it is, though it can take a long time.
+Normal	The default-level. Delivers a progress-report on the reading, parsing & validation of the XML-configuration & any "\fBinputStudentViewTimetable\fR". Prints a "\fB.\fR" as each \fIevolution-strategy\fR is completed.
+Verbose	Provides more detail when reading xml. Reports statistics (to a precision governed by "\fBnDecimalDigits\fR") on the values of criteria as the solution evolves.
+Deafening	Enhances the statistics reported by "\fBVerbose\fR".
+.TE
+.sp 1
+The latter two levels are unlikely to be intelligible to most users,
+but allow one to adjust criteria to drive the solution in the desired direction.
+.SS problemParameters
+This is an XML-element containing the following XML-tags.
+.TP
+.B problemValidationSwitches
+A set of boolean switches governing various runtime-checks on the remainder of the problem-parameters.
+Should any of these obstruct the specification of unusual but intention requirements, they can individually be set to "\fBFalse\fR";
+the results cannot be guaranteed, but it may provide the required silver bullet.
+.br
+Each XML-attribute is optional; "\fBTrue\fR" will be inferred from any omission.
+The identifiers of these, prefix any error-message generated from the failure of the corresponding check.
+.TS
+lb	l	.
+checkAvailabilityOfAnyGroupMember	Check that @ least one member, can attend each \fImeeting\fR of a \fIgroup\fR.
+checkCapacityOfLocationsForMeetings	Check that any \fIlocation\fR, specified for the \fImeeting\fRs of a \fIgroup\fR, has adequate "\fBcapacity\fR".
+checkCoursesForSynchronousSpecifiedTimes	Check that no \fIcourse\fRs, required to satisfy a \fIstudent\fR's \fIknowledge-requirement\fRs, specify the same \fIbooking-time\fR.
+checkDuplicateMeetingLocationIds	Check that when more than one \fIgroup\fR requires the same \fIlocation\fR, that their \fImeeting-time\fRs are mutually exclusive.
+checkDuplicateOwnLocationIds	Check that when more than one \fIteacher\fR claims a single \fIlocation\fR as their own, that their \fIworking-week\fRs are mutually exclusive.
+checkForAlternativesToSynchronisedCourses	Ensure that \fIstudent\fRs can migrate easily between \fIsynchronised courses\fR, by prohibiting any \fIteacher\fR from offering an alternative \fIcourse\fR outside the set of \fIsynchronised courses\fR, but with an identical \fIsubject\fR to one of the member-\fIcourse\fRs.
+checkForDuplicateStudentIds	Check that no "\fBstudentId\fR" has been defined in more than one \fIstudent-body\fR.
+checkForIdleStudents	Check for \fIstudent-bodies\fR who require zero \fIsubject\fRs, but have allocated one or more \fItime-slot\fRs for teaching.
+checkForIdleTeachers	Check for \fIteacher\fRs who offer zero \fIcourse\fRs, but have allocated one or more \fItime-slot\fRs for teaching.
+checkForInvalidMeetingTimes	Check that all the \fItimeslot-id\fRs, used to define the \fImeeting-time\fRs of \fIgroup\fRs, are within permissible bounds.
+checkForMultipleCoursesPerTeacherPerSynchronisationId	Check that no \fIteacher\fR offers more than one \fIcourse\fR with the same "\fBsynchronisationId\fR".
+checkForNonExistentFacilities	Check for the existence in @ least one "\fBlocationProfile\fR", of all the "\fBrequiredFacilities\fR" for each \fIcourse\fR.
+checkForNonExistentGroupIds	Check the existence of all "\fBgroupId\fR"s, referenced by \fIstudent-bodies\fR or \fIteacher\fRs.
+checkForNonExistentMeetingLocationIds	Check the existence of all "\fBlocationId\fR"s, required for the \fImeeting\fRs of \fIgroup\fRs.
+checkForNonExistentOwnLocationIds	Check the existence of all personal "\fBlocationId\fR"s, claimed by \fIteacher\fRs.
+checkForOverloadedStudents	Check for \fIstudent-bodies\fR who have allocated zero \fItime-slot\fRs for teaching, but have requested one or more \fIsubject\fRs.
+checkForSingletonSynchronisedCourses	Check for \fIteacher\fRs offering a \fIcourse\fR which is a singleton set of \fIsynchronised courses\fR.
+checkForStudentsRequiringMultipleSynchronisedSubjects	Check for any \fIstudent-body\fR requiring more than one \fIsubject\fR from any one set of \fIsynchronised courses\fR.
+checkForStudentsWithUnrealisableFreePeriodPreference	Check for any \fIstudent\fR whose "\fBfreePeriodPreference\fR", can never be realised because of the \fImeeting-time\fRs of \fIgroup\fRs of which they're members.
+checkForSynchronisedCoursesWithDifferentIdealTimeslots	Check that \fIsynchronised courses\fR don't define "\fBtimeslotRequest\fR"s with different \fIideal timeslot-id\fRs.
+checkForSynchronisedCoursesWithDifferentLessonsPerWeek	Check that \fIsynchronised courses\fR don't define different "\fBrequiredLessonsPerWeek\fR".
+checkForSynchronisedCoursesWithExcessLessonsPerWeek	Check that \fIsynchronised courses\fR don't define a greater "\fBrequiredLessonsPerWeek\fR", than the number of \fItime-slot\fRs when all the interested \fIstudent-bodies\fR & required \fIteacher\fRs are simultaneously \fIavailable\fR.
+checkForSynchronisedCoursesWithExcessSpecifiedTimes	Check that \fIsynchronised courses\fR don't have fewer "\fBrequiredLessonsPerWeek\fR" than the number of \fIbooking-time\fRs specified by the union of their "\fBtimeslotRequest\fR"s.
+checkForSynchronisedCoursesWithExcessTimeslotRequests	Check that \fIsynchronised courses\fR don't specify via "\fBtimeslotRequest\fR"s, both \fIideal timeslot-id\fRs & precise \fIbooking-time\fRs; these are intended to be alternatives.
+checkForSynchronisedCoursesWithoutSuitableLocations	Check for \fIsynchronised courses\fR which lack sufficient \fIlocation\fRs offering the "\fBrequiredFacilities\fR", which are simultaneously \fIavailable\fR to the \fIteacher\fRs & all interested \fIstudent-bodies\fR.
+checkForSynchronisedCoursesWithUnavailableSpecifiedDays	Check for \fIsynchronised courses\fR which specify \fItime\fRs, on \fIday\fRs when not all the interested \fIstudent-bodies\fR & required \fIteacher\fRs, are \fIavailable\fR.
+checkForTeachersWithUnrealisableFreePeriodPreference	Check for any \fIteacher\fR whose "\fBfreePeriodPreference\fR", can never be realised because of the \fImeeting-time\fRs of \fIgroup\fRs of which they're members.
+checkIfStudentBodiesExceedTeachers	Check that there are sufficient \fIteacher\fRs, for the number of \fIstudent-bodies\fR, \fIavailable\fR on each \fIday\fR.
+checkIfStudentBodySizeExceedsCapacityOfAllLocations	Check whether each \fIstudent-body\fR can be accommodated within the largest \fIavailable\fR \fIlocation\fR.
+checkIfStudentBodySizeExceedsLocationCapacity	Check whether all \fIstudent-bodies\fR can be accommodated within the \fIlocation\fRs, \fIavailable\fR on each \fIday\fR.
+checkIndependenceOfStudentTimeslotsRequestsAndMeetings	Check that \fIstudent-bodies\fR are members of \fIgroup\fRs which specify meeting-times (even those which don't mandate attendance), which match any of the specified booking-times of \fIcourse\fRs they must attend.
+checkIndependenceOfTeacherTimeslotsRequestsAndMeetings	Check that \fIteachers\fR are members of \fIgroup\fRs which specify meeting-times (even those which don't mandate attendance), which match any of the specified booking-times of \fIcourse\fRs they must attend.
+checkLocationsAvailabilityToSupportCourses	Check that there are sufficient \fIlocation\fRs, simultaneously available to at least one \fIstudent-body\fR & at least one \fIteacher\fR, to support the total number of \fItime-slot\fRs required for the \fIcourse\fRs offered by all \fIteacher\fRs.
+checkLocationsForSynchronousSpecifiedTimes	Check there are enough \fIlocation\fRs in which to book \fIlesson\fRs of \fIcourse\fRs offered by different \fIteacher\fRs, which specify the same booking-time.
+checkMeetingLocationsAvailability	Check that any \fIlocation\fR required for a \fIgroup\fR, is \fIavailable\fR @ all \fImeeting-time\fRs.
+checkMinimumConsecutiveLessons	Check that a \fIcourse\fR's "\fBminimumConsecutiveLessons\fR" doesn't exceed the number of \fItime-slot\fRs per \fIday\fR.
+checkNullGroupId	Check for null identifiers in the "\fBgroupCatalogue\fR".
+checkNullLocationCatalogue	Check whether the "\fBlocationCatalogue\fR" is empty.
+checkNullStudentBodyRegister	Check whether the "\fBstudentBodyRegister\fR" is empty.
+checkNullTeacherRegister	Check whether the "\fBteacherRegister\fR" is empty.
+checkOwnLocationsAvailability	Check for \fIteacher\fRs who've got their own \fIlocation\fR, that it's simultaneously \fIavailable\fR on @ least one \fIday\fR.
+checkRequiredLessonsPerWeek	Check that no \fIcourse\fR is offered, which requires more \fIlesson\fRs per week, than the \fIteacher\fR works.
+checkSimultaneousAvailabilityOfGroupMembers	Check that all the members of each \fIgroup\fR which both meets & mandates attendance, are simultaneously \fIavailable\fR.
+checkStudentsAvailabilityForMandatoryMeetings	Check that \fIstudent\fRs are \fIavailable\fR for the \fImeeting-time\fRs of the \fIgroup\fRs of which they're members.
+checkStudentsAvailabilityForSpecifiedTimes	Check that no \fIcourse\fR, required to satisfy a \fIstudent\fR's \fIknowledge-requirement\fRs, specifies a \fItime\fR, on a \fIday\fR when they're un\fIavailable\fR.
+checkStudentsForMultipleLevelsOfSameTopic	Check that the \fIknowledge-requirement\fRs of each \fIstudent-body\fR, don't specify more than one \fBlevel\fR in any \fBtopic\fR.
+checkStudentsForSynchronousMeetings	Check that \fIstudent\fRs aren't members of \fIgroup\fRs with synchronous \fImeeting-time\fRs.
+checkStudentsLowerWorkloadBound	Check that \fIstudent\fRs request sufficient \fIsubject\fRs to fill their working-week to the required extent.
+checkStudentsUpperWorkloadBound	Check that \fIstudent\fRs don't request more \fIsubject\fRs than can be booked in their working-week.
+checkSubjectExistence	Check that all \fIsubject\fRs requested by \fIstudent\fRs, are included in the \fIservice\fRs offered by \fIteacher\fRs.
+checkSuitableLocationsForKnowledgeRequirements	Check that there are suitable \fIlocation\fRs for each \fIknowledge-requirement\fR of each \fIstudent-body\fR.
+checkTeachersAvailabilityForMandatoryMeetings	Check that \fIteacher\fRs are \fIavailable\fR for the \fImeeting-time\fRs of the \fIgroup\fRs of which they're members.
+checkTeachersForSynchronousMeetings	Check that \fIteacher\fRs aren't members of \fIgroup\fRs with synchronous \fImeeting-time\fRs.
+checkTeachersUpperWorkloadBound	Check that \fIteacher\fRs don't commit to more \fImeeting\fRs than they've time to attend.
+checkTeachingCapacityBySubject	Check that there's sufficient teaching-capacity, to satisfy the demand by \fIstudent\fRs for each \fIsubject\fR. CAVEAT: This check is very lax. To maximise the efficiency with which \fIteacher\fRs are used, it is typically assumed that any \fIstudent-body\fR which can be temporarily merged into a \fIstudent-class\fR, (see "\fBpermitTemporaryStudentBodyMerger\fR"); no subsequent account is taken of whether both \fIteacher\fRs & \fIlocation\fRs, can cope with the size of the resulting \fIstudent-class\fR. Additionally, an error is raised only when the demand for a \fIsubject\fR exceeds the total supply, without any account of whether some of the \fIteacher\fRs, are simultaneously required to support the other \fIcourse\fRs in their \fIservice\fR.
+checkTimeslotIdBounds	Check the range of \fItimeslot-id\fRs defined, is sufficient.
+checkTimeslotRequests	Check that all "\fBtimeslotRequest\fR"s reference either a valid \fItimeslot-id\fR or valid \fItime\fRs.
+.TE
+.TP
+.B timetableValidationSwitches
+A set of boolean switches governing various checks used to validate an imported \fIstudent-view timetable\fR.
+Should any of these obstruct the specification of unusual but intention initial state, they can individually be set to "\fBFalse\fR";
+though under these circumstances the stability of the application cannot be guaranteed.
+.br
+Each one is optional; "\fBTrue\fR" will be inferred from any omission.
+The identifiers of these, prefix any error-message generated from the failure of the corresponding check.
+.TS
+lb	l	.
+checkBookedSubjectsAreRequired	Check that all \fIsubject\fRs for which there's a \fIbooking\fR, are required by the \fIstudent-body\fR.
+checkBookedSubjectsHaveService	Check that all \fIsubject\fRs for which there's a booking, have been offered as a \fIcourse\fR, by the referenced \fIteacher\fR.
+checkSynchronisedCourses	Check that all the \fIteacher\fRs of a set of \fIsynchronised courses\fR, have booked synchronous \fIlesson\fRs.
+checkExistenceOfLocationIds	Check that all "\fBlocationId\fR"s referenced in an imported \fIstudentViewTimetable\fR, exist in the "\fBlocationCatalogue\fR".
+checkExistenceOfStudentBodies	Check that all \fIstudent-bodies\fR referenced in an imported \fIstudentViewTimetable\fR, exist in the "\fBstudentBodyRegister\fR".
+checkExistenceOfTeacherIds	Check that all "\fBteacherId\fR"s referenced in an imported \fIstudentViewTimetable\fR, exist in the "\fBteacherRegister\fR".
+checkForBookingMeetingClash	Check for \fIlesson\fRs booked @ the same \fItime\fR as a \fImeeting\fR, with a common \fIresource\fR-requirement.
+checkForMisplacedLessons	Check for \fIlesson\fRs booked @ \fIlocation\fRs lacking either adequate \fIcapacity\fR or the \fIfacilities\fR for their \fIcourse\fR.
+checkForOverbookedSubjects	Check for \fIstudent-bodies\fR for whom more \fIlesson\fRs have been booked, in a specific \fIsubject\fR, than the \fIcourse\fR's "\fBrequiredLessonsPerWeek\fR".
+checkForOverloadedStudentBodies	Check for \fIstudent-bodies\fR for whom more \fIlesson\fRs have been booked, than allocated for tuition in one week.
+checkForOverloadedTeachers	Check for \fIteacher\fRs for whom more \fIlesson\fRs have been booked, than allocated for tuition in one week.
+checkForResourceConflicts	Check for \fItime\fRs when \fIresource\fRs have been allocated in more than one \fIlocation\fR.
+checkMinimumConsecutiveLessons	Check for \fIlesson\fRs which have been booked in run-lengths shorter than their \fIcourse\fR's "\fBminimumConsecutiveLessons\fR".
+checkResourceAvailability	Check that \fIresource\fRs have been booked only on \fIday\fRs when they're going to be \fIavailable\fR.
+checkTimeslotsPerDay	Check that all \fIday\fRs have the correct number of \fItime-slot\fRs.
+.TE
+.TP
+.B timeslotIdBounds
+Defines using two XML-elements, the closed interval bounding the range of integral \fItimeslot-id\fRs, @ which \fIlesson\fRs can be booked in each \fIday\fR.
+.br \" Timeslot-id.
+Because this range is defined not merely by its length, but by minimum & maximum bounds, one can arrange to start from one's preferred origin.
+.br \" Lunch-time.
+The solution-algorithm has neither awareness of the time-span between adjacent \fItime-slot\fRs, nor does it assume that these gaps are of equal duration.
+There are some undesirable consequences of this design-choice; e.g. one may not want to book swimming immediately after lunch;
+or a double \fIlesson\fR spanning lunch-time; but the gap between two \fItime-slot\fRs, in which lunch occurs, is undefined.
+Elsewhere in the configuration-file; one can arrange either to avoid this problem completely,
+by defining "lunch" as a \fIgroup\fR, of which all people are members,
+& the \fImeeting\fRs of which are then scheduled in \fItime-slot\fRs, rather than invisibly between them;
+or one can bias the algorithm towards more desirable solutions,
+by requesting either the ideal \fItimeslot-id\fR within any \fIday\fR, @ which to book a \fIlesson\fR in a \fIcourse\fR,
+or by specifying the precise \fItime\fRs within any week, @ which some of the \fIlesson\fRs of a specific \fIcourse\fR should be booked.
+.br \" Dependencies.
+CAVEAT: the configuration for both "\fBgroupProfile\fR" & "\fBteacherProfile\fR", can reference specific \fItimeslot-id\fRs,
+& may need to be corrected after any alteration to the bounds.
+.TP
+.B locationCatalogue
+A non-null map indexed by unique alphanumeric "\fBlocationId\fR" (potentially its room-number), of "\fBlocationProfile\fR"s, in which is defined;
+its \fIavailability\fR;
+its \fIcapacity\fR to cater for \fIstudent\fRs;
+the \fIfacilities\fR it offers to support various \fIcourse\fRs.
+.TP
+.B teacherRegister
+A non-null map indexed by unique alphanumeric "\fBteacherId\fR" (potentially their name (with spaces removed) or employee-id), of "\fBteacherProfile\fR"s, in which is defined;
+their \fIavailability\fR;
+the proportion of their \fIworking-week\fR devoted to teaching;
+the \fIservice\fR they offer;
+references to the \fIgroup\fRs of which they're members.
+.TP
+.B studentBodyRegister
+A non-null map indexed by "\fBstudentBody\fR" (composed from a unique alphanumeric "\fBmnemonic\fR" & a list of mutually exclusive "\fBstudentId\fR"s), of "\fBstudentProfile\fR"s, in which is defined;
+their \fIavailability\fR;
+their "\fBstream\fR" (which can also denote their academic year);
+their \fIknowledge-requirement\fRs;
+references to the \fIgroup\fRs of which they're members.
+.br
+The \fIstudent\fRs are grouped into \fIstudent-bodies\fR, each member of which has an identical "\fBstudentProfile\fR".
+This increases the application's efficiency,
+& may, when the similarity in the requirements of members of each \fIstudent-body\fR is driven by some common external process (perhaps that they're members of the same "\fBstream\fR" in the same academic year), reduce the maintenance of the configuration.
+If the similarity is merely coincidental, they can be placed in separate \fIstudent-bodies\fR,
+& the application will, given the option "\fBreduceStudentBodyRegister=True\fR", discover ad-hoc \fIstudent-bodies\fR, to improve efficiency.
+.TP
+\fBgroupCatalogue\fR [\fB{}\fR]
+A map indexed by unique alphanumeric "\fBgroupId\fR", which may be referenced by any number of "\fBstudentProfile\fR"s & "\fBteacherProfile\fR"s, of "\fBgroupProfile\fR"s.
+Each "\fBgroupProfile\fR" defines a set of regular \fImeeting-time\fRs, which reserve coordinates in the timetable,
+blocking the subsequent booking by any member of the \fIgroup\fR, of a simultaneous \fIlesson\fR; see below.
+E.g. lunch, staff-meetings, or morning assembly.
+.SS locationProfile
+An XML-element containing the following XML-tags.
+.TP
+.B capacity
+Quantifies the ability to cater for \fIstudent\fRs, & which may correspond merely to the number of desks.
+.TP
+\fBfacilities\fR [\fB{}\fR]
+An XML-element containing strings, each representing some facility which might support the tuition of a \fIcourse\fR.
+.br
+The format of these strings is constrained only by the requirement that they're coordinated with the "\fBrequiredFacilities\fR" of a \fIcourse\fR.
+.TP
+\fBcampus\fR [\fB""\fR]
+A string used to group proximate \fIlocation\fRs, between which intraday migration is trivial.
+If the institution for which the timetable is required,
+has some \fIlocation\fRs @ its disposal which are sufficiently remote from its centre to require considerable transit time,
+then one may choose to partition them into separately named \fBcampus\fRes.
+.br
+\fILocation\fRs must still have a unique \fIlocation-id\fR irrespective of the \fBcampus\fR into which they've been partitioned.
+.br
+CAVEAT: the configuration doesn't quantify the distance (or time) between \fBcampus\fRes,
+so no attempt can be made by the application, to minimise the total daily distance travelled (or the journey-time),
+rather the total \fBcampus\fRes visited per \fIday\fR is minimised.
+.TP
+\fBavailability\fR [\fB["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]\fR]
+An XML-element containing those \fIday\fRs when the \fIlocation\fR is available for use.
+.br
+CAVEAT: there's currently no concept of a \fIlocation\fR being available for fractions of a \fIday\fR.
+.SS teacherProfile
+An XML-element containing the following XML-tags.
+.TP
+\fBservice\fR [\fB{}\fR]
+An XML-element containing the \fIcourse\fRs they can teach, each composed from of the following XML-tags.
+.TS
+lb	l	.
+subject	Defines the \fBtopic\fR-string & the \fBlevel\fR @ which it is being taught. A \fIcourse\fR's \fBlevel\fR is merely an arbitrary string. It's free-format, but may represent both the academic year & the learning-capability expected of \fIstudent\fRs before they express interest. The value must match those defined in the "\fBknowledgeRequirements\fR" of \fIstudent\fRs.
+requiredLessonsPerWeek	Defines the regular integral number of \fIlesson\fRs required per week. CAVEAT: there is no facility to vary this from week to week; should it do so, a different timetable must be generated. Typically an integral multiple of "\fBminimumConsecutiveLessons\fR".
+requiredFacilities	An XML-element defining a set of strings, which must be a subset of the "\fBfacilities\fR" offered @ any \fIlocation\fR @ which the \fIcourse\fR is ultimately booked.
+timeslotRequest	Optionally defines either the ideal \fItimeslot-id\fR within any \fIday\fR, @ which to book a \fIlesson\fR in this \fIcourse\fR (\fBideally\fR \fItimeslot-id\fR), or specifies the \fItime\fRs each week, @ which some of the \fIlesson\fRs of this \fIcourse\fR should be booked (\fBspecifically [\fR \fItime\fR, \fItime\fR ... \fB]\fR. CAVEAT: all \fIstudent-bodies\fR enrolled on this \fIcourse\fR, must form a single \fIstudent-class\fR @ the specified \fItime\fR, so either a suitably large \fIlocation\fR must be \fIavailable\fR, or another \fIteacher\fR must offer the same \fIsubject\fR). If there are no special requirements then omit this XML-element, i.e. accept the default.
+minimumConsecutiveLessons	Optionally defines the minimum integral number of consecutive \fIperiod\fRs which must be booked for this \fIcourse\fR; defaulting to \fB1\fR. This constrains the booking of \fIlesson\fRs in \fBtopic\fRs which either can't be conducted in a shorter time-span, or for which either long preparation or long clean-up makes short sessions infeasible. The specified value represents an ideal, but if "\fBrequiredLessonsPerWeek\fR" isn't an integral multiple of this value, then on @ least one occasion, "\fBminimumConsecutiveLessons\fR" must be exceeded.
+maximumClassSize	Optionally defines the maximum integral number of \fIstudent\fRs with whom the \fIteacher\fR can cope, for the tuition of this \fIcourse\fR. In the absence of this XML-attribute, the "\fBcapacity\fR" of the \fIlocation\fR in which the class is held, is the only limiting factor on \fIclass\fR-size.
+synchronisationId	Optionally identifies by means of a shared string, a set of \fIcourse\fRs offered by different \fIteacher\fRs, whose \fIlesson\fRs must be synchronised. In the absence of this XML-attribute, the \fIlesson\fRs for this \fIcourse\fR need not be synchronised with those of any other \fIcourse\fR. \fIStudent\fRs may select only one member from such sets, but may migrate to a different member without disrupting the structure of the timetable.
+.TE
+.TP
+.B locationId
+References a \fIlocation\fR which is considered to be theirs.
+.br
+Any \fIlocation\fR referenced must be separately defined in the "\fBlocationCatalogue\fR".
+.br
+This XML-attribute is optional, because the \fIteacher\fR may not have any such \fIlocation\fR.
+.TP
+.B availability
+An XML-element, containing those \fIday\fRs when the \fIteacher\fR is contracted to be available.
+.br
+CAVEAT: there's currently no concept of a \fIteacher\fR being available for fractions of a \fIday\fR.
+.TP
+.B maximumTeachingRatio
+Defines the maximum floating-point ratio in the closed unit-interval \fB[0,1]\fR, of \fIavailable\fR time, which can be allocated to teaching.
+The remaining time, can by inference, be allocated to either \fImeeting\fRs or administration.
+.TP
+\fBgroupMembership\fR [\fB{}\fR]
+An XML-element referencing those "\fBgroupId\fR"s of which the \fIteacher\fR is a member.
+.TP
+.B specialtyTopic
+Defines the \fBtopic\fR-string with which the \fIteacher\fR has greatest familiarity.
+.br
+This XML-attribute is optional, because the \fIteacher\fR may not have any specialty topic.
+.br
+Any \fBtopic\fR referenced must be amongst the \fIsubject\fRs offered in their "\fBservice\fR".
+.TP
+.B freePeriodPreference
+Optionally defines a preference, for the position within each \fIday\fR when the \fIteacher\fR is \fIavailable\fR,
+of unallocated \fItime-slot\fRs, i.e. those which are neither booked with a \fIlesson\fR nor reserved for a \fImeeting\fR.
+.br
+The position of free \fItime-slot\fRs in a \fIteacher\fR's timetable, is dependent on those in \fIstudent\fRs' timetables;
+e.g. if the latter are required to attend morning assembly, then those \fIteacher\fRs who don't, will either have a staff-\fImeeting\fR @ that time, or a free \fItime-slot\fR.
+.br
+Valid values are; /(\fBPre\fR|\fBTerminal\fR|\fBPost\fR)/, where:
+.TS
+lb
+l
+lb	l	.
+Preference
+==========
+Pre	A preference for unallocated \fItime-slot\fRs to precede the first \fIlesson\fR or \fImeeting\fR of the \fIday\fR.
+Terminal	A preference for unallocated \fItime-slot\fRs either to precede the first or to follow the last, \fIlesson\fR or \fImeeting\fR of the \fIday\fR.
+Post	A preference for unallocated \fItime-slot\fRs to follow the last, \fIlesson\fR or \fImeeting\fR, of the \fIday\fR.
+.TE
+.SS studentProfile
+An XML-element containing the following XML-tags.
+.TP
+\fBstream\fR [\fB""\fR]
+A \fIstudent\fR's \fIstream\fR is merely a string. It's free-format, & may also represent their academic year.
+This concept is probably redundant, since the \fIsubject\fRs (defined by both \fBtopic\fR & \fBlevel\fR) required by each \fIstudent\fR, implicitly define a more precise \fBtopic\fR-specific capability.
+If the \fIstream\fR of \fIstudent-bodies\fR with intersecting \fIsubject\fR-requirements, match, then they may be temporarily merged into \fIclass\fRes, for the tuition of each of those \fIsubject\fRs.
+If one wants to allow; an able \fIstudent\fR to learn a \fIsubject\fR with \fIstudent\fRs from a higher year;
+or \fIstudent\fRs of the same year, but different academic ability, to be able to play sports together;
+it is necessary to render this concept void, by for example accepting the default value (a null string), for all such \fIstudent\fRs.
+Voiding this concept, won't then explicitly prevent undesirable temporary mergers between \fIstudent\fRs in different years, when playing a sport,
+but this scenario never arises if they require sport-related \fIsubject\fRs of an appropriate \fBlevel\fR to their physical development.
+.TP
+\fBknowledgeRequirements\fR
+Partitioned into two XML-elements, defining the "\fBcore\fR" & "\fBoptional\fR" \fIsubject\fRs that the member-\fIstudent\fRs want to learn.
+Each \fIsubject\fR is defined by the "\fBtopic\fR"-string & the "\fBlevel\fR"-string @ which it should be taught.
+These values must match one of the "\fBsubject\fR"s, defined in the \fIcourse\fRs, offered as a part of a \fIteacher\fR's "\fBservice\fR".
+.TP
+\fBavailability\fR
+An XML-element containing those \fIday\fRs when each member of the \fIstudentBody\fR, is available.
+Typically they'd have no choice, but some \fIstudent\fRs may have special needs.
+.br
+CAVEAT: there's currently no concept of a \fIstudent\fR being available for fractions of a \fIday\fR.
+.TP
+\fBteachingRatio\fR [\fB1\fR]
+Defines the floating-point ratio in the semi-closed unit-interval \fB(0,1]\fR, of \fIavailable\fR time, which can be allocated to tuition.
+The remaining time, can by inference, be allocated to either \fImeeting\fRs or free-study.
+A \fIstudent\fR's work-load associated with; "\fBcore\fR" \fIknowledge-requirements\fR shouldn't overflow, & all \fIknowledge-requirements\fR shouldn't underflow; this ratio.
+.br
+CAVEAT: if the required ratio can't be represented precisely as a decimal,
+then one probably ought to configure with sufficient precision to limit the rounding-error to less than one lesson per week,
+& then bear in mind that rounding-up will give the \fIstudent\fR one fewer free-period per week.
+.TP
+\fBgroupMembership\fR [\fB{}\fR]
+An XML-element, referencing those "\fBgroupId\fR"s of which each \fIstudent\fR is a member.
+.TP
+\fBfreePeriodPreference\fR
+Optionally defines a preference, for the position within each \fIday\fR when the \fIstudent-body\fR is \fIavailable\fR, of unallocated \fItime-slot\fRs,
+i.e. those which are neither booked with a \fIlesson\fR nor reserved for a \fImeeting\fR.
+\fIStudent\fRs would not normally be allowed to arrive late or depart early, so this feature is of little practical value.
+The values are the same as for \fIteacher\fRs; see above.
+.SS groupProfile
+An XML-element containing the following XML-tags.
+.TP
+\fBmeetingTimes\fR [\fB{}\fR]
+An XML-element containing the \fItime\fRs when the \fIgroup\fR regularly meets.
+.br
+CAVEAT: there is no facility to model a \fIgroup\fR which meets irregularly.
+.TP
+.B locationId
+A string which references a \fIlocation\fR @ which to meet; see "\fBlocationCatalogue\fR".
+.br
+This XML-attribute is optional, because there may be no requirement to meet physically; perhaps because it's a teleconference.
+.TP
+\fBmandatesAttendance\fR [\fBFalse\fR]
+A boolean switch which defines whether \fIgroup\fR-members are required to attend all \fImeeting\fRs.
+.br
+E.g. one could enrol all \fIteacher\fRs in a \fIgroup\fR for morning-assembly, but if some are part-time, then attendance can't be mandatory.
+.br
+CAVEAT: there is no facility to define a \fIgroup\fR, for which only some \fImeeting\fRs are mandatory.
+.SH FILES
+.TS
+lb	lb	lb	lb	lb	lb
+l	lb	lb	l	l	lb	lb	lb	lb	lb	lb	lb	lb	lb	lb
+l	l	l	l	l	l	1	1	1	1	1	1	1	1	l 
+lb	r	r	lb	lb	l	1	1	1	1	1	1	1	1	l	.
+File-name	Time-slots	Student	XHTML-output	XML-output	Configuration-features
+(xml/*.xml)	per day	bodies	(xhtml/*.xhtml)	(xml/*.xml)	generateLessonColourFrom	campus	facilityName	freePeriodPreference	groupId	maximumClassSize	minimumConsecutiveLessons	specialtyTopic	synchronisationId	timeslotRequest
+=========	==========	=======	============	==========	========================	======	============	====================	=======	================	=========================	==============	=================	===============
+example_01	1	3	timetable_01	studentViewTimetable_01	Y
+example_02	2	2	timetable_02	studentViewTimetable_02	Y		Y			Y		Y
+example_03	3	2	timetable_03	studentViewTimetable_03		Y	Y			Y	Y	Y
+example_05	5	11	timetable_05	studentViewTimetable_05		Y	Y		Y	Y	Y	Y		Y
+example_05_1	5	3	timetable_05_1	studentViewTimetable_05_1			Y		Y		Y	Y	Y	Y
+example_08	8	11	timetable_08	studentViewTimetable_08		Y	Y		Y	Y	Y	Y	Y	Y
+example_13	13	11	timetable_13	studentViewTimetable_13		Y	Y	Y	Y	Y	Y	Y	Y	Y
+example_21	21	11	timetable_21	studentViewTimetable_21	Y		Y	Y	Y	Y	Y	Y	Y	Y
+template		0
+.TE
+.sp 1
+CAVEAT: should any of these files be relocated, then its "\fBDOCTYPE\fR"-declaration, will need to be corrected to reference \fBweekdaze.dtd\fR.
+.TS
+lb	lb
+l	l
+l	l	.
+\fBFile-name\fR (dtd/*.dtd)	Contents
+=====================	========
+locationViewTimetable	The formal description of the XML-format for the resulting timetable as seen from the perspective of \fIlocation\fRs.
+studentViewTimetable	The formal description of the XML-format for the resulting timetable as seen from the perspective of \fIstudent-bodies\fR.
+teacherViewTimetable	The formal description of the XML-format for the resulting timetable as seen from the perspective of \fIteacher\fRs.
+weekdaze	The formal description of the XML-format for the input configuration-file.
+.TE
+.sp 1
+.TS
+lb	lb
+l	l
+l	l	.
+\fBFile-name\fR (sql/*.sql)	Contents
+=====================	========
+weekdazeCreate	Defines the database-schema; all the tables & all the rows.
+weekdazeTriggers	Defines extra rules required to preserve relational integrity as data is inserted.
+weekdazeExamples	Defines a set of example timetable-problems (the same as those defined in XML).
+.TE
+.SH AUTHOR
+Written by Dr. Alistair Ward.
+.SH COPYRIGHT
+Copyright \(co 2013-2015 Dr. Alistair Ward
+.PP
+This program is free software: you can redistribute it &/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+.PP
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+.PP
+You should have received a copy of the GNU General Public License along with this program. If not, see <\fBhttps://www.gnu.org/licenses/\fR>.
+.SH "SEE ALSO"
+.IP \(bu
+\fBman/man1/weekdaze.1\fR: section-1 of the manual pages for this product.
+.IP \(bu
+<\fBhttps://www.w3schools.com/xml/\fR>.
+.IP \(bu
+<\fBhttps://www.w3schools.com/xml/xml_dtd.asp\fR>.
+

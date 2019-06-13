@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE options SYSTEM "../dtd/weekdaze.dtd">	<!-- CAVEAT: amend after relocating this file ! -->
+<!--
+	Copyright (C) 2015 Dr. Alistair Ward
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<options>
+	<configVersion>
+		<versionElement integer="1"/>
+		<versionElement integer="0"/>
+	</configVersion>
+	<executionOptions>
+		<evolutionStrategies>
+			<synchronisedCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="0" randomConstructorFecundity="0"/>
+			</synchronisedCourseMutation>
+			<synchronisedCourseByDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="0" randomConstructorFecundity="0"/>
+			</synchronisedCourseByDayMutation>
+			<excessRunlengthMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</excessRunlengthMutation>
+			<homogeneousStudentViewLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</homogeneousStudentViewLessonMutation>
+			<incompleteCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</incompleteCourseMutation>
+			<randomLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</randomLessonMutation>
+			<singletonStudentClassMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</singletonStudentClassMutation>
+			<splitSessionMutation>
+				<timetableBreederFecundity randomConstructorFecundity="64"/>
+			</splitSessionMutation>
+			<studentBodyCombinationMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</studentBodyCombinationMutation>
+			<studentViewTimetableForDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</studentViewTimetableForDayMutation>
+			<studentViewTimetableForWeekMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</studentViewTimetableForWeekMutation>
+			<synchronousLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="32" randomConstructorFecundity="64"/>
+			</synchronousLessonMutation>
+		</evolutionStrategies>
+<!--
+		<traversalOrder>
+			<x>
+				<timetableAxisTraversal sense="True" axis="TimeslotId"/>
+			</x><y>
+				<timetableAxisTraversal sense="True" axis="ObserverId"/>
+			</y><z>
+				<timetableAxisTraversal sense="False" axis="Day"/>
+			</z>
+		</traversalOrder>
+-->
+		<optimiseLessonCriteriaWeights/>
+		<lessonCriteriaWeights areResourcesReused="0.5227" greatestMinimumConsecutiveLessons="0" greatestRemainingCourseLessons="0.1588" greatestSynchronisedCourseSetSize="0" isCoreKnowledgeRequirement="3.73e-2" isSpecialistInTopic="5.47e-2" matchCourseClassSizeToLocationCapacity="7.2e-2" maximiseRelativeFacilityUtilisation="6.75e-2" minimiseBookingAtAnotherCoursesSpecifiedTime="0" minimiseBookingOfLocationByOtherTeachers="7.07e-2" minimiseDeviationFromTimeslotRequest="0" minimiseInterCampusMigrationsOfStudents="0" minimiseInterCampusMigrationsOfTeachers="0" minimiseStudentBodyCombinations="8.43e-2" minimiseTeachersLocusOperandi="5.03e-2" minimiseWasteOfScarceFacilities="1"/>
+		<timetableCriteriaWeights maximiseComplianceWithFreePeriodPreferences="0" maximiseMeanRatioOfStudentClassSizeToLocationCapacity="6.25e-2" maximiseMeanStudentClassSize="0.25" maximiseSynchronisationOfSynchronisedCourses="0" maximiseWeightedMeanStudentBodyUtilisationRatio="0.5" minimiseAverageAbsoluteDeviationFromIdealTimeslotRequest="0.125" minimiseDispersionOfStudentFreePeriodsPerDay="3.125e-2" minimiseDispersionOfTeacherFreePeriodsPerDay="3.125e-2" minimiseDispersionOfTeacherWorkload="3.125e-2" minimiseMeanInterCampusMigrationsOfStudents="0" minimiseMeanInterCampusMigrationsOfTeachers="0" minimiseMeanLocationChangesOfTeachers="6.25e-2" minimiseMeanLocusOperandiOfTeachers="6.25e-2" minimiseMeanRatioOfIncompletelyBookedCoreKnowledge="0.5" minimiseMeanRatioOfIncompletelyBookedOptionalKnowledge="0.25" minimiseMeanStudentBodyCombinationsPerLesson="0.75" minimiseRatioOfConsecutiveEqualLessons="0.125"/>
+	</executionOptions>
+	<outputOptions>
+		<fileFormats>
+			<fileFormat filePath="-">
+				<xhtml>
+					<style>
+						<displayViews>
+							<perspective view="StudentView"/>
+							<perspective view="TeacherView"/>
+							<perspective view="LocationView"/>
+						</displayViews>
+						<mergeDuplicateTimeslots>
+							<timeAxes byDay="True" byTimeslotId="True"/>
+						</mergeDuplicateTimeslots>
+						<displayAxisLabels>
+							<timeAxes byDay="True" byTimeslotId="True"/>
+						</displayAxisLabels>
+						<weekend>
+							<day value="Saturday"/>
+							<day value="Sunday"/>
+						</weekend>
+						<generateLessonColour generateLessonColourFrom="Topic" minimumContrastRatio="0.05"/>
+					</style>
+				</xhtml>
+			</fileFormat>
+<!--
+			<fileFormat filePath="xml/studentViewTimetable_01.xml">
+				<xml/>
+			</fileFormat>
+-->
+		</fileFormats>
+	</outputOptions>
+	<problemParameters>
+		<problemValidationSwitches checkIfStudentBodiesExceedTeachers="False" checkIfStudentBodySizeExceedsLocationCapacity="False"/>
+		<timeslotIdBounds>
+			<min timeslotId="0"/>
+			<max timeslotId="0"/>
+		</timeslotIdBounds>
+		<locationCatalogue>
+			<location locationId="Location_1">
+				<locationProfile capacity="8"/>
+			</location><location locationId="Location_2">
+				<locationProfile capacity="8"/>
+			</location>
+		</locationCatalogue>
+		<teacherRegister>
+			<teacher teacherId="Teacher_1">
+				<teacherProfile maximumTeachingRatio="1">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Geography" level="1"/>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="History" level="1"/>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="Teacher_2">
+				<teacherProfile maximumTeachingRatio="1">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Maths" level="1"/>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="Music" level="1"/>
+						</course>
+					</service>
+					<availability>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="Teacher_3">
+				<teacherProfile maximumTeachingRatio="1">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Physics" level="1"/>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="Teacher_4">
+				<teacherProfile maximumTeachingRatio="1">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Domestic Science" level="1"/>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="Religious Education" level="1"/>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher>
+		</teacherRegister>
+		<studentBodyRegister>
+			<studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_1">
+					<student studentId="Student_1.0"/>
+					<student studentId="Student_1.1"/>
+					<student studentId="Student_1.2"/>
+				</studentBody>
+				<studentProfile>
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Geography" level="1"/>
+							<subject topic="Maths" level="1"/>
+							<subject topic="Physics" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Music" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_2">
+					<student studentId="Student_2.0"/>
+					<student studentId="Student_2.1"/>
+				</studentBody>
+				<studentProfile>
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Geography" level="1"/>
+							<subject topic="Maths" level="1"/>
+							<subject topic="Physics" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_3">
+					<student studentId="Student_3.0"/>
+				</studentBody>
+				<studentProfile>
+					<knowledgeRequirements>
+						<core>
+							<subject topic="History" level="1"/>
+							<subject topic="Maths" level="1"/>
+							<subject topic="Physics" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="1"/>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</studentProfile>
+			</studentBodyToProfileAssociation>
+		</studentBodyRegister>
+		<groupCatalogue/>
+	</problemParameters>
+</options>
+

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	AUTHOR: Dr. Alistair Ward
+
+	Copyright (C) 2013 Dr. Alistair Ward
+
+	This file is part of WeekDaze.
+
+	WeekDaze is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	WeekDaze is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with WeekDaze.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!ELEMENT timetable (observerIdToTimetableAssociation)+>	<!-- The single root of the configuration -->
+	<!ELEMENT observerIdToTimetableAssociation (observerId, timetableForWeek)>	<!-- Each observer has their own timetable, covering one week -->
+		<!ELEMENT observerId (studentBody)>	<!-- Defines whose timetable for one week, this is -->
+			<!ELEMENT studentBody (student)+>	<!-- A set of "student"s with identical profiles; i.e. identical availability, skills & requirements -->
+				<!ATTLIST studentBody mnemonic ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters) identifying the student-body -->
+				<!ELEMENT student EMPTY>
+					<!ATTLIST student studentId ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters) identifying a member of the "studentBody" -->
+			<!ELEMENT timetableForWeek (dayToTimetableAssociation)+>
+				<!ELEMENT dayToTimetableAssociation (day, timetableForDay)>
+					<!ELEMENT day EMPTY>
+						<!ATTLIST day value (Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday) #REQUIRED>	<!-- A day within any week; there's no concept of different months or years -->
+					<!ELEMENT timetableForDay (booking)+> 
+						<!ELEMENT booking (lesson)?>	<!-- A rendezvous defined in the timetable, by a "lesson" @ a specific "time" -->
+							<!ATTLIST booking timeslotId CDATA #REQUIRED>
+							<!ELEMENT lesson (studentViewLessonResourceIds, subject)>	<!-- An arrangement between a "teacher" & a "student-class", to teach a specific "course", @ a "location" -->
+								<!ELEMENT studentViewLessonResourceIds EMPTY>
+									<!ATTLIST studentViewLessonResourceIds
+										locationId	CDATA	#REQUIRED
+										teacherId	CDATA	#REQUIRED
+									>
+								<!ELEMENT subject EMPTY>	<!-- A subject offered by a "teacher" & potentially required by "student"s -->
+									<!ATTLIST subject
+										level	CDATA	#REQUIRED
+										topic	CDATA	#REQUIRED
+									>
+

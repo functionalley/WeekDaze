@@ -1,0 +1,422 @@
+/*
+	AUTHOR: Dr. Alistair Ward
+
+	Copyright (C) 2013-2015 Dr. Alistair Ward
+
+	This file is part of WeekDaze.
+
+	WeekDaze is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	WeekDaze is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with WeekDaze.	If not, see <http://www.gnu.org/licenses/>.
+*/
+
+body {
+	background-color:	white;
+	background-image:	url('../images/background.png');
+	color:			black;
+	font-family:		sans-serif;
+	margin:			4px;
+}
+
+caption {
+	font-weight:		bold;
+}
+
+h1 {
+	text-align:		center;
+}
+
+h2 {
+	font-family:		Helvetica;
+	text-align:		center;
+	text-decoration:	underline;
+}
+
+table {
+	background-color:	white;	/* Account for lack of 'rgba' */
+	background-color:	rgba(255, 255, 255, 0.5);	/* Allow the background to bleed through */
+	border-spacing:		1px;
+	border-style:		outset;
+	border-width:		4px;
+	box-shadow:		4px 4px 3px #888888;	/* Account for lack of 'rgba' */
+	box-shadow:		4px 4px 3px rgba(0, 0, 0, 0.25);
+}
+
+td {
+	background-color:	#eee;
+	border-style:		inset;
+	border-width:		1px;
+	padding:		1px;
+	vertical-align:		top;	/* position synchronisationId banner */
+/*
+	height:			120px;
+	position:		relative;
+*/
+
+}
+
+th {
+	background-color:	#888;	/* Account for lack of 'rgba' */
+	background-color:	rgba(192, 192, 192, 0.25);	/* Allow the background to bleed through */
+	border-style:		inset;
+	border-width:		1px;
+	padding:		1px;
+}
+
+.box {
+	background-color:	white;	/* Account for lack of 'rgba' */
+	background-color:	rgba(255, 255, 255, 0.25);
+	border:			2px solid black;
+	border-radius:		16px;
+	box-shadow:		6px 6px 4px #888888;	/* Account for lack of 'rgba' */
+	box-shadow:		6px 6px 4px rgba(0, 0, 0, 0.5);
+	clear:			both;
+	margin:			8px 1px;
+	padding:		4px;
+}
+
+.campus {
+	color:			#040;
+}
+
+.campus:before {
+	content:		open-quote;
+}
+
+.campus:after {
+	content:		close-quote ":";
+	padding-right:		0.5em;
+}
+
+.data {
+	font-family:		monospace, sans-serif;
+	font-weight:		bold;
+}
+
+.groupId {
+	font-family:		sans-serif;
+	font-style:		italic;
+	font-weight:		bold;
+}
+
+.info {
+	color:			#656;	/* Must contrast with both background-image & background of ConsoleOutput */
+}
+
+.lesson {
+/*
+	position:		absolute;
+	top:			20px;
+*/
+}
+
+.level {
+}
+
+.locationId {
+	font-style:		italic;
+}
+
+.locationId:before {
+	content:		open-quote;
+}
+
+.locationId:after {
+	content:		close-quote;
+}
+
+.meeting {
+}
+
+.meetings {
+	background-color:	#bbb;
+	background-image:	url('../images/silhouettes.png');
+}
+
+.numericData {
+	font-family:		monospace, sans-serif;
+	font-weight:		bold;
+	text-align:		right;
+	vertical-align:		inherit;
+}
+
+.origin {
+	background-color:	#222;
+	background-image:	url('../images/origin.png');
+	background-repeat:	no-repeat;
+	background-position:	center;
+	padding:		0;
+	border-width:		0;
+}
+
+.observerSummary {
+	clear:			both;	/* If ProblemParameters.getTimeslotIdBounds is narrow, then the previous floating Observer-summary may dangle beneath, forcing this one to its right */
+	float:			left;	/* Given suffient width, horizontally align each observer's summary with their timetable for one week */
+	width:			400px;	/* Allow the timetableForWeeks, positioned to the right, to align vertically */
+}
+
+.observerViewTerminator {
+	clear:	both;		/* Ensure that the observer-summary doesn't overflow the box in which it's contained when the timetable-for-week is abnormally short */
+}
+
+.resourceIds {
+}
+
+.runtimeInformation {
+	color:			black;
+}
+
+.showHideButton {
+	background-color:	rgba(255, 255, 255, 0.5);	/* Allow the background to bleed through */
+	border-width:		3px;
+	color:			green;
+	float:			right;
+	font-size:		large;
+	width:			64px;	/* prevents resize if text is replaced */
+}
+
+.studentBody {
+	font-family:		Arial Narrow, sans-serif;
+	font-style:		italic;
+}
+
+.studentBody:before {
+	content:		open-quote;
+}
+
+.studentBody:after {
+	content:		close-quote;
+}
+
+.studentClass {
+}
+
+.subject {
+	font-family:		sans-serif;
+	font-weight:		bold;
+}
+
+.synchronisationId {
+	background-color:	white;
+	font-family:		sans-serif;
+	font-weight:		bold;
+	opacity:		0.6;	/* If it lacks sufficient transparency, it won't blend with the underlying colour of the lesson */
+	text-align:		center;
+/*
+	position:		absolute;
+	top:			0;
+	left:			0;
+	right:			0;
+*/
+}
+
+.teacherId {
+	font-style:		italic;
+}
+
+.teacherId:before {
+	content:		open-quote;
+}
+
+.teacherId:after {
+	content:		close-quote;
+}
+
+.timeslotId {
+	color:			#333300;
+/*	height:			100px;	*/
+}
+
+.timetableForWeek {
+	width:			1100px;	/* Potentially inadequate for wider TeacherViewLessons & LocationViewLessons, but it renders faster & looks better. */
+	margin:			auto;
+	margin-bottom:		1em;
+	overflow:		auto;
+}
+
+.timetableView {
+	overflow:		auto;
+}
+
+.topic {
+}
+
+.unallocatedTimeslot {
+	background-color:	#ccc;
+	background-image:	url('../images/stars.png');
+	color:			#888;
+	font-style:		italic;
+	font-size:		large;
+	text-align:		center;
+	vertical-align:		inherit;
+}
+
+.unavailable {
+	background-color:	#ddd;
+	background-image:	url('../images/diagonalStripes.png');
+	color:			#888;
+	font-style:		italic;
+	font-size:		x-large;
+	text-align:		center;
+	vertical-align:		inherit;
+}
+
+.warning {
+	color:			#b00;
+}
+
+.weekend {
+	color:			#660000;
+}
+
+.workDay {
+	color:			#333300;
+	width:			16%;	/* Appropriate for either five or six working-days */
+}
+
+#bestDeterministicWeightedTimetableCriteria > th {
+	text-align:		right;
+}
+
+#commandLine {
+	font-family:		monospace;
+}
+
+#consoleOutput {
+	border-style:		inset;
+	border-width:		2px;
+	background-color:	black;
+	color:			green;
+	overflow:		auto;
+}
+
+#evolutionStrategyStatisticsTable {
+	margin:			4px;
+}
+
+#initialLessonCriterionStatisticsTable {
+	margin:			4px;
+}
+
+#selectedRaster {
+	color:			#800;
+}
+
+#studentViewTimetable {
+/*	overflow:		auto;	*/
+}
+
+#timetableCriteriaWeights > th {
+	text-align:		right;
+}
+
+#weightedMeanOfTimetableCriteriaByTraversalOrderTable {
+	float:			left;
+	margin-bottom:		4px;
+	margin-left:		4px;
+	margin-right:		4px;
+}
+
+td.topic_Art {
+	background-color:	#660066;
+}
+
+td.topic_Arithmetic {
+	background-color:	#336600;
+}
+
+td.topic_Biology {
+	background-color:	lightPink;
+	background-image:	url('../images/biohazardSymbol.png');
+}
+
+td.topic_Chinese {
+	background-color:	#ff4444;
+	background-image:	url('../images/flagOfPeoplesRepublicOfChina.png');
+}
+
+td.topic_Chemistry {
+	background-color:	#76933d;
+	background-image:	url('../images/periodicTable.png');
+}
+
+td.topic_DomesticScience {
+	background-color:	#45280b;
+}
+
+td.topic_English {
+	background-color:	White;
+	background-image:	url('../images/flagOfEngland.png');
+}
+
+td.topic_French {
+/*	background-color:	#0055a4;	*/
+	background-image:	url('../images/flagOfFrance.png');
+}
+
+td.topic_Games {
+	background-color:	#1f6621;
+}
+
+td.topic_Geography {
+	background-color:	#76b9b9;
+	background-image:	url('../images/worldMap.png');
+}
+
+td.topic_German {
+/*	background-color:	#ffcc00;	*/
+	background-image:	url('../images/flagOfGermany.png');
+}
+
+td.topic_History {
+	background-color:	#ddff00;
+}
+
+td.topic_InformationTechnology {
+	background-color:	#99ccff;
+}
+
+td.topic_Maths {
+	background-color:	#6f2c2c;
+}
+
+td.topic_Music {
+	background-color:	#3f48a3;
+	background-image:	url('../images/clefs.png');
+}
+
+td.topic_PhysicalEducation {
+	background-color:	#0044ff;
+}
+
+td.topic_Physics {
+	background-color:	#b6a327;
+	background-image:	url('../images/atom.png');
+}
+
+td.topic_ReligiousEducation {
+	background-color:	#482b65;
+	background-image:	url('../images/religiousSymbols.png');
+}
+
+td.topic_Swimming {
+	background-color:	#3f8a7f;
+	background-image:	url('../images/water.png');
+}
+
+td.topic_TechnicalDrawing {
+	background-color:	#36593b;
+}
+
+td.topic_Woodwork {
+	background-color:	#a29d7a;
+}

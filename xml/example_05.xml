@@ -1,0 +1,1127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE options SYSTEM "/home/al/Documents/Science/IT/Software/Haskell/WeekDaze/dtd/weekdaze.dtd">	<!-- CAVEAT: amend after relocating this file ! -->
+<!--
+	Copyright (C) 2013-2015 Dr. Alistair Ward
+
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<options>
+	<configVersion>
+		<versionElement integer="1"/>
+		<versionElement integer="0"/>
+	</configVersion>
+	<executionOptions>
+		<evolutionStrategies nInitialScouts="2">
+			<synchronisedCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</synchronisedCourseMutation>
+			<synchronisedCourseByDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</synchronisedCourseByDayMutation>
+			<excessRunlengthMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</excessRunlengthMutation>
+			<homogeneousStudentViewLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</homogeneousStudentViewLessonMutation>
+			<incompleteCourseMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</incompleteCourseMutation>
+			<randomLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</randomLessonMutation>
+			<singletonStudentClassMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</singletonStudentClassMutation>
+			<splitSessionMutation>
+				<timetableBreederFecundity randomConstructorFecundity="256"/>
+			</splitSessionMutation>
+			<studentBodyCombinationMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</studentBodyCombinationMutation>
+			<studentViewTimetableForDayMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="256" randomConstructorFecundity="256"/>
+			</studentViewTimetableForDayMutation>
+			<studentViewTimetableForWeekMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</studentViewTimetableForWeekMutation>
+			<synchronousLessonMutation>
+				<timetableBreederFecundity deterministicConstructorFecundity="128" randomConstructorFecundity="256"/>
+			</synchronousLessonMutation>
+		</evolutionStrategies>
+<!--
+		<traversalOrder>
+			<x>
+				<timetableAxisTraversal sense="False" axis="ObserverId"/>
+			</x><y>                                      
+				<timetableAxisTraversal sense="True" axis="TimeslotId"/>
+			</y><z>                                      
+				<timetableAxisTraversal sense="False" axis="Day"/>
+			</z>
+		</traversalOrder>
+-->
+		<optimiseLessonCriteriaWeights/>
+		<lessonCriteriaWeights areResourcesReused="3.1e-3" greatestMinimumConsecutiveLessons="3.53e-2" greatestRemainingCourseLessons="6.2e-3" greatestSynchronisedCourseSetSize="0" isCoreKnowledgeRequirement="3.5e-3" isSpecialistInTopic="2.8e-3" matchCourseClassSizeToLocationCapacity="6.5e-3" maximiseRelativeFacilityUtilisation="4.9e-3" minimiseBookingAtAnotherCoursesSpecifiedTime="1" minimiseBookingOfLocationByOtherTeachers="5.4e-3" minimiseDeviationFromTimeslotRequest="5.6e-3" minimiseInterCampusMigrationsOfStudents="3.5e-2" minimiseInterCampusMigrationsOfTeachers="3.83e-2" minimiseStudentBodyCombinations="7.01e-2" minimiseTeachersLocusOperandi="7.8e-3" minimiseWasteOfScarceFacilities="3.83e-2"/>
+		<timetableCriteriaWeights maximiseComplianceWithFreePeriodPreferences="6.25e-2" maximiseMeanRatioOfStudentClassSizeToLocationCapacity="3.125e-2" maximiseMeanStudentClassSize="0.25" maximiseSynchronisationOfSynchronisedCourses="0.5" maximiseWeightedMeanStudentBodyUtilisationRatio="0.5" minimiseAverageAbsoluteDeviationFromIdealTimeslotRequest="6.25e-2" minimiseDispersionOfStudentFreePeriodsPerDay="1.5625e-2" minimiseDispersionOfTeacherFreePeriodsPerDay="1.5625e-2" minimiseDispersionOfTeacherWorkload="3.125e-2" minimiseMeanInterCampusMigrationsOfStudents="0.5" minimiseMeanInterCampusMigrationsOfTeachers="0.5" minimiseMeanLocationChangesOfTeachers="6.25e-2" minimiseMeanLocusOperandiOfTeachers="6.25e-2" minimiseMeanRatioOfIncompletelyBookedCoreKnowledge="0.5" minimiseMeanRatioOfIncompletelyBookedOptionalKnowledge="0.25" minimiseMeanStudentBodyCombinationsPerLesson="0.75" minimiseRatioOfConsecutiveEqualLessons="0.125" minimiseRatioOfSeparatedEqualLessonsWithinAnyDay="0.25"/>
+	</executionOptions>
+	<outputOptions>
+		<fileFormats>
+			<fileFormat filePath="-">
+			</fileFormat>
+<!--
+			<fileFormat filePath="xml/studentViewTimetable_05.xml">
+				<xml/>
+			</fileFormat>
+-->
+		</fileFormats>
+	</outputOptions>
+	<problemParameters>
+		<problemValidationSwitches checkIfStudentBodiesExceedTeachers="False" checkIfStudentBodySizeExceedsLocationCapacity="False"/>
+		<timeslotIdBounds>
+			<min timeslotId="0"/>
+			<max timeslotId="4"/>
+		</timeslotIdBounds>
+		<locationCatalogue>
+			<location locationId="AssemblyHall">
+				<locationProfile capacity="40">
+					<facilities>
+						<facilityName value="Lectern"/>
+						<facilityName value="Pipe-organ"/>
+						<facilityName value="Seats"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="BiologyLab_1">
+				<locationProfile capacity="4">
+					<facilities>
+						<facilityName value="Biology-lab"/>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="BiologyLab_2">
+				<locationProfile capacity="8">
+					<facilities>
+						<facilityName value="Biology-lab"/>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="ChemistryLab_1">
+				<locationProfile capacity="4">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Chemistry-lab"/>
+						<facilityName value="Desks"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="Classroom_1">
+				<locationProfile capacity="12">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="Classroom_2">
+				<locationProfile capacity="16">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="Classroom_3">
+				<locationProfile capacity="12">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="Classroom_4">
+				<locationProfile capacity="16">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="GamesField">
+				<locationProfile capacity="40" campus="Sports-complex">
+					<facilities>
+						<facilityName value="Goal-posts"/>
+						<facilityName value="Running-track"/>
+						<facilityName value="Showers"/>
+					</facilities>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="Gym">
+				<locationProfile capacity="4" campus="Sports-complex">
+					<facilities>
+						<facilityName value="Gym-equipment"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="Kitchen_1">
+				<locationProfile capacity="4">
+					<facilities>
+						<facilityName value="Kitchen-equipment"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="Kitchen_2">
+				<locationProfile capacity="8">
+					<facilities>
+						<facilityName value="Kitchen-equipment"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="MusicRoom_1">
+				<locationProfile capacity="4">
+					<facilities>
+						<facilityName value="Musical instruments"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="MusicRoom_2">
+				<locationProfile capacity="8">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Musical instruments"/>
+					</facilities>
+				</locationProfile>
+			</location><location locationId="PhysicsLab_1">
+				<locationProfile capacity="4">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+						<facilityName value="Physics-lab"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location><location locationId="PhysicsLab_2">
+				<locationProfile capacity="8">
+					<facilities>
+						<facilityName value="Blackboard"/>
+						<facilityName value="Desks"/>
+						<facilityName value="Physics-lab"/>
+					</facilities>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</locationProfile>
+			</location>
+		</locationCatalogue>
+		<teacherRegister>
+			<teacher teacherId="AnderCorrie">
+				<teacherProfile maximumTeachingRatio="0.9" specialtyTopic="Domestic Science">
+					<service>
+						<course requiredLessonsPerWeek="2" minimumConsecutiveLessons="2" maximumClassSize="4">
+							<subject topic="Domestic Science" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Kitchen-equipment"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4" minimumConsecutiveLessons="2">
+							<subject topic="Domestic Science" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Kitchen-equipment"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="AtrickJerry">
+				<teacherProfile maximumTeachingRatio="0.0">
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="BannJoe">
+				<teacherProfile locationId="MusicRoom_1" maximumTeachingRatio="0.8" specialtyTopic="Music">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Music" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Musical instruments"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="2">
+							<subject topic="Music" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Musical instruments"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Musicians"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="BaptistAnna">
+				<teacherProfile maximumTeachingRatio="0.9" specialtyTopic="Religious Education">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Religious Education" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Thursday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Administrators"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="EasterleyGale">
+				<teacherProfile maximumTeachingRatio="0.92" specialtyTopic="Geography">
+					<service>
+						<course requiredLessonsPerWeek="3">
+							<subject topic="Geography" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4">
+							<subject topic="Geography" level="3"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Drama"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="InnoveraMarge">
+				<teacherProfile maximumTeachingRatio="0.96" specialtyTopic="Maths">
+					<service>
+						<course requiredLessonsPerWeek="2">
+							<subject topic="Maths" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+							<timeslotRequest>
+								<ideally timeslotId="1"/>
+							</timeslotRequest>
+						</course><course requiredLessonsPerWeek="3">
+							<subject topic="Maths" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+							<timeslotRequest>
+								<ideally timeslotId="1"/>
+							</timeslotRequest>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Drama"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="IronsRusty">
+				<teacherProfile locationId="ChemistryLab_1" maximumTeachingRatio="0.92" specialtyTopic="Chemistry">
+					<service>
+						<course requiredLessonsPerWeek="2">
+							<subject topic="Chemistry" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Chemistry-lab"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="3">
+							<subject topic="Chemistry" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Chemistry-lab"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Science-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="LynMandy">
+				<teacherProfile locationId="MusicRoom_2" maximumTeachingRatio="0.7" specialtyTopic="Music">
+					<service>
+						<course requiredLessonsPerWeek="2">
+							<subject topic="French" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="Music" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Musical instruments"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Choir"/>
+						<member groupId="Musicians"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="LyonDanD">
+				<teacherProfile maximumTeachingRatio="0.92" specialtyTopic="French">
+					<service>
+						<course requiredLessonsPerWeek="2">
+							<subject topic="French" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="3">
+							<subject topic="French" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4">
+							<subject topic="French" level="3"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="MasseyHugh">
+				<teacherProfile maximumTeachingRatio="0.9" specialtyTopic="Physics">
+					<service>
+						<course requiredLessonsPerWeek="2" maximumClassSize="3">
+							<subject topic="Physics" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+								<facilityName value="Physics-lab"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="3">
+							<subject topic="Physics" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+								<facilityName value="Physics-lab"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4">
+							<subject topic="Physics" level="3"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+								<facilityName value="Physics-lab"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Science-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="NuttHazel">
+				<teacherProfile maximumTeachingRatio="0.92" specialtyTopic="Domestic Science">
+					<service>
+						<course requiredLessonsPerWeek="2" minimumConsecutiveLessons="2" maximumClassSize="8">
+							<subject topic="Domestic Science" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Kitchen-equipment"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4" minimumConsecutiveLessons="2" maximumClassSize="8">
+							<subject topic="Domestic Science" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Kitchen-equipment"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+				</teacherProfile>
+			</teacher><teacher teacherId="PaineJock">
+				<teacherProfile maximumTeachingRatio="0.9" specialtyTopic="Games">
+					<service>
+						<course requiredLessonsPerWeek="3" minimumConsecutiveLessons="3">
+							<subject topic="Games" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Running-track"/>
+							</requiredFacilities>
+							<timeslotRequest>
+								<specifically>
+									<time timeslotId="2">
+										<day value="Wednesday"/>
+									</time><time timeslotId="3">
+										<day value="Wednesday"/>
+									</time><time timeslotId="4">
+										<day value="Wednesday"/>
+									</time>
+								</specifically>
+							</timeslotRequest>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="Physical Education" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Gym-equipment"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Saturday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Sport-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="PoleDi">
+				<teacherProfile maximumTeachingRatio="0.92" specialtyTopic="Physics">
+					<service>
+						<course requiredLessonsPerWeek="4" maximumClassSize="3">
+							<subject topic="Physics" level="3"/>
+							<requiredFacilities>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+								<facilityName value="Physics-lab"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Science-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="PooleJean">
+				<teacherProfile locationId="BiologyLab_2" maximumTeachingRatio="0.9" specialtyTopic="Biology">
+					<service>
+						<course requiredLessonsPerWeek="3">
+							<subject topic="Biology" level="2"/>
+							<requiredFacilities>
+								<facilityName value="Biology-lab"/>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course><course requiredLessonsPerWeek="4">
+							<subject topic="Biology" level="3"/>
+							<requiredFacilities>
+								<facilityName value="Biology-lab"/>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Science-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="ShoeiJim">
+				<teacherProfile maximumTeachingRatio="0.92" specialtyTopic="Physical Education">
+					<service>
+						<course requiredLessonsPerWeek="3" minimumConsecutiveLessons="3">
+							<subject topic="Games" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Goal-posts"/>
+								<facilityName value="Showers"/>
+							</requiredFacilities>
+							<timeslotRequest>
+								<specifically>
+									<time timeslotId="2">
+										<day value="Tuesday"/>
+									</time><time timeslotId="3">
+										<day value="Tuesday"/>
+									</time><time timeslotId="4">
+										<day value="Tuesday"/>
+									</time>
+								</specifically>
+							</timeslotRequest>
+						</course><course requiredLessonsPerWeek="1">
+							<subject topic="Physical Education" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Gym-equipment"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Friday"/>
+						<day value="Saturday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Sport-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="SteinFrankN">
+				<teacherProfile locationId="BiologyLab_1" maximumTeachingRatio="0.9" specialtyTopic="Biology">
+					<service>
+						<course requiredLessonsPerWeek="2">
+							<subject topic="Biology" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Biology-lab"/>
+								<facilityName value="Blackboard"/>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Monday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Science-teachers"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher><teacher teacherId="TheronLou">
+				<teacherProfile maximumTeachingRatio="0.8" specialtyTopic="Religious Education">
+					<service>
+						<course requiredLessonsPerWeek="1">
+							<subject topic="Religious Education" level="1"/>
+							<requiredFacilities>
+								<facilityName value="Desks"/>
+							</requiredFacilities>
+						</course>
+					</service>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Administrators"/>
+					</groupMembership>
+				</teacherProfile>
+			</teacher>
+		</teacherRegister>
+		<studentBodyRegister>
+			<studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_01">
+					<student studentId="BallsHarry"/>
+					<student studentId="BoardBill"/>
+					<student studentId="BullTerry"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">	<!-- 18/25 -->
+					<knowledgeRequirements>
+						<core>
+							<subject topic="French" level="3"/>
+							<subject topic="Geography" level="3"/>
+							<subject topic="Maths" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Physics" level="3"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_02">
+					<student studentId="BodyAnnie"/>
+					<student studentId="BoyleLance"/>
+					<student studentId="SpencerMarkN"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="French" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Physics" level="3"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="2"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_03">
+					<student studentId="BushRose"/>
+					<student studentId="PondLilly"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.75">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="French" level="2"/>
+							<subject topic="Games" level="1"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Maths" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Choir"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_04">
+					<student studentId="DaySonny"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="2"/>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="French" level="1"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Physics" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="2"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Drama"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_05">
+					<student studentId="EsterPolly"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.68">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="2"/>
+							<subject topic="Games" level="1"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Physics" level="2"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="1"/>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Drama"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_06">
+					<student studentId="ForestWoody"/>
+					<student studentId="HareLotta"/>
+					<student studentId="LearSandy"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="1"/>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="French" level="2"/>
+							<subject topic="Maths" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_07">
+					<student studentId="GunnTommy"/>
+					<student studentId="PostMark"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="1"/>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="French" level="2"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="2"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_08">
+					<student studentId="LottMona"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="1"/>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="French" level="2"/>
+							<subject topic="Maths" level="2"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="2"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Drama"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_09">
+					<student studentId="PipeDwain"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.72">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Chemistry" level="1"/>
+							<subject topic="Games" level="1"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Maths" level="1"/>
+							<subject topic="Physics" level="1"/>
+							<subject topic="Religious Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_10">
+					<student studentId="PoleLou"/>
+					<student studentId="PottJack"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.8">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="3"/>
+							<subject topic="Chemistry" level="2"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Maths" level="2"/>
+							<subject topic="Physical Education" level="1"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="2"/>
+							<subject topic="Music" level="2"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation><studentBodyToProfileAssociation>
+				<studentBody mnemonic="Body_11">
+					<student studentId="ShawRick"/>
+				</studentBody>
+				<studentProfile teachingRatio="0.68">
+					<knowledgeRequirements>
+						<core>
+							<subject topic="Biology" level="3"/>
+							<subject topic="Geography" level="2"/>
+							<subject topic="Maths" level="1"/>
+							<subject topic="Physical Education" level="1"/>
+							<subject topic="Physics" level="3"/>
+						</core>
+						<optional>
+							<subject topic="Domestic Science" level="1"/>
+							<subject topic="Music" level="1"/>
+						</optional>
+					</knowledgeRequirements>
+					<availability>
+						<day value="Monday"/>
+						<day value="Tuesday"/>
+						<day value="Wednesday"/>
+						<day value="Thursday"/>
+						<day value="Friday"/>
+					</availability>
+					<groupMembership>
+						<member groupId="Assembly"/>
+						<member groupId="Choir"/>
+					</groupMembership>
+				</studentProfile>
+			</studentBodyToProfileAssociation>
+		</studentBodyRegister>
+		<groupCatalogue>
+			<group groupId="Administrators">
+				<groupProfile mandatesAttendance="True">
+					<meetingTimes>
+						<time timeslotId="0">
+							<day value="Tuesday"/>
+						</time>
+					</meetingTimes>
+				</groupProfile>
+			</group><group groupId="Assembly">
+				<groupProfile locationId="AssemblyHall">
+					<meetingTimes>
+						<time timeslotId="0">
+							<day value="Monday"/>
+						</time><time timeslotId="0">
+							<day value="Tuesday"/>
+						</time><time timeslotId="0">
+							<day value="Wednesday"/>
+						</time><time timeslotId="0">
+							<day value="Thursday"/>
+						</time><time timeslotId="0">
+							<day value="Friday"/>
+						</time>
+					</meetingTimes>
+				</groupProfile>
+			</group><group groupId="Choir">
+				<groupProfile locationId="MusicRoom_1" mandatesAttendance="True">
+					<meetingTimes>
+						<time timeslotId="4">
+							<day value="Friday"/>
+						</time>
+					</meetingTimes>
+				</groupProfile>
+			</group><group groupId="Christians">
+				<groupProfile mandatesAttendance="True"/>
+			</group><group groupId="Drama">
+				<groupProfile locationId="MusicRoom_2" mandatesAttendance="True">
+					<meetingTimes>
+						<time timeslotId="4">
+							<day value="Friday"/>
+						</time>
+					</meetingTimes>
+				</groupProfile>
+			</group><group groupId="Musicians">
+				<groupProfile mandatesAttendance="True"/>
+			</group><group groupId="Science-teachers">
+				<groupProfile mandatesAttendance="True">
+					<meetingTimes>
+						<time timeslotId="0">
+							<day value="Wednesday"/>
+						</time>
+					</meetingTimes>
+				</groupProfile>
+			</group><group groupId="Sport-teachers">
+				<groupProfile mandatesAttendance="True"/>
+			</group>
+		</groupCatalogue>
+	</problemParameters>
+</options>
+

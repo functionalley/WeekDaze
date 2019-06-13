@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	AUTHOR: Dr. Alistair Ward
+
+	Copyright (C) 2013-2015 Dr. Alistair Ward
+
+	This file is part of WeekDaze.
+
+	WeekDaze is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	WeekDaze is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with WeekDaze.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!ELEMENT options ((configVersion)?, (executionOptions)?, (outputOptions)?, problemParameters)>	<!-- The single root of the configuration -->
+	<!ELEMENT configVersion (versionElement)+>	<!-- The version of this structure -->
+		<!ELEMENT versionElement EMPTY>	<!-- The ordered version-numbers, from major to minor -->
+			<!ATTLIST versionElement integer CDATA #REQUIRED>	<!-- One integral part of the version-number -->
+	<!ELEMENT executionOptions ((evolutionStrategies)?, (traversalOrder | inputStudentViewTimetable)?, (optimiseLessonCriteriaWeights)?, lessonCriteriaWeights, timetableCriteriaWeights)>	<!-- Configures the solution-algorithm -->
+		<!ATTLIST executionOptions
+			randomSeed				CDATA		#IMPLIED
+			permitTemporaryStudentBodyMerger	(False | True)	#IMPLIED
+			reduceStudentBodyRegister		(False | True)	#IMPLIED
+			removeRedundantCourses			(False | True)	#IMPLIED
+			removePointlessGroups			(False | True)	#IMPLIED
+			removeUnsubscribedGroups		(False | True)	#IMPLIED
+			zeroInappropriateOptions		(False | True)	#IMPLIED
+		>
+		<!ELEMENT evolutionStrategies (synchronisedCourseMutation, synchronisedCourseByDayMutation, excessRunlengthMutation, homogeneousStudentViewLessonMutation, incompleteCourseMutation, randomLessonMutation, singletonStudentClassMutation, splitSessionMutation, studentBodyCombinationMutation, studentViewTimetableForDayMutation, studentViewTimetableForWeekMutation, synchronousLessonMutation)>	<!-- The mutation of each candidate solution involves partially depleting & then reconstructing the current solution, using a sequence of strategies -->
+			<!ATTLIST evolutionStrategies
+				randomLessonMutationNTrials			CDATA	#IMPLIED
+				randomLessonMutationNTimeslots			CDATA	#IMPLIED
+				studentViewTimetableForDayMutationNDays		CDATA	#IMPLIED
+				studentViewTimetableForWeekMutationNTrials	CDATA	#IMPLIED
+				studentViewTimetableForWeekMutationNTimeslots	CDATA	#IMPLIED
+				fecundityDecayRatio				CDATA	#IMPLIED
+				minimumPopulationDiversityRatio			CDATA	#IMPLIED
+				nInitialScouts					CDATA	#IMPLIED
+			>
+			<!ELEMENT synchronisedCourseByDayMutation (timetableBreederFecundity)?>
+			<!ELEMENT synchronisedCourseMutation (timetableBreederFecundity)?>
+			<!ELEMENT excessRunlengthMutation (timetableBreederFecundity)?>
+			<!ELEMENT homogeneousStudentViewLessonMutation (timetableBreederFecundity)?>
+			<!ELEMENT incompleteCourseMutation (timetableBreederFecundity)?>
+			<!ELEMENT randomLessonMutation (timetableBreederFecundity)?>
+			<!ELEMENT singletonStudentClassMutation (timetableBreederFecundity)?>
+			<!ELEMENT splitSessionMutation (timetableBreederFecundity)?>
+			<!ELEMENT studentBodyCombinationMutation (timetableBreederFecundity)?>
+			<!ELEMENT studentViewTimetableForDayMutation (timetableBreederFecundity)?>
+			<!ELEMENT studentViewTimetableForWeekMutation (timetableBreederFecundity)?>
+			<!ELEMENT synchronousLessonMutation (timetableBreederFecundity)?>
+				<!ELEMENT timetableBreederFecundity EMPTY>	<!-- The fecundity of the breeding-program, as required after depleting the timetable, by either of two re-construction algorithms -->
+					<!ATTLIST timetableBreederFecundity
+						deterministicConstructorFecundity	CDATA	#IMPLIED
+						randomConstructorFecundity		CDATA	#IMPLIED
+					>
+		<!ELEMENT traversalOrder (x, y, z)>	<!-- To construct an initial solution, the three-dimensions of the timetable are traversed in a raster-scan, sequentially booking lessons. This raster can be constructed using any of the permutations of "axis"-order & "sense" of travel along each. The default is to evaluate all, & select the best -->
+			<!ELEMENT x (timetableAxisTraversal)>	<!-- The "axis" whose coordinates change slowest in the raster -->
+			<!ELEMENT y (timetableAxisTraversal)>
+			<!ELEMENT z (timetableAxisTraversal)>	<!-- The "axis" whose coordinates change fastest in the raster -->
+				<!ELEMENT timetableAxisTraversal EMPTY>	<!-- Defining a straight traverse through the timetable -->
+					<!ATTLIST timetableAxisTraversal
+						sense	(False | True)			#IMPLIED
+						axis	(ObserverId | Day | TimeslotId)	#REQUIRED
+					>
+		<!ELEMENT inputStudentViewTimetable EMPTY>
+			<!ATTLIST inputStudentViewTimetable filePath CDATA #REQUIRED>
+		<!ELEMENT lessonCriteriaWeights EMPTY>	<!-- The solution-algorithm initially determines the set of all possible lessons, which may be booked @ a specific time-slot, then selects the best according to a weighted mean of various criteria -->
+			<!ATTLIST lessonCriteriaWeights
+				areResourcesReused				CDATA	#IMPLIED
+				greatestMinimumConsecutiveLessons		CDATA	#IMPLIED
+				greatestRemainingCourseLessons			CDATA	#IMPLIED
+				greatestSynchronisedCourseSetSize		CDATA	#IMPLIED
+				isCoreKnowledgeRequirement			CDATA	#IMPLIED
+				isSpecialistInTopic				CDATA	#IMPLIED
+				matchCourseClassSizeToLocationCapacity		CDATA	#IMPLIED
+				maximiseRelativeFacilityUtilisation		CDATA	#IMPLIED
+				maximiseStudentClassSizeOverCourseClassSize	CDATA	#IMPLIED
+				maximiseStudentClassSizeOverLocationCapacity	CDATA	#IMPLIED
+				minimiseBookingAtAnotherCoursesSpecifiedTime	CDATA	#IMPLIED
+				minimiseBookingOfLocationByOtherTeachers	CDATA	#IMPLIED
+				minimiseDeviationFromTimeslotRequest		CDATA	#IMPLIED
+				minimiseInterCampusMigrationsOfStudents		CDATA	#IMPLIED
+				minimiseInterCampusMigrationsOfTeachers		CDATA	#IMPLIED
+				minimiseStudentBodyCombinations			CDATA	#IMPLIED
+				minimiseTeachersLocusOperandi			CDATA	#IMPLIED
+				minimiseWasteOfScarceFacilities			CDATA	#IMPLIED
+			> <!-- One can vary each weight within the closed unit-interval [0,1], which @ the lower bound permits the associated criterion to be disregarded -->
+		<!ELEMENT timetableCriteriaWeights EMPTY>	<!-- Using the current timetable, the sequence of "evolutionStrategies" are used to breed a population of alternative candidate solutions, from which the best according to a weighted mean over various criteria, are selected -->
+			<!ATTLIST timetableCriteriaWeights
+				maximiseComplianceWithFreePeriodPreferences			CDATA	#IMPLIED
+				maximiseMeanRatioOfStudentClassSizeToLocationCapacity		CDATA	#IMPLIED
+				maximiseMeanStudentClassSize					CDATA	#IMPLIED
+				maximiseSynchronisationOfSynchronisedCourses			CDATA	#IMPLIED
+				maximiseWeightedMeanStudentBodyUtilisationRatio			CDATA	#IMPLIED
+				minimiseAverageAbsoluteDeviationFromIdealTimeslotRequest	CDATA	#IMPLIED
+				minimiseDispersionOfStudentFreePeriodsPerDay			CDATA	#IMPLIED
+				minimiseDispersionOfTeacherFreePeriodsPerDay			CDATA	#IMPLIED
+				minimiseDispersionOfTeacherWorkload				CDATA	#IMPLIED
+				minimiseMeanInterCampusMigrationsOfStudents			CDATA	#IMPLIED
+				minimiseMeanInterCampusMigrationsOfTeachers			CDATA	#IMPLIED
+				minimiseMeanLocationChangesOfTeachers				CDATA	#IMPLIED
+				minimiseMeanLocusOperandiOfTeachers				CDATA	#IMPLIED
+				minimiseMeanRatioOfIncompletelyBookedCoreKnowledge		CDATA	#IMPLIED
+				minimiseMeanRatioOfIncompletelyBookedOptionalKnowledge		CDATA	#IMPLIED
+				minimiseMeanStudentBodyCombinationsPerLesson			CDATA	#IMPLIED
+				minimiseRatioOfConsecutiveEqualLessons				CDATA	#IMPLIED
+				minimiseRatioOfSeparatedEqualLessonsWithinAnyDay		CDATA	#IMPLIED
+			> <!-- One can vary each weight within the closed unit-interval [0,1], which @ the lower bound permits the associated criterion to be disregarded -->
+		<!ELEMENT optimiseLessonCriteriaWeights EMPTY>	<!-- Using the current timetable, the sequence of "evolutionStrategies" are used to breed a population of alternative candidate solutions, from which the best according to a weighted mean over various criteria, are selected -->
+			<!ATTLIST optimiseLessonCriteriaWeights
+				nTrials			CDATA		#IMPLIED
+				changeMagnitude		CDATA		#IMPLIED
+				reductionFactor		CDATA		#IMPLIED
+				useMeanOverRasterScans	(False | True)	#IMPLIED
+			>
+	<!ELEMENT outputOptions (fileFormats)?>	<!-- Defines the presentation of the solution -->
+		<!ATTLIST outputOptions
+			nDecimalDigits			CDATA					#IMPLIED
+			outputConfigFilePath		CDATA					#IMPLIED
+			studentBodyMnemonicSeparator	CDATA					#IMPLIED
+			verbosity			(Silent | Normal | Verbose | Deafening)	#IMPLIED
+		>
+		<!ELEMENT fileFormats (fileFormat)+ >
+			<!ELEMENT fileFormat (xhtml | xml)?>	<!-- The format in which to render the results -->
+				<!ATTLIST fileFormat filePath CDATA #REQUIRED>	<!-- The location of the required output-files -->
+				<!ELEMENT xhtml (style)?>			<!-- Requests that the resulting timetable, should be rendered in xhtml -->
+					<!ELEMENT style ((displayViews)?, (mergeDuplicateTimeslots)?, (displayAxisLabels)?, (weekend)?, (generateLessonColour)?)>
+						<!ATTLIST style
+							cssURL				CDATA		#IMPLIED
+							displayRuntimeInformation	(False | True)	#IMPLIED
+							displaySupplementaryInformation	(False | True)	#IMPLIED
+						>
+						<!ELEMENT displayViews (perspective)+>		<!-- The list of perspectives, from which to display the timetable. The three-dimensional matrix which defines a timetable, is inverted so that the axis which identifies the various student-bodies, is replaced by either one defining "locationId"s or one defining "teacherId"s. The remaining two axes, representing the "day" & the "timeslotId", are unchanged -->
+							<!ELEMENT perspective EMPTY>
+								<!ATTLIST perspective view (LocationView | TeacherView | StudentView) #REQUIRED>	<!-- Defines whether the timetable is indexed by "locationId", "studentBody" or "teacherId"; i.e. for whom is it intended -->
+						<!ELEMENT mergeDuplicateTimeslots (timeAxes)>	<!-- Whether adjacent identical time-slots should be merged, which; reduces repetition, draws attention to duplicate lessons, & uses the limited space efficiently -->
+						<!ELEMENT displayAxisLabels (timeAxes)>		<!-- Whether to label the axes of the timetable, in the output XHTML -->
+							<!ELEMENT timeAxes EMPTY>	<!-- Whether some attribute is switched on for each of two time-axes of a timetable -->
+								<!ATTLIST timeAxes
+									byDay		(False | True)	#REQUIRED
+									byTimeslotId	(False | True)	#REQUIRED
+								>
+						<!ELEMENT weekend (day)*>			<!-- Those "day"s considered to constitute the weekend, may be treated differently in CSS -->
+						<!ELEMENT generateLessonColour EMPTY>
+							<!ATTLIST generateLessonColour
+								generateLessonColourFrom	(Lesson | Subject | Topic | Level | ResourceIds)	#IMPLIED
+								minimumContrastRatio		CDATA							#IMPLIED
+							>
+				<!ELEMENT xml EMPTY>	<!-- Requests a view of the resulting timetable, encoded in XML -->
+					<!ATTLIST xml view (LocationView | TeacherView | StudentView) #IMPLIED>	<!-- The specific view required -->
+	<!ELEMENT problemParameters ((problemValidationSwitches)?, (timetableValidationSwitches)?, timeslotIdBounds, locationCatalogue, teacherRegister, studentBodyRegister, (groupCatalogue)?)>	<!-- Defines the problem. In contrast to the previous major sections, this is changed each time the problem-specification changes -->
+		<!ELEMENT problemValidationSwitches EMPTY>
+			<!ATTLIST problemValidationSwitches
+				checkAvailabilityOfAnyGroupMember			(False | True)	#IMPLIED
+				checkCapacityOfLocationsForMeetings			(False | True)	#IMPLIED
+				checkCoursesForSynchronousSpecifiedTimes		(False | True)	#IMPLIED
+				checkDuplicateMeetingLocationIds			(False | True)	#IMPLIED
+				checkDuplicateOwnLocationIds				(False | True)	#IMPLIED
+				checkForAlternativesToSynchronisedCourses		(False | True)	#IMPLIED
+				checkForDuplicateStudentIds				(False | True)	#IMPLIED
+				checkForIdleStudents					(False | True)	#IMPLIED
+				checkForIdleTeachers					(False | True)	#IMPLIED
+				checkForInvalidMeetingTimes				(False | True)	#IMPLIED
+				checkForMultipleCoursesPerTeacherPerSynchronisationId	(False | True)	#IMPLIED
+				checkForNonExistentFacilities				(False | True)	#IMPLIED
+				checkForNonExistentGroupIds				(False | True)	#IMPLIED
+				checkForNonExistentMeetingLocationIds			(False | True)	#IMPLIED
+				checkForNonExistentOwnLocationIds			(False | True)	#IMPLIED
+				checkForOverloadedStudents				(False | True)	#IMPLIED
+				checkForSingletonSynchronisedCourses			(False | True)	#IMPLIED
+				checkForStudentsRequiringMultipleSynchronisedSubjects	(False | True)	#IMPLIED
+				checkForStudentsWithUnrealisableFreePeriodPreference	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithDifferentIdealTimeslots	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithDifferentLessonsPerWeek	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithExcessLessonsPerWeek	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithExcessSpecifiedTimes	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithExcessTimeslotRequests	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithoutSuitableLocations	(False | True)	#IMPLIED
+				checkForSynchronisedCoursesWithUnavailableSpecifiedDays	(False | True)	#IMPLIED
+				checkForTeachersWithUnrealisableFreePeriodPreference	(False | True)	#IMPLIED
+				checkIfStudentBodiesExceedTeachers			(False | True)	#IMPLIED
+				checkIfStudentBodySizeExceedsCapacityOfAllLocations	(False | True)	#IMPLIED
+				checkIfStudentBodySizeExceedsLocationCapacity		(False | True)	#IMPLIED
+				checkIndependenceOfStudentTimeslotsRequestsAndMeetings	(False | True)	#IMPLIED
+				checkIndependenceOfTeacherTimeslotsRequestsAndMeetings	(False | True)	#IMPLIED
+				checkLocationsAvailabilityToSupportCourses		(False | True)	#IMPLIED
+				checkLocationsForSynchronousSpecifiedTimes		(False | True)	#IMPLIED
+				checkMeetingLocationsAvailability			(False | True)	#IMPLIED
+				checkMinimumConsecutiveLessons				(False | True)	#IMPLIED
+				checkNullGroupId					(False | True)	#IMPLIED
+				checkNullLocationCatalogue				(False | True)	#IMPLIED
+				checkNullStudentBodyRegister				(False | True)	#IMPLIED
+				checkNullTeacherRegister				(False | True)	#IMPLIED
+				checkOwnLocationsAvailability				(False | True)	#IMPLIED
+				checkRequiredLessonsPerWeek				(False | True)	#IMPLIED
+				checkSimultaneousAvailabilityOfGroupMembers		(False | True)	#IMPLIED
+				checkStudentsAvailabilityForMandatoryMeetings		(False | True)	#IMPLIED
+				checkStudentsAvailabilityForSpecifiedTimes		(False | True)	#IMPLIED
+				checkStudentsForMultipleLevelsOfSameTopic		(False | True)	#IMPLIED
+				checkStudentsForSynchronousMeetings			(False | True)	#IMPLIED
+				checkStudentsLowerWorkloadBound				(False | True)	#IMPLIED
+				checkStudentsUpperWorkloadBound				(False | True)	#IMPLIED
+				checkSubjectExistence					(False | True)	#IMPLIED
+				checkSuitableLocationsForKnowledgeRequirements		(False | True)	#IMPLIED
+				checkTeachersAvailabilityForMandatoryMeetings		(False | True)	#IMPLIED
+				checkTeachersForSynchronousMeetings			(False | True)	#IMPLIED
+				checkTeachersUpperWorkloadBound				(False | True)	#IMPLIED
+				checkTeachingCapacityBySubject				(False | True)	#IMPLIED
+				checkTimeslotIdBounds					(False | True)	#IMPLIED
+				checkTimeslotRequests					(False | True)	#IMPLIED
+			> <!-- Each of these switches governs a runtime-check on the validity of the problemParameters, & is by default switched on -->
+		<!ELEMENT timetableValidationSwitches EMPTY>
+			<!ATTLIST timetableValidationSwitches
+				checkBookedSubjectsAreRequired	(False | True)	#IMPLIED
+				checkBookedSubjectsHaveService	(False | True)	#IMPLIED
+				checkExistenceOfLocationIds	(False | True)	#IMPLIED
+				checkExistenceOfStudentBodies	(False | True)	#IMPLIED
+				checkExistenceOfTeacherIds	(False | True)	#IMPLIED
+				checkForBookingMeetingClash	(False | True)	#IMPLIED
+				checkForMisplacedLessons	(False | True)	#IMPLIED
+				checkForOverbookedSubjects	(False | True)	#IMPLIED
+				checkForOverloadedStudentBodies	(False | True)	#IMPLIED
+				checkForOverloadedTeachers	(False | True)	#IMPLIED
+				checkForResourceConflicts	(False | True)	#IMPLIED
+				checkMinimumConsecutiveLessons	(False | True)	#IMPLIED
+				checkResourceAvailability	(False | True)	#IMPLIED
+				checkSynchronisedCourses	(False | True)	#IMPLIED
+				checkTimeslotsPerDay		(False | True)	#IMPLIED
+			> <!-- Each of these switches governs a runtime-check on the validity of an imported Student-view Timetable, & is by default switched on -->
+		<!ELEMENT timeslotIdBounds (min, max)>	<!-- The constant closed interval bounding the range of integral "timeslotId"s, @ which lessons can be booked, irrespective of the "day" -->
+			<!ELEMENT min EMPTY>
+				<!ATTLIST min timeslotId CDATA #REQUIRED>
+			<!ELEMENT max EMPTY>
+				<!ATTLIST max timeslotId CDATA #REQUIRED>
+		<!ELEMENT locationCatalogue (location)+>	<!-- A map indexed by "locationId" (unique across all "campus"es), of "locationProfiles" -->
+			<!ELEMENT location (locationProfile)>
+				<!ATTLIST location locationId ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters, & starting with a letter) identifying the location -->
+				<!ELEMENT locationProfile ((facilities)?, (availability)?)>	<!-- The nature of the location -->
+					<!ATTLIST locationProfile
+						capacity	CDATA	#REQUIRED
+						campus		CDATA	#IMPLIED
+					>
+					<!ELEMENT facilities (facilityName)+>	<!-- Arbitrary strings, each representing some facility which might support the tuition of a "course" -->
+		<!ELEMENT teacherRegister (teacher)+>	<!-- A map indexed by "teacherId", of "teacherProfiles" -->
+			<!ELEMENT teacher (teacherProfile)>
+				<!ATTLIST teacher teacherId ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters, & starting with a letter) identifying the teacher -->
+				<!ELEMENT teacherProfile ((service)?, availability, (groupMembership)?)>
+					<!ATTLIST teacherProfile
+						locationId		IDREF			#IMPLIED
+						maximumTeachingRatio	CDATA			#REQUIRED
+						specialtyTopic		CDATA			#IMPLIED
+						freePeriodPreference	(Pre | Post | Terminal)	#IMPLIED
+					>
+					<!ELEMENT service (course)+>	<!-- The courses this "teacher" is prepared to teach -->
+						<!ELEMENT course (subject, (requiredFacilities)?, (timeslotRequest)?)>	<!-- The nature of the course -->
+							<!ATTLIST course
+								requiredLessonsPerWeek		CDATA	#REQUIRED
+								minimumConsecutiveLessons	CDATA	#IMPLIED
+								maximumClassSize		CDATA	#IMPLIED
+								synchronisationId		CDATA	#IMPLIED
+							>
+							<!ELEMENT requiredFacilities (facilityName)+>	<!-- Strings, which must be a subset of the "facilities" offered @ a "location" -->
+							<!ELEMENT timeslotRequest (ideally | specifically)>
+								<!ELEMENT ideally EMPTY>
+									<!ATTLIST ideally timeslotId CDATA #REQUIRED>	<!-- The preferred "timeslotId" within any "day", @ which to book this "course" -->
+								<!ELEMENT specifically (time)+>	<!-- The precise "time"s in any week, @ which some of the lessons of this "course" should be booked -->
+		<!ELEMENT studentBodyRegister (studentBodyToProfileAssociation)+>	<!-- A map indexed by "studentBody", of "studentProfiles" -->
+			<!ELEMENT studentBodyToProfileAssociation (studentBody, studentProfile)>
+				<!ELEMENT studentBody (student)+>
+					<!ATTLIST studentBody mnemonic ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters, & starting with a letter) identifying the student-body -->
+					<!ELEMENT student EMPTY>
+						<!ATTLIST student studentId ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters, & starting with a letter) identifying a member of the "studentBody" -->
+				<!ELEMENT studentProfile (knowledgeRequirements, availability, (groupMembership)?)>	<!-- The common requirements of the members of the "studentBody" -->
+					<!ATTLIST studentProfile
+						stream			CDATA			#IMPLIED
+						teachingRatio		CDATA			#IMPLIED
+						freePeriodPreference	(Pre | Post | Terminal)	#IMPLIED
+					>
+					<!ELEMENT knowledgeRequirements (core, (optional)?)>	<!-- The subjects that the member-"student"s want to learn. These values must match one of the "subject"s, defined in the "course"s, offered as a part of a teacher's "service" -->
+						<!ELEMENT core (subject)+>	<!-- Those "subject"s considered required by this "studentBody" -->
+						<!ELEMENT optional (subject)+>	<!-- Those "subject"s considered desirable by this "studentBody" -->
+		<!ELEMENT groupCatalogue (group)*>	<!-- A map indexed by "groupId", of "groupProfiles" to which "studentBody"s & "teacher"s may belong -->
+			<!ELEMENT group (groupProfile)>	<!-- The nature of the group -->
+				<!ATTLIST group groupId ID #REQUIRED>	<!-- The unique string (composed entirely from alphanumeric characters, & starting with a letter) identifying the group -->
+				<!ELEMENT groupProfile (meetingTimes)?>
+					<!ATTLIST groupProfile
+						locationId		IDREF		#IMPLIED
+						mandatesAttendance	(False | True)	#IMPLIED
+					>
+					<!ELEMENT meetingTimes (time)+>	<!-- The times @ which the "group" regularly meets -->
+
+<!-- The following elements each exist in multiple parts of the document -->
+<!ELEMENT availability (day)+>	<!-- The "day"s on which a resource is available -->
+
+<!ELEMENT day EMPTY>
+	<!ATTLIST day value (Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday) #REQUIRED>	<!-- A day within any week; there's no concept of different months or years -->
+
+<!ELEMENT facilityName EMPTY>
+	<!ATTLIST facilityName value CDATA #REQUIRED>	<!-- An arbitrary string identifying a specific facility which might be required for the teaching of a "course" -->
+
+<!ELEMENT groupMembership (member)+>	<!-- The "groupIds" of which a human-resource is a member -->
+	<!ELEMENT member EMPTY>
+		<!ATTLIST member groupId IDREF #REQUIRED>
+
+<!ELEMENT subject EMPTY>	<!-- A subject offered by a "teacher" & potentially required by "student"s -->
+	<!ATTLIST subject
+		topic	CDATA	#REQUIRED
+		level	CDATA	#REQUIRED
+	>
+
+<!ELEMENT time (day)>	<!-- Identifies a single time-slot in the timetable -->
+	<!ATTLIST time timeslotId CDATA #REQUIRED>
+
+
