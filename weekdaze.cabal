@@ -14,7 +14,7 @@
 -- along with WeekDaze.  If not, see <http://www.gnu.org/licenses/>.
 
 Name:		weekdaze
-Version:	0.0.0.1
+Version:	0.0.0.2
 Cabal-version:	>= 1.10
 Copyright:	(C) 2013-2015 Dr. Alistair Ward
 License:	GPL
@@ -25,7 +25,7 @@ Synopsis:	A school-timetable problem-solver.
 Build-type:	Simple
 Description:	An application which searches for a solution to the configured school-timetable problem.
 Category:	Application, Teaching
-Tested-with:	GHC == 8.0, GHC == 8.2, GHC == 8.4, GHC == 8.6
+Tested-with:	GHC == 8.0, GHC == 8.2, GHC == 8.4, GHC == 8.6, GHC == 8.8, GHC == 8.10
 Homepage:	https://functionalley.com/WeekDaze/weekdaze.html
 Maintainer:	mailto:weekdaze@functionalley.com
 Bug-reports:	mailto:weekdaze@functionalley.com

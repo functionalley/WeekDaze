@@ -24,7 +24,7 @@
 
 Summary:	Attempts to find a timetable satisfying the configured requirements.
 Name:		weekdaze
-Version:	0.0.0.1
+Version:	0.0.0.2
 Release:	1
 License:	GPLv3
 # From '/usr/share/doc/packages/rpm/GROUPS'.
