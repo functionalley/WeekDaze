@@ -29,4 +29,4 @@ import qualified	WeekDaze.OutputConfiguration.Verbosity	as OutputConfiguration.V
 import qualified	Test.QuickCheck
 
 instance Test.QuickCheck.Arbitrary OutputConfiguration.Verbosity.Verbosity where
-	arbitrary	= Test.QuickCheck.elements [minBound .. maxBound]
+	arbitrary	= Test.QuickCheck.elements OutputConfiguration.Verbosity.range
