@@ -20,13 +20,13 @@
 {- |
  [@AUTHOR@]	Dr. Alistair Ward
 
- [@DESCRIPTION@]	Implements 'Test.QuickCheck.Arbitrary' for 'Distribution.Verbosity.Verbosity'.
+ [@DESCRIPTION@]	Implements 'Test.QuickCheck.Arbitrary' for 'OutputConfiguration.Verbosity.Verbosity'.
 -}
 
 module WeekDaze.Test.QuickCheck.OutputConfiguration.Verbosity() where
 
-import qualified	Distribution.Verbosity
+import qualified	WeekDaze.OutputConfiguration.Verbosity	as OutputConfiguration.Verbosity
 import qualified	Test.QuickCheck
 
-instance Test.QuickCheck.Arbitrary Distribution.Verbosity.Verbosity where
+instance Test.QuickCheck.Arbitrary OutputConfiguration.Verbosity.Verbosity where
 	arbitrary	= Test.QuickCheck.elements [minBound .. maxBound]

@@ -70,7 +70,6 @@ import qualified	Data.Foldable
 import qualified	Data.Map
 import qualified	Data.Maybe
 import qualified	Data.Set
-import qualified	Distribution.Verbosity
 import qualified	Factory.Data.Interval
 import qualified	System.FilePath
 import qualified	Text.XML.HXT.Arrow.Pickle					as HXT
@@ -97,6 +96,7 @@ import qualified	WeekDaze.OutputConfiguration.Format				as OutputConfiguration.F
 import qualified	WeekDaze.OutputConfiguration.Options				as OutputConfiguration.Options
 import qualified	WeekDaze.OutputConfiguration.Style				as OutputConfiguration.Style
 import qualified	WeekDaze.OutputConfiguration.View				as OutputConfiguration.View
+import qualified	WeekDaze.OutputConfiguration.Verbosity				as OutputConfiguration.Verbosity
 import qualified	WeekDaze.ProblemConfiguration.ProblemParameters			as ProblemConfiguration.ProblemParameters
 import qualified	WeekDaze.ProblemConfiguration.ProblemValidationSwitches		as ProblemConfiguration.ProblemValidationSwitches
 import qualified	WeekDaze.Size							as Size
@@ -475,7 +475,7 @@ setTimeslotIdBounds timeslotIdBounds options
 		timetableCriteriaWeights	= ExecutionConfiguration.ExecutionOptions.getTimetableCriteriaWeights $ getExecutionOptions options'
 
 -- | Mutator.
-setVerbosity :: Distribution.Verbosity.Verbosity -> Mutator campus criterionWeight fecundityDecayRatio level locationId minimumContrastRatio populationDiversityRatio stream synchronisationId teacherId teachingRatio timeslotId
+setVerbosity :: OutputConfiguration.Verbosity.Verbosity -> Mutator campus criterionWeight fecundityDecayRatio level locationId minimumContrastRatio populationDiversityRatio stream synchronisationId teacherId teachingRatio timeslotId
 setVerbosity verbosity options	= options {
 	getOutputOptions	= (getOutputOptions options) {
 		OutputConfiguration.Options.getVerbosity	= verbosity

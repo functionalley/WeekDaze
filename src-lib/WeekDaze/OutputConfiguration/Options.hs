@@ -51,18 +51,17 @@ import qualified	Control.DeepSeq
 import qualified	Data.Default
 import qualified	Data.List.Extra
 import qualified	Data.Maybe
-import qualified	Distribution.Verbosity
 import qualified	System.FilePath
 import qualified	Text.XML.HXT.Arrow.Pickle		as HXT
 import qualified	ToolShed.SelfValidate
 import qualified	WeekDaze.Aggregate.StudentClass		as Aggregate.StudentClass
 import qualified	WeekDaze.OutputConfiguration.FileFormat	as OutputConfiguration.FileFormat
+import qualified	WeekDaze.OutputConfiguration.Verbosity	as OutputConfiguration.Verbosity
 
 #ifdef USE_HDBC
 import qualified	Database.HDBC
 import qualified	WeekDaze.Database.Selector		as Database.Selector
 import qualified	WeekDaze.OutputConfiguration.Format	as OutputConfiguration.Format
-import qualified	WeekDaze.OutputConfiguration.Verbosity	as OutputConfiguration.Verbosity
 
 instance (Fractional minimumContrastRatio, Show minimumContrastRatio) => Database.Selector.Selector (Options minimumContrastRatio) where
 	fromDatabase connection	projectIdSql	= let
@@ -130,7 +129,7 @@ data Options minimumContrastRatio = MkOptions {
 	getMaybeOutputConfigFilePath	:: Maybe System.FilePath.FilePath,					-- ^ Optional path to a file, into which the unprocessed configuration, formatted as XML, should be written (obliterating any existing file-contents).
 	getNDecimalDigits		:: NDecimalDigits,							-- ^ The precision to which fractional auxiliary data is displayed.
 	getStudentBodyMnemonicSeparator	:: Aggregate.StudentClass.MnemonicSeparator,				-- ^ The separator used when merging the mnemonics of /student-bodies/.
-	getVerbosity			:: Distribution.Verbosity.Verbosity					-- ^ Set the threshold for ancillary information-output.
+	getVerbosity			:: OutputConfiguration.Verbosity.Verbosity				-- ^ Set the threshold for ancillary information-output.
 } deriving (Eq, Show)
 
 instance Show minimumContrastRatio => ToolShed.SelfValidate.SelfValidator (Options minimumContrastRatio) where
@@ -183,7 +182,7 @@ mkOptions
 	-> Maybe System.FilePath.FilePath					-- ^ An optional path to a file, into which the unprocessed configuration, formatted as XML, should be written.
 	-> NDecimalDigits							-- ^ The number of decimal digits with which to log the value of /lesson-criteria/ & /timetable-criteria/.
 	-> Aggregate.StudentClass.MnemonicSeparator				-- ^ The separator to use when /student-bodies/ with identical profiles have been merged automatically during runtime.
-	-> Distribution.Verbosity.Verbosity					-- ^ The amount of auxiliary data to log.
+	-> OutputConfiguration.Verbosity.Verbosity				-- ^ The amount of auxiliary data to log.
 	-> Options minimumContrastRatio
 mkOptions fileFormats maybeOutputConfigFilePath nDecimalDigits studentBodyMnemonicSeparator verbosity
 	| ToolShed.SelfValidate.isValid options	= options

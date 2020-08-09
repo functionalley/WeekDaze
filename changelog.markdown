@@ -4,3 +4,6 @@
 
 ## 0.0.0.2
 Updated list of test-compilers.
+
+## 0.0.0.3
+Replaced module **Distribution.Verbosity** with **WeekDaze.OutputConfiguration.Verbosity**.

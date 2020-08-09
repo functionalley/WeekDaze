@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -fno-warn-orphans #-}
 {-# LANGUAGE CPP, MultiParamTypeClasses #-}
 {-
 	Copyright (C) 2013-2015 Dr. Alistair Ward
@@ -21,10 +20,15 @@
 {- |
  [@AUTHOR@]	Dr. Alistair Ward
 
- [@DESCRIPTION@]	Instance-definitions for 'Distribution.Verbosity.Verbosity'.
+ [@DESCRIPTION@]
+	The levels of program-output.
+	N.B.: the data-type is coincidentally similar to 'Distribution.Verbosity.Internal.VerbosityLevel'.
 -}
 
 module WeekDaze.OutputConfiguration.Verbosity(
+-- * Types
+-- ** Data-types
+	Verbosity(),
 -- * Constants
 	tag,
 	range
@@ -32,7 +36,6 @@ module WeekDaze.OutputConfiguration.Verbosity(
 
 import qualified	Control.DeepSeq
 import qualified	Data.Default
-import qualified	Distribution.Verbosity
 import qualified	Text.XML.HXT.Arrow.Pickle	as HXT
 import qualified	Text.XML.HXT.Arrow.Pickle.Schema
 
@@ -40,7 +43,7 @@ import qualified	Text.XML.HXT.Arrow.Pickle.Schema
 import qualified	Data.Convertible
 import qualified	Database.HDBC
 
-instance Data.Convertible.Convertible Database.HDBC.SqlValue Distribution.Verbosity.Verbosity {-multi-parameter type-class-} where
+instance Data.Convertible.Convertible Database.HDBC.SqlValue Verbosity {-multi-parameter type-class-} where
 	safeConvert	= fmap read . Data.Convertible.safeConvert
 #endif /* USE_HDBC */
 
@@ -48,16 +51,28 @@ instance Data.Convertible.Convertible Database.HDBC.SqlValue Distribution.Verbos
 tag :: String
 tag	= "verbosity"
 
-instance Data.Default.Default Distribution.Verbosity.Verbosity where
-	def	= Distribution.Verbosity.normal
+-- | Define the levels of program-output.
+data Verbosity
+	= Silent
+	| Normal
+	| Verbose
+	| Deafening
+	deriving (Enum, Eq, Ord, Read, Show)
 
-instance HXT.XmlPickler Distribution.Verbosity.Verbosity where
+instance Bounded Verbosity where
+	minBound	= Silent
+	maxBound	= Deafening
+
+instance Data.Default.Default Verbosity where
+	def	= Normal
+
+instance HXT.XmlPickler Verbosity where
 --	xpickle	= HXT.xpPrim
 	xpickle	= HXT.xpWrap (read, show) . HXT.xpAttr tag . HXT.xpTextDT . Text.XML.HXT.Arrow.Pickle.Schema.scEnum $ map show range	-- CAVEAT: whether it'll be used as an XML-attribute or an XML-element isn't currently known.
 
-instance Control.DeepSeq.NFData Distribution.Verbosity.Verbosity where
+instance Control.DeepSeq.NFData Verbosity where
 	rnf _	= ()
 
 -- | The constant complete range of values.
-range :: [Distribution.Verbosity.Verbosity]
+range :: [Verbosity]
 range	= [minBound .. maxBound]
