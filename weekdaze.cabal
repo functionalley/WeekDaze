@@ -14,7 +14,7 @@
 -- along with WeekDaze.  If not, see <http://www.gnu.org/licenses/>.
 
 Name:		weekdaze
-Version:	0.0.0.2
+Version:	0.0.0.3
 Cabal-version:	>= 1.10
 Copyright:	(C) 2013-2015 Dr. Alistair Ward
 License:	GPL
